@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -11,906 +12,872 @@
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
-        
-        body {
-            background: #1a1a2e;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            touch-action: none;
-        }
-        
-        #gameContainer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #0f3460;
-            border: none;
-        }
-        
-        canvas {
-            display: block;
-            background: #0f3460;
-            width: 100%;
-            height: 100%;
-            touch-action: none;
-        }
-        
-        #ui {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            color: white;
-            font-size: 14px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-            z-index: 10;
-        }
-        
-        #gameOver {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            color: white;
-            display: none;
-            z-index: 20;
-            max-width: 90%;
-        }
-        
-        #gameOver h1 {
-            color: #e94560;
-            margin-bottom: 20px;
-            font-size: 36px;
-        }
-        
-        #gameOver button {
-            margin-top: 20px;
-            padding: 15px 40px;
-            font-size: 18px;
-            background: #e94560;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        #gameOver button:active {
-            background: #ff6b6b;
-            transform: scale(0.95);
-        }
-        
-        #levelUp {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.95);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            color: white;
-            display: none;
-            z-index: 20;
-            max-width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        #levelUp h2 {
-            color: #4ecca3;
-            margin-bottom: 15px;
-            font-size: 20px;
-        }
-        
-        .upgrade {
-            background: #16213e;
-            padding: 12px;
-            margin: 8px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid #4ecca3;
-        }
-        
-        .upgrade:active {
-            background: #1a1a2e;
-            transform: scale(0.95);
-        }
-        
-        .upgrade strong {
-            display: block;
-            margin-bottom: 5px;
-            color: #4ecca3;
-        }
-        
-        #startScreen {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            color: white;
-            z-index: 20;
-            max-width: 90%;
-        }
-        
-        #startScreen h1 {
-            color: #4ecca3;
-            margin-bottom: 20px;
-            font-size: 32px;
-        }
-        
-        #startScreen p {
-            margin: 8px 0;
-            color: #aaa;
-            font-size: 14px;
-        }
-        
-        #startScreen button {
-            margin-top: 20px;
-            padding: 15px 40px;
-            font-size: 18px;
-            background: #4ecca3;
-            color: #1a1a2e;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-        }
-        
-        #startScreen button:active {
-            background: #5eead4;
-            transform: scale(0.95);
-        }
-        
-        #joystick {
-            display: none;
-        }
-    </style>
+
+```
+    body {
+        background: #1a1a2e;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        font-family: 'Arial', sans-serif;
+        overflow: hidden;
+        touch-action: none;
+    }
+    
+    #gameContainer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #0f3460;
+        border: none;
+    }
+    
+    canvas {
+        display: block;
+        background: #0f3460;
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+    }
+    
+    #ui {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        color: white;
+        font-size: 14px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        z-index: 10;
+    }
+    
+    #gameOver {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.95);
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        color: white;
+        display: none;
+        z-index: 20;
+        max-width: 90%;
+    }
+    
+    #gameOver h1 {
+        color: #e94560;
+        margin-bottom: 20px;
+        font-size: 36px;
+    }
+    
+    #gameOver button {
+        margin-top: 20px;
+        padding: 15px 40px;
+        font-size: 18px;
+        background: #e94560;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    #gameOver button:active {
+        background: #ff6b6b;
+        transform: scale(0.95);
+    }
+    
+    #levelUp {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.95);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        color: white;
+        display: none;
+        z-index: 20;
+        max-width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    #levelUp h2 {
+        color: #4ecca3;
+        margin-bottom: 15px;
+        font-size: 20px;
+    }
+    
+    .upgrade {
+        background: #16213e;
+        padding: 12px;
+        margin: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 2px solid #4ecca3;
+    }
+    
+    .upgrade:active {
+        background: #1a1a2e;
+        transform: scale(0.95);
+    }
+    
+    .upgrade strong {
+        display: block;
+        margin-bottom: 5px;
+        color: #4ecca3;
+    }
+    
+    #startScreen {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.95);
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        color: white;
+        z-index: 20;
+        max-width: 90%;
+    }
+    
+    #startScreen h1 {
+        color: #4ecca3;
+        margin-bottom: 20px;
+        font-size: 32px;
+    }
+    
+    #startScreen p {
+        margin: 8px 0;
+        color: #aaa;
+        font-size: 14px;
+    }
+    
+    #startScreen button {
+        margin-top: 20px;
+        padding: 15px 40px;
+        font-size: 18px;
+        background: #4ecca3;
+        color: #1a1a2e;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: bold;
+    }
+    
+    #startScreen button:active {
+        background: #5eead4;
+        transform: scale(0.95);
+    }
+</style>
+```
+
 </head>
 <body>
     <div id="gameContainer">
         <canvas id="gameCanvas"></canvas>
-        
-        <div id="ui">
-            <div>HP: <span id="hp">500</span></div>
-            <div>레벨: <span id="level">1</span></div>
-            <div>XP: <span id="xp">0</span>/<span id="xpNeeded">10</span></div>
-            <div>시간: <span id="time">0</span>s</div>
-            <div>처치: <span id="kills">0</span></div>
-        </div>
-        
-        <div id="startScreen">
-            <h1>🧛 SURVIVOR 🧛</h1>
-            <p>PC: WASD 또는 화살표 키로 이동</p>
-            <p>모바일: 화면을 터치하여 이동</p>
-            <p>자동으로 적을 공격합니다</p>
-            <p>레벨업하면서 더 강해지세요!</p>
-            <button onclick="startGame()">게임 시작</button>
-        </div>
-        
-        <div id="gameOver">
-            <h1>게임 오버</h1>
-            <p>생존 시간: <span id="finalTime">0</span>초</p>
-            <p>처치한 적: <span id="finalKills">0</span>마리</p>
-            <button onclick="restartGame()">다시 시작</button>
-        </div>
-        
-        <div id="levelUp">
-            <h2>레벨 업! 업그레이드를 선택하세요</h2>
-            <div id="upgradeOptions"></div>
-        </div>
-        
-        <div id="joystick">
-            <div id="joystickBase"></div>
-            <div id="joystickStick"></div>
-        </div>
-    </div>
 
-    <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+```
+    <div id="ui">
+        <div>HP: <span id="hp">500</span></div>
+        <div>레벨: <span id="level">1</span></div>
+        <div>XP: <span id="xp">0</span>/<span id="xpNeeded">10</span></div>
+        <div>시간: <span id="time">0</span>s</div>
+        <div>처치: <span id="kills">0</span></div>
+    </div>
+    
+    <div id="startScreen">
+        <h1>🧛 SURVIVOR 🧛</h1>
+        <p>PC: WASD 또는 화살표 키로 이동</p>
+        <p>모바일: 화면을 터치하여 이동</p>
+        <p>자동으로 적을 공격합니다</p>
+        <p>레벨업하면서 더 강해지세요!</p>
+        <button onclick="startGame()">게임 시작</button>
+    </div>
+    
+    <div id="gameOver">
+        <h1>게임 오버</h1>
+        <p>생존 시간: <span id="finalTime">0</span>초</p>
+        <p>처치한 적: <span id="finalKills">0</span>마리</p>
+        <button onclick="restartGame()">다시 시작</button>
+    </div>
+    
+    <div id="levelUp">
+        <h2>레벨 업! 업그레이드를 선택하세요</h2>
+        <div id="upgradeOptions"></div>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    function resizeCanvas() {
+        const containerWidth = window.innerWidth;
+        const containerHeight = window.innerHeight;
+        const dpr = window.devicePixelRatio || 1;
         
-        // 모바일 비율 설정 (9:16 또는 화면 비율)
-        function resizeCanvas() {
-            const containerWidth = window.innerWidth;
-            const containerHeight = window.innerHeight;
-            
-            // 고해상도 지원
-            const dpr = window.devicePixelRatio || 1;
-            
-            canvas.width = containerWidth * dpr;
-            canvas.height = containerHeight * dpr;
-            
-            canvas.style.width = containerWidth + 'px';
-            canvas.style.height = containerHeight + 'px';
-            
-            ctx.scale(dpr, dpr);
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+        canvas.width = containerWidth * dpr;
+        canvas.height = containerHeight * dpr;
+        canvas.style.width = containerWidth + 'px';
+        canvas.style.height = containerHeight + 'px';
         
-        let gameStarted = false;
-        let gameRunning = false;
+        ctx.scale(dpr, dpr);
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    let gameStarted = false;
+    let gameRunning = false;
+    
+    const player = {
+        x: 0,
+        y: 0,
+        size: 20,
+        speed: 4.5,
+        hp: 500,
+        maxHp: 500,
+        xp: 0,
+        level: 1,
+        xpNeeded: 10
+    };
+    
+    const keys = {};
+    const enemies = [];
+    const projectiles = [];
+    const missiles = [];
+    const enemyProjectiles = [];
+    const xpOrbs = [];
+    const meleeAttacks = [];
+    
+    let kills = 0;
+    let gameTime = 0;
+    let lastTime = Date.now();
+    let shootTimer = 0;
+    const shootCooldown = 350;
+    
+    let weaponDamage = 30;
+    let weaponSpeed = 350;
+    let projectileSpeed = 5;
+    let projectileCount = 1;
+    let projectilePiercing = 0;
+    
+    let hasMissile = false;
+    let missileCount = 0;
+    let missileDamage = 25;
+    let missileSpeed = 4;
+    let missileTimer = 0;
+    const missileCooldown = 1500;
+    
+    let meleeRange = 0;
+    let meleeDamage = 0;
+    let meleeTimer = 0;
+    const meleeCooldown = 1000;
+    
+    let touchActive = false;
+    let lastTouchX = 0;
+    let lastTouchY = 0;
+    
+    function handleTouchStart(e) {
+        if (!gameRunning) return;
+        e.preventDefault();
+        const touch = e.touches[0];
+        lastTouchX = touch.clientX;
+        lastTouchY = touch.clientY;
+        touchActive = true;
+    }
+    
+    function handleTouchMove(e) {
+        if (!gameRunning || !touchActive) return;
+        e.preventDefault();
+        const touch = e.touches[0];
         
-        const player = {
-            x: 0,
-            y: 0,
-            size: 20,
-            speed: 300,
-            hp: 500,
-            maxHp: 500,
-            xp: 0,
-            level: 1,
-            xpNeeded: 10
-        };
+        const deltaX = touch.clientX - lastTouchX;
+        const deltaY = touch.clientY - lastTouchY;
         
-        const keys = {};
-        const enemies = [];
-        const projectiles = [];
-        const missiles = [];
-        const enemyProjectiles = [];
-        const xpOrbs = [];
-        const meleeAttacks = [];
+        player.x += deltaX;
+        player.y += deltaY;
         
-        let kills = 0;
-        let gameTime = 0;
-        let lastTime = Date.now();
-        let shootTimer = 0;
-        const shootCooldown = 350;
+        player.x = Math.max(player.size, Math.min(window.innerWidth - player.size, player.x));
+        player.y = Math.max(player.size, Math.min(window.innerHeight - player.size, player.y));
         
-        // 기본 공격
-        let weaponDamage = 30;
-        let weaponSpeed = 350;
-        let projectileSpeed = 500;
-        let projectileCount = 1;
-        let projectilePiercing = 0;
+        lastTouchX = touch.clientX;
+        lastTouchY = touch.clientY;
+    }
+    
+    function handleTouchEnd(e) {
+        e.preventDefault();
+        touchActive = false;
+    }
+    
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+    canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
+    
+    window.addEventListener('keydown', (e) => {
+        keys[e.key.toLowerCase()] = true;
+    });
+    
+    window.addEventListener('keyup', (e) => {
+        keys[e.key.toLowerCase()] = false;
+    });
+    
+    function startGame() {
+        document.getElementById('startScreen').style.display = 'none';
+        player.x = window.innerWidth / 2;
+        player.y = window.innerHeight / 2;
+        gameStarted = true;
+        gameRunning = true;
+        lastTime = Date.now();
+        gameLoop();
+    }
+    
+    function restartGame() {
+        document.getElementById('gameOver').style.display = 'none';
         
-        // 유도탄
-        let hasMissile = false;
-        let missileCount = 0;
-        let missileDamage = 25;
-        let missileSpeed = 350;
-        let missileTimer = 0;
-        const missileCooldown = 1500;
+        player.x = window.innerWidth / 2;
+        player.y = window.innerHeight / 2;
+        player.speed = 4.5;
+        player.hp = 500;
+        player.maxHp = 500;
+        player.xp = 0;
+        player.level = 1;
+        player.xpNeeded = 10;
         
-        // 근접 공격
-        let meleeRange = 0;
-        let meleeDamage = 0;
-        let meleeTimer = 0;
-        const meleeCooldown = 1000;
+        enemies.length = 0;
+        projectiles.length = 0;
+        missiles.length = 0;
+        enemyProjectiles.length = 0;
+        xpOrbs.length = 0;
+        meleeAttacks.length = 0;
         
-        let touchActive = false;
-        let touchX = 0;
-        let touchY = 0;
-        let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        kills = 0;
+        gameTime = 0;
+        shootTimer = 0;
+        missileTimer = 0;
+        meleeTimer = 0;
         
-        if (isMobile) {
-            document.getElementById('joystick').style.display = 'block';
-        }
+        weaponDamage = 30;
+        weaponSpeed = 350;
+        projectileSpeed = 5;
+        projectileCount = 1;
+        projectilePiercing = 0;
         
-        let joystickActive = false;
+        hasMissile = false;
+        missileCount = 0;
+        missileDamage = 25;
+        missileSpeed = 4;
         
-        function handleTouchStart(e) {
-            if (!gameRunning) return;
-            e.preventDefault();
-            joystickActive = true;
-            handleTouchMove(e);
-        }
+        meleeRange = 0;
+        meleeDamage = 0;
         
-        function handleTouchMove(e) {
-            if (!gameRunning || !joystickActive) return;
-            e.preventDefault();
-            const touch = e.touches[0];
-            
-            // 터치 위치를 방향으로 변환
-            const rect = canvas.getBoundingClientRect();
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            let deltaX = (touch.clientX - centerX) / (rect.width / 2);
-            let deltaY = (touch.clientY - centerY) / (rect.height / 2);
-            
-            // 정규화
-            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            if (distance > 1) {
-                deltaX /= distance;
-                deltaY /= distance;
-            }
-            
-            touchX = deltaX;
-            touchY = deltaY;
-            touchActive = true;
-        }
+        gameRunning = true;
+        lastTime = Date.now();
+    }
+    
+    function spawnEnemy() {
+        const side = Math.floor(Math.random() * 4);
+        let x, y;
         
-        function handleTouchEnd(e) {
-            e.preventDefault();
-            joystickActive = false;
-            touchActive = false;
-            touchX = 0;
-            touchY = 0;
-        }
-        
-        canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
-        canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
-        canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
-        
-        window.addEventListener('keydown', (e) => {
-            keys[e.key.toLowerCase()] = true;
-        });
-        
-        window.addEventListener('keyup', (e) => {
-            keys[e.key.toLowerCase()] = false;
-        });
-        
-        function startGame() {
-            document.getElementById('startScreen').style.display = 'none';
-            player.x = window.innerWidth / 2;
-            player.y = window.innerHeight / 2;
-            gameStarted = true;
-            gameRunning = true;
-            lastTime = Date.now();
-            gameLoop();
-        }
-        
-        function restartGame() {
-            document.getElementById('gameOver').style.display = 'none';
-            
-            player.x = window.innerWidth / 2;
-            player.y = window.innerHeight / 2;
-            player.speed = 300;
-            player.hp = 500;
-            player.maxHp = 500;
-            player.xp = 0;
-            player.level = 1;
-            player.xpNeeded = 10;
-            
-            enemies.length = 0;
-            projectiles.length = 0;
-            missiles.length = 0;
-            enemyProjectiles.length = 0;
-            xpOrbs.length = 0;
-            meleeAttacks.length = 0;
-            
-            kills = 0;
-            gameTime = 0;
-            shootTimer = 0;
-            missileTimer = 0;
-            meleeTimer = 0;
-            
-            weaponDamage = 30;
-            weaponSpeed = 350;
-            projectileSpeed = 500;
-            projectileCount = 1;
-            projectilePiercing = 0;
-            
-            hasMissile = false;
-            missileCount = 0;
-            missileDamage = 25;
-            missileSpeed = 350;
-            
-            meleeRange = 0;
-            meleeDamage = 0;
-            
-            gameRunning = true;
-            lastTime = Date.now();
-        }
-        
-        function spawnEnemy() {
-            const side = Math.floor(Math.random() * 4);
-            let x, y;
-            
-            switch(side) {
-                case 0: x = Math.random() * window.innerWidth; y = -20; break;
-                case 1: x = window.innerWidth + 20; y = Math.random() * window.innerHeight; break;
-                case 2: x = Math.random() * window.innerWidth; y = window.innerHeight + 20; break;
-                case 3: x = -20; y = Math.random() * window.innerHeight; break;
-            }
-            
-            const speedMultiplier = 1 + (gameTime / 300000);
-            const hpMultiplier = 1 + (gameTime / 240000);
-            
-            // 원거리 적 확률 (최대 20%)
-            const rangedChance = Math.min(0.2, gameTime / 300000);
-            const isRanged = Math.random() < rangedChance;
-            
-            if (isRanged) {
-                enemies.push({
-                    x: x,
-                    y: y,
-                    size: 12,
-                    speed: (0.4 + Math.random() * 0.2) * speedMultiplier,
-                    hp: 6 * hpMultiplier,
-                    maxHp: 6 * hpMultiplier,
-                    type: 'ranged',
-                    shootTimer: 0,
-                    shootCooldown: 3000
-                });
-            } else {
-                enemies.push({
-                    x: x,
-                    y: y,
-                    size: 15,
-                    speed: (0.3 + Math.random() * 0.15) * speedMultiplier,
-                    hp: 8 * hpMultiplier,
-                    maxHp: 8 * hpMultiplier,
-                    type: 'melee'
-                });
-            }
+        switch(side) {
+            case 0: x = Math.random() * window.innerWidth; y = -20; break;
+            case 1: x = window.innerWidth + 20; y = Math.random() * window.innerHeight; break;
+            case 2: x = Math.random() * window.innerWidth; y = window.innerHeight + 20; break;
+            case 3: x = -20; y = Math.random() * window.innerHeight; break;
         }
         
-        function shootProjectiles() {
-            if (enemies.length === 0) return;
-            
-            const angles = [];
-            if (projectileCount === 1) {
-                const nearest = findNearestEnemy();
-                if (nearest) {
-                    const angle = Math.atan2(nearest.y - player.y, nearest.x - player.x);
-                    angles.push(angle);
-                }
-            } else {
-                const angleStep = (Math.PI * 2) / projectileCount;
-                for (let i = 0; i < projectileCount; i++) {
-                    angles.push(i * angleStep);
-                }
-            }
-            
-            angles.forEach(angle => {
-                const speed = projectileSpeed / 1000;
-                projectiles.push({
-                    x: player.x,
-                    y: player.y,
-                    vx: Math.cos(angle) * speed,
-                    vy: Math.sin(angle) * speed,
-                    size: 5,
-                    damage: weaponDamage,
-                    piercing: projectilePiercing,
-                    hitCount: 0
-                });
-            });
-        }
+        const speedMultiplier = 1 + (gameTime / 300000);
+        const hpMultiplier = 1 + (gameTime / 240000);
+        const rangedChance = Math.min(0.2, gameTime / 300000);
+        const isRanged = Math.random() < rangedChance;
         
-        function shootMissiles() {
-            if (enemies.length === 0 || missileCount === 0) return;
-            
-            for (let i = 0; i < missileCount; i++) {
-                const nearest = findNearestEnemy();
-                if (nearest) {
-                    const angle = Math.atan2(nearest.y - player.y, nearest.x - player.x);
-                    const speed = missileSpeed / 1000;
-                    missiles.push({
-                        x: player.x,
-                        y: player.y,
-                        vx: Math.cos(angle) * speed,
-                        vy: Math.sin(angle) * speed,
-                        size: 6,
-                        damage: missileDamage,
-                        target: nearest
-                    });
-                }
-            }
-        }
-        
-        function meleeAttack() {
-            if (meleeRange === 0) return;
-            
-            meleeAttacks.push({
-                x: player.x,
-                y: player.y,
-                range: meleeRange,
-                damage: meleeDamage,
-                life: 300
-            });
-        }
-        
-        function findNearestEnemy() {
-            let nearest = null;
-            let minDist = Infinity;
-            
-            enemies.forEach(enemy => {
-                const dist = Math.hypot(enemy.x - player.x, enemy.y - player.y);
-                if (dist < minDist) {
-                    minDist = dist;
-                    nearest = enemy;
-                }
-            });
-            
-            return nearest;
-        }
-        
-        function dropXP(x, y, amount) {
-            xpOrbs.push({
+        if (isRanged) {
+            enemies.push({
                 x: x,
                 y: y,
-                size: 8,
-                value: amount
+                size: 12,
+                speed: (1.0 + Math.random() * 0.4) * speedMultiplier,
+                hp: 6 * hpMultiplier,
+                maxHp: 6 * hpMultiplier,
+                type: 'ranged',
+                shootTimer: 0,
+                shootCooldown: 3000
+            });
+        } else {
+            enemies.push({
+                x: x,
+                y: y,
+                size: 15,
+                speed: (0.8 + Math.random() * 0.3) * speedMultiplier,
+                hp: 8 * hpMultiplier,
+                maxHp: 8 * hpMultiplier,
+                type: 'melee'
             });
         }
+    }
+    
+    function shootProjectiles() {
+        if (enemies.length === 0) return;
         
-        function levelUp() {
-            player.level++;
-            player.xp = 0;
-            player.xpNeeded = Math.floor(player.xpNeeded * 1.5);
-            player.speed = 5;
-            
-            gameRunning = false;
-            showUpgradeOptions();
-        }
-        
-        function showUpgradeOptions() {
-            const levelUpDiv = document.getElementById('levelUp');
-            const optionsDiv = document.getElementById('upgradeOptions');
-            optionsDiv.innerHTML = '';
-            
-            const upgrades = [
-                { name: '공격력 증가', desc: '+5 기본 공격 데미지', apply: () => { weaponDamage += 5; } },
-                { name: '공격 속도', desc: '기본 공격 쿨다운 -50ms', apply: () => { weaponSpeed = Math.max(100, weaponSpeed - 50); } },
-                { name: '투사체 속도', desc: '기본 공격 +1 속도', apply: () => { projectileSpeed += 1; } },
-                { name: '추가 투사체', desc: '기본 공격 +1 투사체', apply: () => { projectileCount += 1; } },
-                { name: '관통력', desc: '기본 공격 +1 관통', apply: () => { projectilePiercing += 1; } },
-                { name: '유도 미사일', desc: hasMissile ? '유도탄 +1개' : '유도탄 시작 (1개)', apply: () => { hasMissile = true; missileCount += 1; } },
-                { name: '유도탄 강화', desc: '유도탄 데미지 +10', condition: () => hasMissile, apply: () => { missileDamage += 10; } },
-                { name: '유도탄 속도', desc: '유도탄 속도 +1', condition: () => hasMissile, apply: () => { missileSpeed += 1; } },
-                { name: '근접 공격', desc: meleeRange > 0 ? '근접 범위/데미지 강화' : '근접 공격 시작', apply: () => { meleeRange += 50; meleeDamage += 15; } },
-                { name: '이동 속도', desc: '+1 이동 속도', apply: () => { player.speed += 1; } },
-                { name: '체력 회복', desc: '+50 HP', apply: () => { player.hp = Math.min(player.maxHp, player.hp + 50); } },
-                { name: '최대 체력', desc: '+30 최대 HP', apply: () => { player.maxHp += 30; player.hp += 30; } }
-            ];
-            
-            const available = upgrades.filter(u => !u.condition || u.condition());
-            const selected = [];
-            
-            while (selected.length < 3 && available.length > 0) {
-                const index = Math.floor(Math.random() * available.length);
-                const upgrade = available[index];
-                selected.push(upgrade);
-                available.splice(index, 1);
+        const angles = [];
+        if (projectileCount === 1) {
+            const nearest = findNearestEnemy();
+            if (nearest) {
+                const angle = Math.atan2(nearest.y - player.y, nearest.x - player.x);
+                angles.push(angle);
             }
-            
-            selected.forEach(upgrade => {
-                const div = document.createElement('div');
-                div.className = 'upgrade';
-                div.innerHTML = `<strong>${upgrade.name}</strong><div>${upgrade.desc}</div>`;
-                let clicked = false;
-                div.onclick = () => {
-                    if (clicked) return;
-                    clicked = true;
-                    upgrade.apply();
-                    player.speed = Math.max(300, player.speed);
-                    levelUpDiv.style.display = 'none';
-                    gameRunning = true;
-                    lastTime = Date.now();
-                };
-                optionsDiv.appendChild(div);
-            });
-            
-            levelUpDiv.style.display = 'block';
+        } else {
+            const angleStep = (Math.PI * 2) / projectileCount;
+            for (let i = 0; i < projectileCount; i++) {
+                angles.push(i * angleStep);
+            }
         }
         
-        function update(deltaTime) {
-            if (!gameRunning) return;
+        angles.forEach(angle => {
+            projectiles.push({
+                x: player.x,
+                y: player.y,
+                vx: Math.cos(angle) * projectileSpeed,
+                vy: Math.sin(angle) * projectileSpeed,
+                size: 5,
+                damage: weaponDamage,
+                piercing: projectilePiercing,
+                hitCount: 0
+            });
+        });
+    }
+    
+    function shootMissiles() {
+        if (enemies.length === 0 || missileCount === 0) return;
+        
+        for (let i = 0; i < missileCount; i++) {
+            const nearest = findNearestEnemy();
+            if (nearest) {
+                const angle = Math.atan2(nearest.y - player.y, nearest.x - player.x);
+                missiles.push({
+                    x: player.x,
+                    y: player.y,
+                    vx: Math.cos(angle) * missileSpeed,
+                    vy: Math.sin(angle) * missileSpeed,
+                    size: 6,
+                    damage: missileDamage,
+                    target: nearest
+                });
+            }
+        }
+    }
+    
+    function meleeAttack() {
+        if (meleeRange === 0) return;
+        
+        meleeAttacks.push({
+            x: player.x,
+            y: player.y,
+            range: meleeRange,
+            damage: meleeDamage,
+            life: 300
+        });
+    }
+    
+    function findNearestEnemy() {
+        let nearest = null;
+        let minDist = Infinity;
+        
+        enemies.forEach(enemy => {
+            const dist = Math.hypot(enemy.x - player.x, enemy.y - player.y);
+            if (dist < minDist) {
+                minDist = dist;
+                nearest = enemy;
+            }
+        });
+        
+        return nearest;
+    }
+    
+    function dropXP(x, y, amount) {
+        xpOrbs.push({
+            x: x,
+            y: y,
+            size: 8,
+            value: amount
+        });
+    }
+    
+    function levelUp() {
+        player.level++;
+        player.xp = 0;
+        player.xpNeeded = Math.floor(player.xpNeeded * 1.5);
+        player.speed = 4.5;
+        
+        gameRunning = false;
+        showUpgradeOptions();
+    }
+    
+    function showUpgradeOptions() {
+        const levelUpDiv = document.getElementById('levelUp');
+        const optionsDiv = document.getElementById('upgradeOptions');
+        optionsDiv.innerHTML = '';
+        
+        const upgrades = [
+            { name: '공격력 증가', desc: '+5 기본 공격 데미지', apply: () => { weaponDamage += 5; } },
+            { name: '공격 속도', desc: '기본 공격 쿨다운 -50ms', apply: () => { weaponSpeed = Math.max(100, weaponSpeed - 50); } },
+            { name: '투사체 속도', desc: '기본 공격 +1 속도', apply: () => { projectileSpeed += 1; } },
+            { name: '추가 투사체', desc: '기본 공격 +1 투사체', apply: () => { projectileCount += 1; } },
+            { name: '관통력', desc: '기본 공격 +1 관통', apply: () => { projectilePiercing += 1; } },
+            { name: '유도 미사일', desc: hasMissile ? '유도탄 +1개' : '유도탄 시작 (1개)', apply: () => { hasMissile = true; missileCount += 1; } },
+            { name: '유도탄 강화', desc: '유도탄 데미지 +10', condition: () => hasMissile, apply: () => { missileDamage += 10; } },
+            { name: '유도탄 속도', desc: '유도탄 속도 +1', condition: () => hasMissile, apply: () => { missileSpeed += 1; } },
+            { name: '근접 공격', desc: meleeRange > 0 ? '근접 범위/데미지 강화' : '근접 공격 시작', apply: () => { meleeRange += 50; meleeDamage += 15; } },
+            { name: '이동 속도', desc: '+1 이동 속도', apply: () => { player.speed += 1; } },
+            { name: '체력 회복', desc: '+50 HP', apply: () => { player.hp = Math.min(player.maxHp, player.hp + 50); } },
+            { name: '최대 체력', desc: '+30 최대 HP', apply: () => { player.maxHp += 30; player.hp += 30; } }
+        ];
+        
+        const available = upgrades.filter(u => !u.condition || u.condition());
+        const selected = [];
+        
+        while (selected.length < 3 && available.length > 0) {
+            const index = Math.floor(Math.random() * available.length);
+            const upgrade = available[index];
+            selected.push(upgrade);
+            available.splice(index, 1);
+        }
+        
+        selected.forEach(upgrade => {
+            const div = document.createElement('div');
+            div.className = 'upgrade';
+            div.innerHTML = `<strong>${upgrade.name}</strong><div>${upgrade.desc}</div>`;
+            let clicked = false;
+            div.onclick = () => {
+                if (clicked) return;
+                clicked = true;
+                upgrade.apply();
+                player.speed = Math.max(4.5, player.speed);
+                levelUpDiv.style.display = 'none';
+                gameRunning = true;
+                lastTime = Date.now();
+            };
+            optionsDiv.appendChild(div);
+        });
+        
+        levelUpDiv.style.display = 'block';
+    }
+    
+    function update(deltaTime) {
+        if (!gameRunning) return;
+        
+        gameTime += deltaTime;
+        
+        if (!touchActive) {
+            if (keys['w'] || keys['arrowup']) player.y -= player.speed;
+            if (keys['s'] || keys['arrowdown']) player.y += player.speed;
+            if (keys['a'] || keys['arrowleft']) player.x -= player.speed;
+            if (keys['d'] || keys['arrowright']) player.x += player.speed;
             
-            const dt = deltaTime / 1000;
-            gameTime += deltaTime;
-            
-            if (touchActive) {
-                player.x += touchX * player.speed * 2;
-                player.y += touchY * player.speed * 2;
+            player.x = Math.max(player.size, Math.min(window.innerWidth - player.size, player.x));
+            player.y = Math.max(player.size, Math.min(window.innerHeight - player.size, player.y));
+        }
+        
+        shootTimer += deltaTime;
+        if (shootTimer >= weaponSpeed) {
+            shootProjectiles();
+            shootTimer = 0;
+        }
+        
+        missileTimer += deltaTime;
+        if (missileTimer >= missileCooldown && hasMissile) {
+            shootMissiles();
+            missileTimer = 0;
+        }
+        
+        meleeTimer += deltaTime;
+        if (meleeTimer >= meleeCooldown && meleeRange > 0) {
+            meleeAttack();
+            meleeTimer = 0;
+        }
+        
+        if (Math.random() < 0.005 + (gameTime / 400000)) {
+            spawnEnemy();
+        }
+        
+        enemies.forEach((enemy, eIndex) => {
+            if (enemy.type === 'ranged') {
+                const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
+                
+                if (dist > 250) {
+                    const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
+                    enemy.x += Math.cos(angle) * enemy.speed;
+                    enemy.y += Math.sin(angle) * enemy.speed;
+                } else if (dist < 200) {
+                    const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
+                    enemy.x -= Math.cos(angle) * enemy.speed * 0.5;
+                    enemy.y -= Math.sin(angle) * enemy.speed * 0.5;
+                }
+                
+                enemy.shootTimer += deltaTime;
+                if (enemy.shootTimer >= enemy.shootCooldown && dist < 400) {
+                    const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
+                    enemyProjectiles.push({
+                        x: enemy.x,
+                        y: enemy.y,
+                        vx: Math.cos(angle) * 3,
+                        vy: Math.sin(angle) * 3,
+                        size: 6,
+                        damage: 10
+                    });
+                    enemy.shootTimer = 0;
+                }
             } else {
-                if (keys['w'] || keys['arrowup']) player.y -= player.speed;
-                if (keys['s'] || keys['arrowdown']) player.y += player.speed;
-                if (keys['a'] || keys['arrowleft']) player.x -= player.speed;
-                if (keys['d'] || keys['arrowright']) player.x += player.speed;
+                const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
+                enemy.x += Math.cos(angle) * enemy.speed;
+                enemy.y += Math.sin(angle) * enemy.speed;
             }
             
-            player.x = Math.max(player.size, Math.min(canvas.width - player.size, player.x));
-            player.y = Math.max(player.size, Math.min(canvas.height - player.size, player.y));
-            
-            shootTimer += deltaTime;
-            if (shootTimer >= weaponSpeed) {
-                shootProjectiles();
-                shootTimer = 0;
+            const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
+            if (dist < player.size + enemy.size) {
+                player.hp -= 0.08;
+                if (player.hp <= 0) {
+                    gameOver();
+                }
             }
+        });
+        
+        projectiles.forEach((proj, pIndex) => {
+            proj.x += proj.vx;
+            proj.y += proj.vy;
             
-            missileTimer += deltaTime;
-            if (missileTimer >= missileCooldown && hasMissile) {
-                shootMissiles();
-                missileTimer = 0;
-            }
-            
-            meleeTimer += deltaTime;
-            if (meleeTimer >= meleeCooldown && meleeRange > 0) {
-                meleeAttack();
-                meleeTimer = 0;
-            }
-            
-            if (Math.random() < 0.005 + (gameTime / 400000)) {
-                spawnEnemy();
+            if (proj.x < -50 || proj.x > window.innerWidth + 50 || proj.y < -50 || proj.y > window.innerHeight + 50) {
+                projectiles.splice(pIndex, 1);
+                return;
             }
             
             enemies.forEach((enemy, eIndex) => {
-                if (enemy.type === 'ranged') {
-                    const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
+                const dist = Math.hypot(proj.x - enemy.x, proj.y - enemy.y);
+                if (dist < proj.size + enemy.size) {
+                    enemy.hp -= proj.damage;
+                    proj.hitCount++;
                     
-                    if (dist > 250) {
-                        const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
-                        enemy.x += Math.cos(angle) * enemy.speed * dt;
-                        enemy.y += Math.sin(angle) * enemy.speed * dt;
-                    } else if (dist < 200) {
-                        const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
-                        enemy.x -= Math.cos(angle) * enemy.speed * 0.5 * dt;
-                        enemy.y -= Math.sin(angle) * enemy.speed * 0.5 * dt;
+                    if (proj.hitCount > proj.piercing) {
+                        projectiles.splice(pIndex, 1);
                     }
                     
-                    enemy.shootTimer += deltaTime;
-                    if (enemy.shootTimer >= enemy.shootCooldown && dist < 400) {
-                        const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
-                        enemyProjectiles.push({
-                            x: enemy.x,
-                            y: enemy.y,
-                            vx: Math.cos(angle) * 0.25,
-                            vy: Math.sin(angle) * 0.25,
-                            size: 6,
-                            damage: 10
-                        });
-                        enemy.shootTimer = 0;
-                    }
-                } else {
-                    const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
-                    enemy.x += Math.cos(angle) * enemy.speed * dt;
-                    enemy.y += Math.sin(angle) * enemy.speed * dt;
-                }
-                
-                const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
-                if (dist < player.size + enemy.size) {
-                    player.hp -= 0.08;
-                    if (player.hp <= 0) {
-                        gameOver();
+                    if (enemy.hp <= 0) {
+                        dropXP(enemy.x, enemy.y, 5);
+                        enemies.splice(eIndex, 1);
+                        kills++;
                     }
                 }
             });
-            
-            projectiles.forEach((proj, pIndex) => {
-                proj.x += proj.vx * deltaTime;
-                proj.y += proj.vy * deltaTime;
-                
-                if (proj.x < -50 || proj.x > window.innerWidth + 50 || proj.y < -50 || proj.y > window.innerHeight + 50) {
-                    projectiles.splice(pIndex, 1);
-                    return;
-                }
-                
-                enemies.forEach((enemy, eIndex) => {
-                    const dist = Math.hypot(proj.x - enemy.x, proj.y - enemy.y);
-                    if (dist < proj.size + enemy.size) {
-                        enemy.hp -= proj.damage;
-                        proj.hitCount++;
-                        
-                        if (proj.hitCount > proj.piercing) {
-                            projectiles.splice(pIndex, 1);
-                        }
-                        
-                        if (enemy.hp <= 0) {
-                            dropXP(enemy.x, enemy.y, 5);
-                            enemies.splice(eIndex, 1);
-                            kills++;
-                        }
-                    }
-                });
-            });
-            
-            missiles.forEach((missile, mIndex) => {
-                const target = findNearestEnemy();
-                if (target) {
-                    const angle = Math.atan2(target.y - missile.y, target.x - missile.x);
-                    const turnSpeed = 0.15;
-                    const currentAngle = Math.atan2(missile.vy, missile.vx);
-                    let angleDiff = angle - currentAngle;
-                    
-                    while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
-                    while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
-                    
-                    const speed = missileSpeed / 1000;
-                    const newAngle = currentAngle + Math.sign(angleDiff) * Math.min(Math.abs(angleDiff), turnSpeed);
-                    missile.vx = Math.cos(newAngle) * speed;
-                    missile.vy = Math.sin(newAngle) * speed;
-                }
-                
-                missile.x += missile.vx * deltaTime;
-                missile.y += missile.vy * deltaTime;
-                
-                if (missile.x < -50 || missile.x > window.innerWidth + 50 || missile.y < -50 || missile.y > window.innerHeight + 50) {
-                    missiles.splice(mIndex, 1);
-                    return;
-                }
-                
-                enemies.forEach((enemy, eIndex) => {
-                    const dist = Math.hypot(missile.x - enemy.x, missile.y - enemy.y);
-                    if (dist < missile.size + enemy.size) {
-                        enemy.hp -= missile.damage;
-                        missiles.splice(mIndex, 1);
-                        
-                        if (enemy.hp <= 0) {
-                            dropXP(enemy.x, enemy.y, 5);
-                            enemies.splice(eIndex, 1);
-                            kills++;
-                        }
-                    }
-                });
-            });
-            
-            enemyProjectiles.forEach((proj, pIndex) => {
-                proj.x += proj.vx * deltaTime;
-                proj.y += proj.vy * deltaTime;
-                
-                if (proj.x < -50 || proj.x > window.innerWidth + 50 || proj.y < -50 || proj.y > window.innerHeight + 50) {
-                    enemyProjectiles.splice(pIndex, 1);
-                    return;
-                }
-                
-                const dist = Math.hypot(proj.x - player.x, proj.y - player.y);
-                if (dist < proj.size + player.size) {
-                    player.hp -= proj.damage;
-                    enemyProjectiles.splice(pIndex, 1);
-                    if (player.hp <= 0) {
-                        gameOver();
-                    }
-                }
-            });
-            
-            meleeAttacks.forEach((melee, mIndex) => {
-                melee.life -= deltaTime;
-                if (melee.life <= 0) {
-                    meleeAttacks.splice(mIndex, 1);
-                    return;
-                }
-                
-                enemies.forEach((enemy, eIndex) => {
-                    const dist = Math.hypot(melee.x - enemy.x, melee.y - enemy.y);
-                    if (dist < melee.range) {
-                        enemy.hp -= melee.damage;
-                        if (enemy.hp <= 0) {
-                            dropXP(enemy.x, enemy.y, 5);
-                            enemies.splice(eIndex, 1);
-                            kills++;
-                        }
-                    }
-                });
-            });
-            
-            xpOrbs.forEach((orb, index) => {
-                const dist = Math.hypot(player.x - orb.x, player.y - orb.y);
-                if (dist < 100) {
-                    const angle = Math.atan2(player.y - orb.y, player.x - orb.x);
-                    orb.x += Math.cos(angle) * 4;
-                    orb.y += Math.sin(angle) * 4;
-                }
-                
-                if (dist < player.size + orb.size) {
-                    player.xp += orb.value;
-                    xpOrbs.splice(index, 1);
-                    
-                    if (player.xp >= player.xpNeeded) {
-                        levelUp();
-                    }
-                }
-            });
-            
-            updateUI();
-        }
+        });
         
-        function draw() {
-            ctx.fillStyle = '#0f3460';
-            ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        missiles.forEach((missile, mIndex) => {
+            const target = findNearestEnemy();
+            if (target) {
+                const angle = Math.atan2(target.y - missile.y, target.x - missile.x);
+                const turnSpeed = 0.15;
+                const currentAngle = Math.atan2(missile.vy, missile.vx);
+                let angleDiff = angle - currentAngle;
+                
+                while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
+                while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
+                
+                const newAngle = currentAngle + Math.sign(angleDiff) * Math.min(Math.abs(angleDiff), turnSpeed);
+                missile.vx = Math.cos(newAngle) * missileSpeed;
+                missile.vy = Math.sin(newAngle) * missileSpeed;
+            }
             
-            meleeAttacks.forEach(melee => {
-                ctx.strokeStyle = `rgba(255, 100, 100, ${melee.life / 300})`;
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.arc(melee.x, melee.y, melee.range, 0, Math.PI * 2);
-                ctx.stroke();
+            missile.x += missile.vx;
+            missile.y += missile.vy;
+            
+            if (missile.x < -50 || missile.x > window.innerWidth + 50 || missile.y < -50 || missile.y > window.innerHeight + 50) {
+                missiles.splice(mIndex, 1);
+                return;
+            }
+            
+            enemies.forEach((enemy, eIndex) => {
+                const dist = Math.hypot(missile.x - enemy.x, missile.y - enemy.y);
+                if (dist < missile.size + enemy.size) {
+                    enemy.hp -= missile.damage;
+                    missiles.splice(mIndex, 1);
+                    
+                    if (enemy.hp <= 0) {
+                        dropXP(enemy.x, enemy.y, 5);
+                        enemies.splice(eIndex, 1);
+                        kills++;
+                    }
+                }
             });
+        });
+        
+        enemyProjectiles.forEach((proj, pIndex) => {
+            proj.x += proj.vx;
+            proj.y += proj.vy;
             
-            ctx.fillStyle = '#4ecca3';
+            if (proj.x < -50 || proj.x > window.innerWidth + 50 || proj.y < -50 || proj.y > window.innerHeight + 50) {
+                enemyProjectiles.splice(pIndex, 1);
+                return;
+            }
+            
+            const dist = Math.hypot(proj.x - player.x, proj.y - player.y);
+            if (dist < proj.size + player.size) {
+                player.hp -= proj.damage;
+                enemyProjectiles.splice(pIndex, 1);
+                if (player.hp <= 0) {
+                    gameOver();
+                }
+            }
+        });
+        
+        meleeAttacks.forEach((melee, mIndex) => {
+            melee.life -= deltaTime;
+            if (melee.life <= 0) {
+                meleeAttacks.splice(mIndex, 1);
+                return;
+            }
+            
+            enemies.forEach((enemy, eIndex) => {
+                const dist = Math.hypot(melee.x - enemy.x, melee.y - enemy.y);
+                if (dist < melee.range) {
+                    enemy.hp -= melee.damage;
+                    if (enemy.hp <= 0) {
+                        dropXP(enemy.x, enemy.y, 5);
+                        enemies.splice(eIndex, 1);
+                        kills++;
+                    }
+                }
+            });
+        });
+        
+        xpOrbs.forEach((orb, index) => {
+            const dist = Math.hypot(player.x - orb.x, player.y - orb.y);
+            if (dist < 100) {
+                const angle = Math.atan2(player.y - orb.y, player.x - orb.x);
+                orb.x += Math.cos(angle) * 4;
+                orb.y += Math.sin(angle) * 4;
+            }
+            
+            if (dist < player.size + orb.size) {
+                player.xp += orb.value;
+                xpOrbs.splice(index, 1);
+                
+                if (player.xp >= player.xpNeeded) {
+                    levelUp();
+                }
+            }
+        });
+        
+        updateUI();
+    }
+    
+    function draw() {
+        ctx.fillStyle = '#0f3460';
+        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        
+        meleeAttacks.forEach(melee => {
+            ctx.strokeStyle = `rgba(255, 100, 100, ${melee.life / 300})`;
+            ctx.lineWidth = 3;
             ctx.beginPath();
-            ctx.arc(player.x, player.y, player.size, 0, Math.PI * 2);
+            ctx.arc(melee.x, melee.y, melee.range, 0, Math.PI * 2);
+            ctx.stroke();
+        });
+        
+        ctx.fillStyle = '#4ecca3';
+        ctx.beginPath();
+        ctx.arc(player.x, player.y, player.size, 0, Math.PI * 2);
+        ctx.fill();
+        
+        enemies.forEach(enemy => {
+            if (enemy.type === 'ranged') {
+                ctx.fillStyle = '#ff6b35';
+            } else {
+                ctx.fillStyle = '#e94560';
+            }
+            
+            ctx.beginPath();
+            ctx.arc(enemy.x, enemy.y, enemy.size, 0, Math.PI * 2);
             ctx.fill();
             
-            enemies.forEach(enemy => {
-                if (enemy.type === 'ranged') {
-                    ctx.fillStyle = '#ff6b35';
-                } else {
-                    ctx.fillStyle = '#e94560';
-                }
-                
-                ctx.beginPath();
-                ctx.arc(enemy.x, enemy.y, enemy.size, 0, Math.PI * 2);
-                ctx.fill();
-                
-                const barWidth = enemy.size * 2;
-                const barHeight = 4;
-                ctx.fillStyle = '#ff0000';
-                ctx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, barWidth, barHeight);
-                ctx.fillStyle = '#00ff00';
-                ctx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, (enemy.hp / enemy.maxHp) * barWidth, barHeight);
-            });
-            
-            ctx.fillStyle = '#ffd700';
-            projectiles.forEach(proj => {
-                ctx.beginPath();
-                ctx.arc(proj.x, proj.y, proj.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
-            
-            ctx.fillStyle = '#ff00ff';
-            missiles.forEach(missile => {
-                ctx.beginPath();
-                ctx.arc(missile.x, missile.y, missile.size, 0, Math.PI * 2);
-                ctx.fill();
-                
-                ctx.strokeStyle = '#ff00ff';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(missile.x, missile.y);
-                ctx.lineTo(missile.x - missile.vx * 2, missile.y - missile.vy * 2);
-                ctx.stroke();
-            });
-            
-            ctx.fillStyle = '#ff4444';
-            enemyProjectiles.forEach(proj => {
-                ctx.beginPath();
-                ctx.arc(proj.x, proj.y, proj.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
-            
-            ctx.fillStyle = '#00ffff';
-            xpOrbs.forEach(orb => {
-                ctx.beginPath();
-                ctx.arc(orb.x, orb.y, orb.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
-        }
+            const barWidth = enemy.size * 2;
+            const barHeight = 4;
+            ctx.fillStyle = '#ff0000';
+            ctx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, barWidth, barHeight);
+            ctx.fillStyle = '#00ff00';
+            ctx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, (enemy.hp / enemy.maxHp) * barWidth, barHeight);
+        });
         
-        function updateUI() {
-            document.getElementById('hp').textContent = Math.max(0, Math.floor(player.hp));
-            document.getElementById('level').textContent = player.level;
-            document.getElementById('xp').textContent = player.xp;
-            document.getElementById('xpNeeded').textContent = player.xpNeeded;
-            document.getElementById('time').textContent = Math.floor(gameTime / 1000);
-            document.getElementById('kills').textContent = kills;
-        }
+        ctx.fillStyle = '#ffd700';
+        projectiles.forEach(proj => {
+            ctx.beginPath();
+            ctx.arc(proj.x, proj.y, proj.size, 0, Math.PI * 2);
+            ctx.fill();
+        });
         
-        function gameOver() {
-            gameRunning = false;
-            document.getElementById('finalTime').textContent = Math.floor(gameTime / 1000);
-            document.getElementById('finalKills').textContent = kills;
-            document.getElementById('gameOver').style.display = 'block';
-        }
+        ctx.fillStyle = '#ff00ff';
+        missiles.forEach(missile => {
+            ctx.beginPath();
+            ctx.arc(missile.x, missile.y, missile.size, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.strokeStyle = '#ff00ff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(missile.x, missile.y);
+            ctx.lineTo(missile.x - missile.vx * 2, missile.y - missile.vy * 2);
+            ctx.stroke();
+        });
         
-        function gameLoop() {
-            const currentTime = Date.now();
-            const deltaTime = currentTime - lastTime;
-            lastTime = currentTime;
-            
-            update(deltaTime);
-            draw();
-            
-            requestAnimationFrame(gameLoop);
-        }
-    </script>
+        ctx.fillStyle = '#ff4444';
+        enemyProjectiles.forEach(proj => {
+            ctx.beginPath();
+            ctx.arc(proj.x, proj.y, proj.size, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        
+        ctx.fillStyle = '#00ffff';
+        xpOrbs.forEach(orb => {
+            ctx.beginPath();
+            ctx.arc(orb.x, orb.y, orb.size, 0, Math.PI * 2);
+            ctx.fill();
+        });
+    }
+    
+    function updateUI() {
+        document.getElementById('hp').textContent = Math.max(0, Math.floor(player.hp));
+        document.getElementById('level').textContent = player.level;
+        document.getElementById('xp').textContent = player.xp;
+        document.getElementById('xpNeeded').textContent = player.xpNeeded;
+        document.getElementById('time').textContent = Math.floor(gameTime / 1000);
+        document.getElementById('kills').textContent = kills;
+    }
+    
+    function gameOver() {
+        gameRunning = false;
+        document.getElementById('finalTime').textContent = Math.floor(gameTime / 1000);
+        document.getElementById('finalKills').textContent = kills;
+        document.getElementById('gameOver').style.display = 'block';
+    }
+    
+    function gameLoop() {
+        const currentTime = Date.now();
+        const deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+        
+        update(deltaTime);
+        draw();
+        
+        requestAnimationFrame(gameLoop);
+    }
+</script>
+```
+
 </body>
 </html>
