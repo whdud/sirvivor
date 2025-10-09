@@ -24,13 +24,13 @@
         }
         
         #gameContainer {
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100vw;
             height: 100vh;
-            max-width: 100%;
-            max-height: 100%;
             background: #0f3460;
-            border: 4px solid #16213e;
+            border: none;
         }
         
         canvas {
@@ -177,33 +177,7 @@
         }
         
         #joystick {
-            position: absolute;
-            bottom: 80px;
-            left: 80px;
-            width: 120px;
-            height: 120px;
             display: none;
-            z-index: 15;
-        }
-        
-        #joystickBase {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            border: 3px solid rgba(255, 255, 255, 0.4);
-        }
-        
-        #joystickStick {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(78, 204, 163, 0.8);
-            border: 3px solid rgba(255, 255, 255, 0.6);
         }
     </style>
 </head>
@@ -317,43 +291,35 @@
         }
         
         let joystickActive = false;
-        const joystick = document.getElementById('joystick');
-        const joystickStick = document.getElementById('joystickStick');
         
         function handleTouchStart(e) {
             if (!gameRunning) return;
             e.preventDefault();
-            const touch = e.touches[0];
-            const joyRect = joystick.getBoundingClientRect();
-            if (touch.clientX >= joyRect.left && touch.clientX <= joyRect.right &&
-                touch.clientY >= joyRect.top && touch.clientY <= joyRect.bottom) {
-                joystickActive = true;
-            }
+            joystickActive = true;
+            handleTouchMove(e);
         }
         
         function handleTouchMove(e) {
             if (!gameRunning || !joystickActive) return;
             e.preventDefault();
             const touch = e.touches[0];
-            const joyRect = joystick.getBoundingClientRect();
-            const centerX = joyRect.left + joyRect.width / 2;
-            const centerY = joyRect.top + joyRect.height / 2;
             
-            let deltaX = touch.clientX - centerX;
-            let deltaY = touch.clientY - centerY;
+            // 터치 위치를 방향으로 변환
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
             
+            let deltaX = (touch.clientX - centerX) / (canvas.width / 2);
+            let deltaY = (touch.clientY - centerY) / (canvas.height / 2);
+            
+            // 정규화
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            const maxDistance = 35;
-            
-            if (distance > maxDistance) {
-                deltaX = (deltaX / distance) * maxDistance;
-                deltaY = (deltaY / distance) * maxDistance;
+            if (distance > 1) {
+                deltaX /= distance;
+                deltaY /= distance;
             }
             
-            joystickStick.style.transform = `translate(calc(-50% + ${deltaX}px), calc(-50% + ${deltaY}px))`;
-            
-            touchX = deltaX / maxDistance;
-            touchY = deltaY / maxDistance;
+            touchX = deltaX;
+            touchY = deltaY;
             touchActive = true;
         }
         
@@ -361,15 +327,13 @@
             e.preventDefault();
             joystickActive = false;
             touchActive = false;
-            joystickStick.style.transform = 'translate(-50%, -50%)';
+            touchX = 0;
+            touchY = 0;
         }
         
         canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
         canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
         canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
-        joystick.addEventListener('touchstart', handleTouchStart, { passive: false });
-        joystick.addEventListener('touchmove', handleTouchMove, { passive: false });
-        joystick.addEventListener('touchend', handleTouchEnd, { passive: false });
         
         window.addEventListener('keydown', (e) => {
             keys[e.key.toLowerCase()] = true;
@@ -932,3 +896,4 @@
     </script>
 </body>
 </html>
+
