@@ -251,7 +251,7 @@
             x: 0,
             y: 0,
             size: 20,
-            speed: 5,
+            speed: 300,
             hp: 500,
             maxHp: 500,
             xp: 0,
@@ -276,7 +276,7 @@
         // 기본 공격
         let weaponDamage = 30;
         let weaponSpeed = 350;
-        let projectileSpeed = 9;
+        let projectileSpeed = 500;
         let projectileCount = 1;
         let projectilePiercing = 0;
         
@@ -284,7 +284,7 @@
         let hasMissile = false;
         let missileCount = 0;
         let missileDamage = 25;
-        let missileSpeed = 6;
+        let missileSpeed = 350;
         let missileTimer = 0;
         const missileCooldown = 1500;
         
@@ -372,7 +372,7 @@
             
             player.x = window.innerWidth / 2;
             player.y = window.innerHeight / 2;
-            player.speed = 5;
+            player.speed = 300;
             player.hp = 500;
             player.maxHp = 500;
             player.xp = 0;
@@ -394,14 +394,14 @@
             
             weaponDamage = 30;
             weaponSpeed = 350;
-            projectileSpeed = 9;
+            projectileSpeed = 500;
             projectileCount = 1;
             projectilePiercing = 0;
             
             hasMissile = false;
             missileCount = 0;
             missileDamage = 25;
-            missileSpeed = 6;
+            missileSpeed = 350;
             
             meleeRange = 0;
             meleeDamage = 0;
@@ -471,11 +471,12 @@
             }
             
             angles.forEach(angle => {
+                const speed = projectileSpeed / 1000;
                 projectiles.push({
                     x: player.x,
                     y: player.y,
-                    vx: Math.cos(angle) * projectileSpeed,
-                    vy: Math.sin(angle) * projectileSpeed,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
                     size: 5,
                     damage: weaponDamage,
                     piercing: projectilePiercing,
@@ -491,11 +492,12 @@
                 const nearest = findNearestEnemy();
                 if (nearest) {
                     const angle = Math.atan2(nearest.y - player.y, nearest.x - player.x);
+                    const speed = missileSpeed / 1000;
                     missiles.push({
                         x: player.x,
                         y: player.y,
-                        vx: Math.cos(angle) * missileSpeed,
-                        vy: Math.sin(angle) * missileSpeed,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
                         size: 6,
                         damage: missileDamage,
                         target: nearest
@@ -589,7 +591,7 @@
                     if (clicked) return;
                     clicked = true;
                     upgrade.apply();
-                    player.speed = Math.max(5, player.speed);
+                    player.speed = Math.max(300, player.speed);
                     levelUpDiv.style.display = 'none';
                     gameRunning = true;
                     lastTime = Date.now();
@@ -603,6 +605,7 @@
         function update(deltaTime) {
             if (!gameRunning) return;
             
+            const dt = deltaTime / 1000;
             gameTime += deltaTime;
             
             if (touchActive) {
@@ -646,12 +649,12 @@
                     
                     if (dist > 250) {
                         const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
-                        enemy.x += Math.cos(angle) * enemy.speed;
-                        enemy.y += Math.sin(angle) * enemy.speed;
+                        enemy.x += Math.cos(angle) * enemy.speed * dt;
+                        enemy.y += Math.sin(angle) * enemy.speed * dt;
                     } else if (dist < 200) {
                         const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
-                        enemy.x -= Math.cos(angle) * enemy.speed * 0.5;
-                        enemy.y -= Math.sin(angle) * enemy.speed * 0.5;
+                        enemy.x -= Math.cos(angle) * enemy.speed * 0.5 * dt;
+                        enemy.y -= Math.sin(angle) * enemy.speed * 0.5 * dt;
                     }
                     
                     enemy.shootTimer += deltaTime;
@@ -660,8 +663,8 @@
                         enemyProjectiles.push({
                             x: enemy.x,
                             y: enemy.y,
-                            vx: Math.cos(angle) * 4,
-                            vy: Math.sin(angle) * 4,
+                            vx: Math.cos(angle) * 0.25,
+                            vy: Math.sin(angle) * 0.25,
                             size: 6,
                             damage: 10
                         });
@@ -669,8 +672,8 @@
                     }
                 } else {
                     const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
-                    enemy.x += Math.cos(angle) * enemy.speed;
-                    enemy.y += Math.sin(angle) * enemy.speed;
+                    enemy.x += Math.cos(angle) * enemy.speed * dt;
+                    enemy.y += Math.sin(angle) * enemy.speed * dt;
                 }
                 
                 const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
@@ -683,8 +686,8 @@
             });
             
             projectiles.forEach((proj, pIndex) => {
-                proj.x += proj.vx;
-                proj.y += proj.vy;
+                proj.x += proj.vx * deltaTime;
+                proj.y += proj.vy * deltaTime;
                 
                 if (proj.x < -50 || proj.x > window.innerWidth + 50 || proj.y < -50 || proj.y > window.innerHeight + 50) {
                     projectiles.splice(pIndex, 1);
@@ -721,13 +724,14 @@
                     while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
                     while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
                     
+                    const speed = missileSpeed / 1000;
                     const newAngle = currentAngle + Math.sign(angleDiff) * Math.min(Math.abs(angleDiff), turnSpeed);
-                    missile.vx = Math.cos(newAngle) * missileSpeed;
-                    missile.vy = Math.sin(newAngle) * missileSpeed;
+                    missile.vx = Math.cos(newAngle) * speed;
+                    missile.vy = Math.sin(newAngle) * speed;
                 }
                 
-                missile.x += missile.vx;
-                missile.y += missile.vy;
+                missile.x += missile.vx * deltaTime;
+                missile.y += missile.vy * deltaTime;
                 
                 if (missile.x < -50 || missile.x > window.innerWidth + 50 || missile.y < -50 || missile.y > window.innerHeight + 50) {
                     missiles.splice(mIndex, 1);
@@ -750,8 +754,8 @@
             });
             
             enemyProjectiles.forEach((proj, pIndex) => {
-                proj.x += proj.vx;
-                proj.y += proj.vy;
+                proj.x += proj.vx * deltaTime;
+                proj.y += proj.vy * deltaTime;
                 
                 if (proj.x < -50 || proj.x > window.innerWidth + 50 || proj.y < -50 || proj.y > window.innerHeight + 50) {
                     enemyProjectiles.splice(pIndex, 1);
