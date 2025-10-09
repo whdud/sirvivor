@@ -224,9 +224,18 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         
+        // 고해상도 캔버스 설정
         function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            
+            ctx.scale(dpr, dpr);
+            
+            canvas.style.width = rect.width + 'px';
+            canvas.style.height = rect.height + 'px';
         }
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
@@ -238,7 +247,7 @@
             x: 0,
             y: 0,
             size: 20,
-            speed: 3,
+            speed: 5,
             hp: 500,
             maxHp: 500,
             xp: 0,
@@ -305,11 +314,12 @@
             const touch = e.touches[0];
             
             // 터치 위치를 방향으로 변환
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
+            const rect = canvas.getBoundingClientRect();
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
             
-            let deltaX = (touch.clientX - centerX) / (canvas.width / 2);
-            let deltaY = (touch.clientY - centerY) / (canvas.height / 2);
+            let deltaX = (touch.clientX - centerX) / (rect.width / 2);
+            let deltaY = (touch.clientY - centerY) / (rect.height / 2);
             
             // 정규화
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -345,8 +355,9 @@
         
         function startGame() {
             document.getElementById('startScreen').style.display = 'none';
-            player.x = canvas.width / 2;
-            player.y = canvas.height / 2;
+            const rect = canvas.getBoundingClientRect();
+            player.x = rect.width / 2;
+            player.y = rect.height / 2;
             gameStarted = true;
             gameRunning = true;
             lastTime = Date.now();
@@ -356,9 +367,10 @@
         function restartGame() {
             document.getElementById('gameOver').style.display = 'none';
             
-            player.x = canvas.width / 2;
-            player.y = canvas.height / 2;
-            player.speed = 3;
+            const rect = canvas.getBoundingClientRect();
+            player.x = rect.width / 2;
+            player.y = rect.height / 2;
+            player.speed = 5;
             player.hp = 500;
             player.maxHp = 500;
             player.xp = 0;
@@ -398,13 +410,14 @@
         
         function spawnEnemy() {
             const side = Math.floor(Math.random() * 4);
+            const rect = canvas.getBoundingClientRect();
             let x, y;
             
             switch(side) {
-                case 0: x = Math.random() * canvas.width; y = -20; break;
-                case 1: x = canvas.width + 20; y = Math.random() * canvas.height; break;
-                case 2: x = Math.random() * canvas.width; y = canvas.height + 20; break;
-                case 3: x = -20; y = Math.random() * canvas.height; break;
+                case 0: x = Math.random() * rect.width; y = -20; break;
+                case 1: x = rect.width + 20; y = Math.random() * rect.height; break;
+                case 2: x = Math.random() * rect.width; y = rect.height + 20; break;
+                case 3: x = -20; y = Math.random() * rect.height; break;
             }
             
             const speedMultiplier = 1 + (gameTime / 300000);
@@ -530,7 +543,7 @@
             player.level++;
             player.xp = 0;
             player.xpNeeded = Math.floor(player.xpNeeded * 1.5);
-            player.speed = 3;
+            player.speed = 5;
             
             gameRunning = false;
             showUpgradeOptions();
@@ -575,7 +588,7 @@
                     if (clicked) return;
                     clicked = true;
                     upgrade.apply();
-                    player.speed = Math.max(3, player.speed);
+                    player.speed = Math.max(5, player.speed);
                     levelUpDiv.style.display = 'none';
                     gameRunning = true;
                     lastTime = Date.now();
@@ -672,7 +685,8 @@
                 proj.x += proj.vx;
                 proj.y += proj.vy;
                 
-                if (proj.x < -50 || proj.x > canvas.width + 50 || proj.y < -50 || proj.y > canvas.height + 50) {
+                const rect = canvas.getBoundingClientRect();
+                if (proj.x < -50 || proj.x > rect.width + 50 || proj.y < -50 || proj.y > rect.height + 50) {
                     projectiles.splice(pIndex, 1);
                     return;
                 }
@@ -715,7 +729,8 @@
                 missile.x += missile.vx;
                 missile.y += missile.vy;
                 
-                if (missile.x < -50 || missile.x > canvas.width + 50 || missile.y < -50 || missile.y > canvas.height + 50) {
+                const rect = canvas.getBoundingClientRect();
+                if (missile.x < -50 || missile.x > rect.width + 50 || missile.y < -50 || missile.y > rect.height + 50) {
                     missiles.splice(mIndex, 1);
                     return;
                 }
@@ -739,7 +754,8 @@
                 proj.x += proj.vx;
                 proj.y += proj.vy;
                 
-                if (proj.x < -50 || proj.x > canvas.width + 50 || proj.y < -50 || proj.y > canvas.height + 50) {
+                const rect = canvas.getBoundingClientRect();
+                if (proj.x < -50 || proj.x > rect.width + 50 || proj.y < -50 || proj.y > rect.height + 50) {
                     enemyProjectiles.splice(pIndex, 1);
                     return;
                 }
@@ -796,8 +812,9 @@
         }
         
         function draw() {
+            const rect = canvas.getBoundingClientRect();
             ctx.fillStyle = '#0f3460';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillRect(0, 0, rect.width, rect.height);
             
             meleeAttacks.forEach(melee => {
                 ctx.strokeStyle = `rgba(255, 100, 100, ${melee.life / 300})`;
@@ -896,4 +913,5 @@
     </script>
 </body>
 </html>
+
 
