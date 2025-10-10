@@ -98,6 +98,17 @@
             font-weight: bold;
         }
         
+        #goldUI {
+            position: absolute;
+            top: 100px;
+            left: 10px;
+            color: #ffd700;
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            z-index: 10;
+        }
+        
         #gameOver {
             position: absolute;
             top: 50%;
@@ -165,42 +176,32 @@
             gap: 10px;
         }
         
-        @keyframes spin {
+        @keyframes cardFlip {
             0% {
-                transform: rotateY(0deg);
+                transform: perspective(1000px) rotateY(90deg);
+                opacity: 0;
             }
             100% {
-                transform: rotateY(360deg);
+                transform: perspective(1000px) rotateY(0deg);
+                opacity: 1;
             }
         }
         
-        @keyframes rarityPulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
+        .upgrade {
+            animation: cardFlip 0.3s ease-out;
+            transform-origin: center;
         }
         
-        @keyframes rarityBump {
-            0%, 100% {
-                transform: scale(1);
-            }
-            30% {
-                transform: scale(1.15);
-            }
-            60% {
-                transform: scale(0.95);
-            }
+        .upgrade:nth-child(1) {
+            animation-delay: 0s;
         }
         
-        .upgrade.spinning {
-            animation: spin 0.3s linear;
+        .upgrade:nth-child(2) {
+            animation-delay: 0.1s;
         }
         
-        .upgrade.bump {
-            animation: rarityBump 0.4s ease-out;
+        .upgrade:nth-child(3) {
+            animation-delay: 0.2s;
         }
         
         .upgrade {
@@ -292,6 +293,143 @@
             background: #5eead4;
             transform: scale(0.95);
         }
+        
+        .start-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .icon-button {
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        #shopScreen, #settingsScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+            display: none;
+            z-index: 20;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        #shopScreen h1, #settingsScreen h1 {
+            color: #ffd700;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        
+        .gold-display {
+            color: #ffd700;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 480px) {
+            .character-grid {
+                gap: 10px;
+            }
+            .character-card {
+                padding: 10px;
+            }
+            .character-icon {
+                font-size: 32px;
+            }
+            .character-name {
+                font-size: 12px;
+            }
+            .character-stats {
+                font-size: 9px;
+            }
+        }
+        
+        .character-card {
+            background: #16213e;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid #4ecca3;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(78, 204, 163, 0.3);
+        }
+        
+        .character-card.locked {
+            opacity: 0.5;
+            border-color: #666;
+        }
+        
+        .character-card.selected {
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .character-icon {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+        
+        .character-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .character-stats {
+            font-size: 10px;
+            color: #aaa;
+            margin: 3px 0;
+        }
+        
+        .character-price {
+            color: #ffd700;
+            font-weight: bold;
+            margin-top: 8px;
+            font-size: 13px;
+        }
+        
+        .close-button {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        
+        .close-button:active {
+            background: #ff6b6b;
+        }
     </style>
 </head>
 <body>
@@ -317,13 +455,34 @@
             <div>처치: <span id="kills">0</span></div>
         </div>
         
+        <div id="goldUI">
+            💰 골드: <span id="goldAmount">0</span>
+        </div>
+        
         <div id="startScreen">
             <h1>🧛 SURVIVOR 🧛</h1>
             <p>PC: WASD 또는 화살표 키로 이동</p>
             <p>모바일: 화면을 터치하여 이동</p>
             <p>자동으로 적을 공격합니다</p>
             <p>레벨업하면서 더 강해지세요!</p>
-            <button onclick="startGame()">게임 시작</button>
+            <div class="start-buttons">
+                <button onclick="startGame()">게임 시작</button>
+                <button class="icon-button" onclick="openShop()">🛒</button>
+                <button class="icon-button" onclick="openSettings()">⚙️</button>
+            </div>
+        </div>
+        
+        <div id="shopScreen">
+            <h1>🛒 캐릭터 상점</h1>
+            <div class="gold-display">💰 보유 골드: <span id="shopGold">0</span></div>
+            <div class="character-grid" id="characterGrid"></div>
+            <button class="close-button" onclick="closeShop()">닫기</button>
+        </div>
+        
+        <div id="settingsScreen">
+            <h1>⚙️ 설정</h1>
+            <p>설정 메뉴 (추후 추가 예정)</p>
+            <button class="close-button" onclick="closeSettings()">닫기</button>
         </div>
         
         <div id="gameOver">
@@ -383,13 +542,70 @@
         const lightnings = [];
         const enemyProjectiles = [];
         const xpOrbs = [];
-        const meleeAttacks = [];
+        const goldOrbs = [];
+        const meleeWeapons = [];
         
         let kills = 0;
         let gameTime = 0;
         let lastTime = Date.now();
         let shootTimer = 0;
         const shootCooldown = 350;
+        
+        let totalGold = 0;
+        let currentGold = 0;
+        
+        const characters = [
+            {
+                id: 'default',
+                name: '기본',
+                icon: '🧛',
+                unlocked: true,
+                price: 0,
+                stats: { hp: 500, speed: 4.5, damage: 30 }
+            },
+            {
+                id: 'warrior',
+                name: '전사',
+                icon: '⚔️',
+                unlocked: false,
+                price: 500,
+                stats: { hp: 700, speed: 4.0, damage: 40 }
+            },
+            {
+                id: 'mage',
+                name: '마법사',
+                icon: '🧙',
+                unlocked: false,
+                price: 800,
+                stats: { hp: 400, speed: 5.0, damage: 50 }
+            },
+            {
+                id: 'archer',
+                name: '궁수',
+                icon: '🏹',
+                unlocked: false,
+                price: 600,
+                stats: { hp: 450, speed: 5.5, damage: 35 }
+            },
+            {
+                id: 'tank',
+                name: '탱커',
+                icon: '🛡️',
+                unlocked: false,
+                price: 1000,
+                stats: { hp: 1000, speed: 3.5, damage: 25 }
+            },
+            {
+                id: 'ninja',
+                name: '닌자',
+                icon: '🥷',
+                unlocked: false,
+                price: 1200,
+                stats: { hp: 350, speed: 6.5, damage: 45 }
+            }
+        ];
+        
+        let selectedCharacter = 'default';
         
         let weaponDamage = 30;
         let weaponSpeed = 350;
@@ -404,15 +620,21 @@
         let missileTimer = 0;
         const missileCooldown = 1500;
         
-        let meleeRange = 0;
+        let meleeCount = 0;
         let meleeDamage = 0;
-        let meleeTimer = 0;
-        let meleeCooldown = 1000;
+        let meleeOrbitRadius = 0;
+        let meleeRotation = 0;
+        let meleeRotationSpeed = 0.008;
         
         let hasLightning = false;
         let lightningDamage = 40;
         let lightningTimer = 0;
         let lightningCooldown = 2500;
+        
+        let magnetRange = 100;
+        
+        let isPlayerHit = false;
+        let hitFlashTime = 0;
         
         let touchActive = false;
         let lastTouchX = 0;
@@ -462,24 +684,109 @@
             keys[e.key.toLowerCase()] = false;
         });
         
+        function initMeleeWeapons() {
+            meleeWeapons.length = 0;
+            for (let i = 0; i < meleeCount; i++) {
+                meleeWeapons.push({
+                    angle: (Math.PI * 2 / meleeCount) * i,
+                    size: 12 * sizeScale
+                });
+            }
+        }
+        
         function startGame() {
             document.getElementById('startScreen').style.display = 'none';
+            
+            const char = characters.find(c => c.id === selectedCharacter);
+            player.maxHp = char.stats.hp;
+            player.hp = char.stats.hp;
+            player.speed = char.stats.speed;
+            weaponDamage = char.stats.damage;
+            
             player.x = window.innerWidth / 2;
             player.y = window.innerHeight / 2;
             gameStarted = true;
             gameRunning = true;
+            currentGold = 0;
             lastTime = Date.now();
+            updateGoldUI();
             gameLoop();
+        }
+        
+        function openShop() {
+            document.getElementById('shopScreen').style.display = 'block';
+            document.getElementById('shopGold').textContent = totalGold;
+            renderCharacters();
+        }
+        
+        function closeShop() {
+            document.getElementById('shopScreen').style.display = 'none';
+        }
+        
+        function openSettings() {
+            document.getElementById('settingsScreen').style.display = 'block';
+        }
+        
+        function closeSettings() {
+            document.getElementById('settingsScreen').style.display = 'none';
+        }
+        
+        function renderCharacters() {
+            const grid = document.getElementById('characterGrid');
+            grid.innerHTML = '';
+            
+            characters.forEach(char => {
+                const card = document.createElement('div');
+                card.className = 'character-card';
+                if (!char.unlocked) card.classList.add('locked');
+                if (char.id === selectedCharacter) card.classList.add('selected');
+                
+                const statsText = `HP: ${char.stats.hp} | 속도: ${char.stats.speed} | 공격: ${char.stats.damage}`;
+                
+                card.innerHTML = `
+                    <div class="character-icon">${char.icon}</div>
+                    <div class="character-name">${char.name}</div>
+                    <div class="character-stats">${statsText}</div>
+                    ${!char.unlocked ? `<div class="character-price">🔒 ${char.price}G</div>` : 
+                      char.id === selectedCharacter ? '<div style="color: #ffd700;">✓ 선택됨</div>' : 
+                      '<div style="color: #4ecca3;">선택하기</div>'}
+                `;
+                
+                card.onclick = () => {
+                    if (!char.unlocked) {
+                        if (totalGold >= char.price) {
+                            totalGold -= char.price;
+                            char.unlocked = true;
+                            selectedCharacter = char.id;
+                            document.getElementById('shopGold').textContent = totalGold;
+                            renderCharacters();
+                        } else {
+                            alert('골드가 부족합니다!');
+                        }
+                    } else {
+                        selectedCharacter = char.id;
+                        renderCharacters();
+                    }
+                };
+                
+                grid.appendChild(card);
+            });
+        }
+        
+        function updateGoldUI() {
+            document.getElementById('goldAmount').textContent = currentGold;
         }
         
         function restartGame() {
             document.getElementById('gameOver').style.display = 'none';
             
+            const char = characters.find(c => c.id === selectedCharacter);
+            player.maxHp = char.stats.hp;
+            player.hp = char.stats.hp;
+            player.speed = char.stats.speed;
+            
             player.x = window.innerWidth / 2;
             player.y = window.innerHeight / 2;
-            player.speed = 4.5;
-            player.hp = 500;
-            player.maxHp = 500;
             player.xp = 0;
             player.level = 1;
             player.xpNeeded = 10;
@@ -490,15 +797,16 @@
             lightnings.length = 0;
             enemyProjectiles.length = 0;
             xpOrbs.length = 0;
-            meleeAttacks.length = 0;
+            goldOrbs.length = 0;
+            meleeWeapons.length = 0;
             
             kills = 0;
             gameTime = 0;
             shootTimer = 0;
             missileTimer = 0;
-            meleeTimer = 0;
+            currentGold = 0;
             
-            weaponDamage = 30;
+            weaponDamage = char.stats.damage;
             weaponSpeed = 350;
             projectileSpeed = 5;
             projectileCount = 1;
@@ -506,19 +814,25 @@
             
             hasMissile = false;
             missileCount = 0;
-            missileDamage = 8;
+            missileDamage = 25;
             missileSpeed = 4;
             
-            meleeRange = 0;
+            meleeCount = 0;
             meleeDamage = 0;
-            meleeTimer = 0;
-            meleeCooldown = 1000;
+            meleeOrbitRadius = 0;
+            meleeRotation = 0;
             
             hasLightning = false;
             lightningDamage = 40;
             lightningTimer = 0;
             lightningCooldown = 2500;
             
+            magnetRange = 100;
+            
+            isPlayerHit = false;
+            hitFlashTime = 0;
+            
+            updateGoldUI();
             gameRunning = true;
             lastTime = Date.now();
         }
@@ -537,14 +851,12 @@
             const speedMultiplier = (1 + (gameTime / 300000)) * (isMobile ? 1.5 : 1);
             const hpMultiplier = 1 + (gameTime / 240000);
             
-            // 보라색 네모 출현률 (1분마다 10%씩 증가)
             const purpleChance = Math.min(0.5, (gameTime / 60000) * 0.1);
             const rangedChance = Math.min(0.2, gameTime / 300000);
             
             const roll = Math.random();
             
             if (roll < purpleChance) {
-                // 보라색 네모 (빠르고 체력 높음)
                 enemies.push({
                     x: x,
                     y: y,
@@ -556,7 +868,6 @@
                     shape: 'square'
                 });
             } else if (roll < purpleChance + rangedChance) {
-                // 원거리 적
                 enemies.push({
                     x: x,
                     y: y,
@@ -569,7 +880,6 @@
                     shootCooldown: 3000
                 });
             } else {
-                // 근접 적
                 enemies.push({
                     x: x,
                     y: y,
@@ -635,18 +945,6 @@
             }
         }
         
-        function meleeAttack() {
-            if (meleeRange === 0) return;
-            
-            meleeAttacks.push({
-                x: player.x,
-                y: player.y,
-                range: meleeRange,
-                damage: meleeDamage,
-                life: 300
-            });
-        }
-        
         function lightningStrike() {
             if (!hasLightning || enemies.length === 0) return;
             
@@ -663,6 +961,7 @@
                 nearest.hp -= lightningDamage;
                 if (nearest.hp <= 0) {
                     dropXP(nearest.x, nearest.y, 5);
+                    dropGold(nearest.x, nearest.y, Math.floor(Math.random() * 3) + 1);
                     const index = enemies.indexOf(nearest);
                     if (index > -1) {
                         enemies.splice(index, 1);
@@ -692,7 +991,18 @@
                 x: x,
                 y: y,
                 size: 8 * sizeScale,
-                value: amount
+                value: amount,
+                magnetized: false
+            });
+        }
+        
+        function dropGold(x, y, amount) {
+            goldOrbs.push({
+                x: x,
+                y: y,
+                size: 10 * sizeScale,
+                value: amount,
+                magnetized: false
             });
         }
         
@@ -700,7 +1010,7 @@
             player.level++;
             player.xp = 0;
             player.xpNeeded = Math.floor(player.xpNeeded * 1.5);
-            player.speed = 4.5;
+            player.speed = Math.max(4.5, player.speed);
             
             gameRunning = false;
             showUpgradeOptions();
@@ -727,8 +1037,6 @@
                 epic: 'Epic',
                 legend: 'Legend'
             };
-            
-            const rarityOrder = ['common', 'uncommon', 'rare', 'epic', 'legend'];
             
             const rarityMultiplier = {
                 common: 1,
@@ -789,24 +1097,29 @@
                     apply: (rarity) => { lightningCooldown = Math.max(500, lightningCooldown - (300 * rarityMultiplier[rarity])); }
                 },
                 { 
-                    name: '근접 범위', 
-                    baseDesc: meleeRange > 0 ? '근접 범위' : '근접 공격 시작', 
-                    baseValue: 50,
-                    apply: (rarity) => { meleeRange += 50 * rarityMultiplier[rarity]; if (meleeRange > 0 && meleeDamage === 0) meleeDamage = 15; }
+                    name: '회전 무기', 
+                    baseDesc: meleeCount > 0 ? '무기 개수' : '회전 무기 시작',
+                    baseValue: 1,
+                    apply: (rarity) => { 
+                        meleeCount += Math.ceil(1 * rarityMultiplier[rarity]);
+                        if (meleeDamage === 0) meleeDamage = 15;
+                        if (meleeOrbitRadius === 0) meleeOrbitRadius = 60;
+                        initMeleeWeapons();
+                    }
                 },
                 { 
-                    name: '근접 데미지', 
-                    baseDesc: '근접 데미지', 
-                    baseValue: 15,
-                    condition: () => meleeRange > 0,
-                    apply: (rarity) => { meleeDamage += 15 * rarityMultiplier[rarity]; }
+                    name: '무기 데미지', 
+                    baseDesc: '회전 무기 데미지', 
+                    baseValue: 10,
+                    condition: () => meleeCount > 0,
+                    apply: (rarity) => { meleeDamage += 10 * rarityMultiplier[rarity]; }
                 },
                 { 
-                    name: '근접 속도', 
-                    baseDesc: '근접 쿨다운', 
-                    baseValue: 100,
-                    condition: () => meleeRange > 0,
-                    apply: (rarity) => { meleeCooldown = Math.max(200, meleeCooldown - (100 * rarityMultiplier[rarity])); }
+                    name: '회전 속도', 
+                    baseDesc: '회전 속도', 
+                    baseValue: 0.002,
+                    condition: () => meleeCount > 0,
+                    apply: (rarity) => { meleeRotationSpeed += 0.002 * rarityMultiplier[rarity]; }
                 },
                 { 
                     name: '체력 회복', 
@@ -819,6 +1132,12 @@
                     baseDesc: '최대 HP', 
                     baseValue: 30,
                     apply: (rarity) => { const amount = 30 * rarityMultiplier[rarity]; player.maxHp += amount; player.hp += amount; }
+                },
+                { 
+                    name: '자석', 
+                    baseDesc: 'XP 자석 범위', 
+                    baseValue: 50,
+                    apply: (rarity) => { magnetRange += 50 * rarityMultiplier[rarity]; }
                 }
             ];
             
@@ -837,117 +1156,50 @@
                 available.splice(index, 1);
             }
             
-            // 카드 생성
             selected.forEach((item, idx) => {
-                const div = document.createElement('div');
-                div.className = 'upgrade common';
-                div.dataset.currentRarity = 'common';
-                div.dataset.finalRarity = item.finalRarity;
-                
-                const multiplier = rarityMultiplier['common'];
+                const multiplier = rarityMultiplier[item.finalRarity];
                 const value = item.upgrade.baseValue * multiplier;
-                const desc = item.upgrade.name === '공격 속도' || item.upgrade.name === '번개 쿨타임' || item.upgrade.name === '근접 속도'
+                const desc = item.upgrade.name === '공격 속도' || item.upgrade.name === '번개 쿨타임'
                     ? `${item.upgrade.baseDesc} -${Math.floor(value)}ms`
                     : `+${Math.ceil(value)} ${item.upgrade.baseDesc}`;
                 
+                const div = document.createElement('div');
+                div.className = `upgrade ${item.finalRarity}`;
                 div.innerHTML = `
-                    <div class="upgrade-rarity">Common</div>
+                    <div class="upgrade-rarity">${rarityNames[item.finalRarity]}</div>
                     <strong>${item.upgrade.name}</strong>
                     <div class="upgrade-desc">${desc}</div>
                 `;
                 
+                let clicked = false;
+                div.onclick = () => {
+                    if (clicked) return;
+                    clicked = true;
+                    item.upgrade.apply(item.finalRarity);
+                    player.speed = Math.max(4.5, player.speed);
+                    levelUpDiv.style.display = 'none';
+                    gameRunning = true;
+                    lastTime = Date.now();
+                };
+                
                 optionsDiv.appendChild(div);
-                
-                // 룰렛 애니메이션 시작
-                const finalRarityIndex = rarityOrder.indexOf(item.finalRarity);
-                const spinDuration = 300 + (finalRarityIndex * 400); // 등급마다 400ms 더 돌아감
-                
-                setTimeout(() => {
-                    animateRarity(div, item.upgrade, finalRarityIndex, 0, () => {
-                        // 애니메이션 완료 후 클릭 가능
-                        let clicked = false;
-                        div.onclick = () => {
-                            if (clicked) return;
-                            clicked = true;
-                            item.upgrade.apply(item.finalRarity);
-                            player.speed = Math.max(4.5, player.speed);
-                            levelUpDiv.style.display = 'none';
-                            gameRunning = true;
-                            lastTime = Date.now();
-                        };
-                    });
-                }, idx * 100);
             });
             
             levelUpDiv.style.display = 'block';
-        }
-        
-        function animateRarity(div, upgrade, targetIndex, currentIndex, callback) {
-            if (currentIndex > targetIndex) {
-                callback();
-                return;
-            }
-            
-            const rarityOrder = ['common', 'uncommon', 'rare', 'epic', 'legend'];
-            const rarityNames = {
-                common: 'Common',
-                uncommon: 'Uncommon',
-                rare: 'Rare',
-                epic: 'Epic',
-                legend: 'Legend'
-            };
-            const rarityMultiplier = {
-                common: 1,
-                uncommon: 1.5,
-                rare: 2,
-                epic: 3,
-                legend: 5
-            };
-            
-            const currentRarity = rarityOrder[currentIndex];
-            
-            // 회전 애니메이션
-            div.classList.add('spinning');
-            
-            setTimeout(() => {
-                div.classList.remove('spinning');
-                
-                // 등급 업그레이드
-                div.className = `upgrade ${currentRarity}`;
-                
-                // 두근! 효과
-                div.classList.add('bump');
-                setTimeout(() => div.classList.remove('bump'), 400);
-                
-                // 텍스트 업데이트
-                const multiplier = rarityMultiplier[currentRarity];
-                const value = upgrade.baseValue * multiplier;
-                const desc = upgrade.name === '공격 속도' || upgrade.name === '번개 쿨타임' || upgrade.name === '근접 속도'
-                    ? `${upgrade.baseDesc} -${Math.floor(value)}ms`
-                    : `+${Math.ceil(value)} ${upgrade.baseDesc}`;
-                
-                div.innerHTML = `
-                    <div class="upgrade-rarity">${rarityNames[currentRarity]}</div>
-                    <strong>${upgrade.name}</strong>
-                    <div class="upgrade-desc">${desc}</div>
-                `;
-                
-                // 다음 등급으로
-                if (currentIndex < targetIndex) {
-                    const delay = 500 + (currentIndex * 200); // 등급이 올라갈수록 대기시간 증가
-                    setTimeout(() => {
-                        animateRarity(div, upgrade, targetIndex, currentIndex + 1, callback);
-                    }, delay);
-                } else {
-                    callback();
-                }
-            }, 300);
         }
         
         function update(deltaTime) {
             if (!gameRunning) return;
             
             gameTime += deltaTime;
+            
+            if (isPlayerHit) {
+                hitFlashTime += deltaTime;
+                if (hitFlashTime >= 200) {
+                    isPlayerHit = false;
+                    hitFlashTime = 0;
+                }
+            }
             
             if (!touchActive) {
                 if (keys['w'] || keys['arrowup']) player.y -= player.speed;
@@ -971,10 +1223,27 @@
                 missileTimer = 0;
             }
             
-            meleeTimer += deltaTime;
-            if (meleeTimer >= meleeCooldown && meleeRange > 0) {
-                meleeAttack();
-                meleeTimer = 0;
+            if (meleeCount > 0) {
+                meleeRotation += meleeRotationSpeed;
+                
+                meleeWeapons.forEach(weapon => {
+                    weapon.angle += meleeRotationSpeed;
+                    const weaponX = player.x + Math.cos(weapon.angle + meleeRotation) * meleeOrbitRadius;
+                    const weaponY = player.y + Math.sin(weapon.angle + meleeRotation) * meleeOrbitRadius;
+                    
+                    enemies.forEach((enemy, eIndex) => {
+                        const dist = Math.hypot(weaponX - enemy.x, weaponY - enemy.y);
+                        if (dist < weapon.size + enemy.size) {
+                            enemy.hp -= meleeDamage * (deltaTime / 100);
+                            if (enemy.hp <= 0) {
+                                dropXP(enemy.x, enemy.y, 5);
+                                dropGold(enemy.x, enemy.y, Math.floor(Math.random() * 3) + 1);
+                                enemies.splice(eIndex, 1);
+                                kills++;
+                            }
+                        }
+                    });
+                });
             }
             
             lightningTimer += deltaTime;
@@ -1023,6 +1292,13 @@
                 const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
                 if (dist < player.size + enemy.size) {
                     player.hp -= 0.08;
+                    if (!isPlayerHit) {
+                        isPlayerHit = true;
+                        hitFlashTime = 0;
+                        if (isMobile && navigator.vibrate) {
+                            navigator.vibrate(50);
+                        }
+                    }
                     if (player.hp <= 0) {
                         gameOver();
                     }
@@ -1050,6 +1326,7 @@
                         
                         if (enemy.hp <= 0) {
                             dropXP(enemy.x, enemy.y, 5);
+                            dropGold(enemy.x, enemy.y, Math.floor(Math.random() * 3) + 1);
                             enemies.splice(eIndex, 1);
                             kills++;
                         }
@@ -1089,6 +1366,7 @@
                         
                         if (enemy.hp <= 0) {
                             dropXP(enemy.x, enemy.y, 5);
+                            dropGold(enemy.x, enemy.y, Math.floor(Math.random() * 3) + 1);
                             enemies.splice(eIndex, 1);
                             kills++;
                         }
@@ -1109,30 +1387,17 @@
                 if (dist < proj.size + player.size) {
                     player.hp -= proj.damage;
                     enemyProjectiles.splice(pIndex, 1);
+                    if (!isPlayerHit) {
+                        isPlayerHit = true;
+                        hitFlashTime = 0;
+                        if (isMobile && navigator.vibrate) {
+                            navigator.vibrate(50);
+                        }
+                    }
                     if (player.hp <= 0) {
                         gameOver();
                     }
                 }
-            });
-            
-            meleeAttacks.forEach((melee, mIndex) => {
-                melee.life -= deltaTime;
-                if (melee.life <= 0) {
-                    meleeAttacks.splice(mIndex, 1);
-                    return;
-                }
-                
-                enemies.forEach((enemy, eIndex) => {
-                    const dist = Math.hypot(melee.x - enemy.x, melee.y - enemy.y);
-                    if (dist < melee.range) {
-                        enemy.hp -= melee.damage;
-                        if (enemy.hp <= 0) {
-                            dropXP(enemy.x, enemy.y, 5);
-                            enemies.splice(eIndex, 1);
-                            kills++;
-                        }
-                    }
-                });
             });
             
             lightnings.forEach((lightning, lIndex) => {
@@ -1144,19 +1409,47 @@
             
             xpOrbs.forEach((orb, index) => {
                 const dist = Math.hypot(player.x - orb.x, player.y - orb.y);
-                if (dist < 100) {
-                    const angle = Math.atan2(player.y - orb.y, player.x - orb.x);
-                    orb.x += Math.cos(angle) * 4;
-                    orb.y += Math.sin(angle) * 4;
+                
+                if (dist < magnetRange) {
+                    orb.magnetized = true;
                 }
                 
-                if (dist < player.size + orb.size) {
+                if (orb.magnetized) {
+                    const angle = Math.atan2(player.y - orb.y, player.x - orb.x);
+                    const speed = Math.min(dist * 0.2, 8);
+                    orb.x += Math.cos(angle) * speed;
+                    orb.y += Math.sin(angle) * speed;
+                }
+                
+                if (dist < player.size + orb.size + 20) {
                     player.xp += orb.value;
                     xpOrbs.splice(index, 1);
                     
                     if (player.xp >= player.xpNeeded) {
                         levelUp();
                     }
+                }
+            });
+            
+            goldOrbs.forEach((orb, index) => {
+                const dist = Math.hypot(player.x - orb.x, player.y - orb.y);
+                
+                if (dist < magnetRange) {
+                    orb.magnetized = true;
+                }
+                
+                if (orb.magnetized) {
+                    const angle = Math.atan2(player.y - orb.y, player.x - orb.x);
+                    const speed = Math.min(dist * 0.2, 8);
+                    orb.x += Math.cos(angle) * speed;
+                    orb.y += Math.sin(angle) * speed;
+                }
+                
+                if (dist < player.size + orb.size + 20) {
+                    currentGold += orb.value;
+                    totalGold += orb.value;
+                    goldOrbs.splice(index, 1);
+                    updateGoldUI();
                 }
             });
             
@@ -1167,18 +1460,30 @@
             ctx.fillStyle = '#0f3460';
             ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
             
-            meleeAttacks.forEach(melee => {
-                ctx.strokeStyle = `rgba(255, 100, 100, ${melee.life / 300})`;
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.arc(melee.x, melee.y, melee.range, 0, Math.PI * 2);
-                ctx.stroke();
-            });
-            
             ctx.fillStyle = '#4ecca3';
             ctx.beginPath();
             ctx.arc(player.x, player.y, player.size, 0, Math.PI * 2);
             ctx.fill();
+            
+            if (isPlayerHit && Math.floor(hitFlashTime / 50) % 2 === 0) {
+                ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+                ctx.beginPath();
+                ctx.arc(player.x, player.y, player.size + 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            meleeWeapons.forEach(weapon => {
+                const weaponX = player.x + Math.cos(weapon.angle + meleeRotation) * meleeOrbitRadius;
+                const weaponY = player.y + Math.sin(weapon.angle + meleeRotation) * meleeOrbitRadius;
+                
+                ctx.fillStyle = '#ff6b6b';
+                ctx.strokeStyle = '#ff0000';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(weaponX, weaponY, weapon.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            });
             
             enemies.forEach(enemy => {
                 if (enemy.type === 'purple') {
@@ -1234,6 +1539,13 @@
             
             ctx.fillStyle = '#00ffff';
             xpOrbs.forEach(orb => {
+                ctx.beginPath();
+                ctx.arc(orb.x, orb.y, orb.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            
+            ctx.fillStyle = '#ffd700';
+            goldOrbs.forEach(orb => {
                 ctx.beginPath();
                 ctx.arc(orb.x, orb.y, orb.size, 0, Math.PI * 2);
                 ctx.fill();
