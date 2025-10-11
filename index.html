@@ -52,6 +52,50 @@
             min-width: 200px;
         }
         
+        #timeUI {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        #homeButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #4ecca3;
+            border-radius: 10px;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+        
+        #homeButton:hover {
+            background: rgba(78, 204, 163, 0.2);
+            transform: scale(1.05);
+        }
+        
+        #homeButton:active {
+            transform: scale(0.95);
+        }
+        
         .stat-bar {
             margin: 5px 0;
             display: flex;
@@ -140,6 +184,7 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
+            margin: 10px 5px;
         }
         
         #gameOver button:active {
@@ -250,6 +295,169 @@
             color: #4ecca3;
         }
         
+        #mainMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
+            z-index: 30;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #mainMenu::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/menu_bg.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            z-index: 0;
+        }
+
+        #mainMenu::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(26, 11, 41, 0.5) 0%, rgba(15, 8, 28, 0.7) 100%);
+            z-index: 1;
+        }
+
+        .menu-content {
+            text-align: center;
+            z-index: 2;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu-title {
+            font-size: 48px;
+            font-weight: bold;
+            color: #e8d5f2;
+            text-shadow: 0 0 20px rgba(168, 85, 247, 0.8),
+                         0 0 40px rgba(168, 85, 247, 0.4),
+                         2px 2px 8px rgba(0, 0, 0, 0.8);
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+            font-family: 'Georgia', serif;
+        }
+
+        .menu-subtitle {
+            font-size: 16px;
+            color: #c4a7d4;
+            text-shadow: 0 0 10px rgba(196, 167, 212, 0.6),
+                         1px 1px 4px rgba(0, 0, 0, 0.9);
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            font-family: 'Georgia', serif;
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .menu-button {
+            padding: 15px 60px;
+            font-size: 20px;
+            background: linear-gradient(135deg, rgba(88, 28, 135, 0.9), rgba(59, 7, 100, 0.9));
+            color: #e8d5f2;
+            border: 2px solid rgba(168, 85, 247, 0.6);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4px 15px rgba(88, 28, 135, 0.4),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            min-width: 240px;
+            letter-spacing: 1px;
+        }
+
+        .menu-button:hover {
+            background: linear-gradient(135deg, rgba(109, 40, 217, 0.9), rgba(88, 28, 135, 0.9));
+            border-color: rgba(168, 85, 247, 0.9);
+            box-shadow: 0 6px 25px rgba(168, 85, 247, 0.6),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .menu-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(88, 28, 135, 0.6),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-icon-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .menu-icon-button {
+            width: 55px;
+            height: 55px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            background: linear-gradient(135deg, rgba(88, 28, 135, 0.8), rgba(59, 7, 100, 0.8));
+            border: 2px solid rgba(168, 85, 247, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(88, 28, 135, 0.4);
+        }
+
+        .menu-icon-button:hover {
+            background: linear-gradient(135deg, rgba(109, 40, 217, 0.9), rgba(88, 28, 135, 0.9));
+            border-color: rgba(168, 85, 247, 0.9);
+            box-shadow: 0 6px 25px rgba(168, 85, 247, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .menu-icon-button:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .menu-title {
+                font-size: 36px;
+            }
+            .menu-subtitle {
+                font-size: 14px;
+            }
+            .menu-button {
+                padding: 12px 40px;
+                font-size: 18px;
+                min-width: 200px;
+            }
+        }
+
         #startScreen {
             position: absolute;
             top: 50%;
@@ -262,20 +470,52 @@
             color: white;
             z-index: 20;
             max-width: 90%;
+            display: none;
         }
-        
+
         #startScreen h1 {
             color: #4ecca3;
             margin-bottom: 20px;
             font-size: 32px;
         }
-        
+
         #startScreen p {
             margin: 8px 0;
             color: #aaa;
             font-size: 14px;
         }
-        
+
+        .best-records {
+            background: rgba(78, 204, 163, 0.1);
+            border: 2px solid #4ecca3;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .best-records h3 {
+            color: #4ecca3;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .record-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .record-label {
+            color: #aaa;
+        }
+
+        .record-value {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
         #startScreen button {
             margin-top: 20px;
             padding: 15px 40px;
@@ -288,7 +528,7 @@
             transition: all 0.3s;
             font-weight: bold;
         }
-        
+
         #startScreen button:active {
             background: #5eead4;
             transform: scale(0.95);
@@ -317,22 +557,35 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.95);
+            background: linear-gradient(135deg, rgba(26, 11, 41, 0.98), rgba(15, 8, 28, 0.98));
             padding: 30px;
             border-radius: 15px;
+            border: 2px solid rgba(168, 85, 247, 0.4);
+            box-shadow: 0 8px 32px rgba(88, 28, 135, 0.6),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
             color: white;
             display: none;
-            z-index: 20;
-            max-width: 600px;
+            z-index: 35;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
         }
-        
+
+        #shopScreen {
+            max-width: 600px;
+        }
+
+        #settingsScreen {
+            max-width: 450px;
+        }
+
         #shopScreen h1, #settingsScreen h1 {
-            color: #ffd700;
+            color: #e8d5f2;
+            text-shadow: 0 0 15px rgba(168, 85, 247, 0.7),
+                         2px 2px 4px rgba(0, 0, 0, 0.8);
             margin-bottom: 20px;
             font-size: 28px;
+            letter-spacing: 2px;
         }
         
         .gold-display {
@@ -368,28 +621,31 @@
         }
         
         .character-card {
-            background: #16213e;
+            background: linear-gradient(135deg, rgba(59, 7, 100, 0.6), rgba(88, 28, 135, 0.4));
             padding: 12px;
             border-radius: 10px;
-            border: 2px solid #4ecca3;
+            border: 2px solid rgba(168, 85, 247, 0.5);
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(88, 28, 135, 0.3);
         }
-        
+
         .character-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(78, 204, 163, 0.3);
+            box-shadow: 0 5px 20px rgba(168, 85, 247, 0.5);
+            border-color: rgba(168, 85, 247, 0.8);
         }
-        
+
         .character-card.locked {
             opacity: 0.5;
             border-color: #666;
         }
-        
+
         .character-card.selected {
             border-color: #ffd700;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
+            background: linear-gradient(135deg, rgba(100, 50, 150, 0.7), rgba(120, 60, 180, 0.5));
         }
         
         .character-icon {
@@ -417,18 +673,135 @@
         }
         
         .close-button {
-            background: #e94560;
-            color: white;
-            border: none;
+            background: linear-gradient(135deg, rgba(88, 28, 135, 0.9), rgba(59, 7, 100, 0.9));
+            color: #e8d5f2;
+            border: 2px solid rgba(168, 85, 247, 0.6);
             padding: 10px 30px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
             margin-top: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4px 15px rgba(88, 28, 135, 0.4);
+            transition: all 0.3s;
+        }
+
+        .close-button:hover {
+            background: linear-gradient(135deg, rgba(109, 40, 217, 0.9), rgba(88, 28, 135, 0.9));
+            border-color: rgba(168, 85, 247, 0.9);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .close-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(88, 28, 135, 0.6);
         }
         
-        .close-button:active {
+        /* 볼륨 슬라이더 스타일 */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #4ecca3;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #5eead4;
+            transform: scale(1.1);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #4ecca3;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        
+        input[type="range"]::-moz-range-thumb:hover {
+            background: #5eead4;
+            transform: scale(1.1);
+        }
+        
+        #confirmModal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            display: none;
+            z-index: 30;
+            min-width: 300px;
+            border: 2px solid #4ecca3;
+        }
+        
+        #confirmModal h3 {
+            color: #4ecca3;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        
+        #confirmModal p {
+            margin-bottom: 25px;
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .modal-btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .modal-btn-yes {
+            background: #e94560;
+            color: white;
+        }
+        
+        .modal-btn-yes:active {
             background: #ff6b6b;
+            transform: scale(0.95);
+        }
+        
+        .modal-btn-no {
+            background: #4ecca3;
+            color: #1a1a2e;
+        }
+        
+        .modal-btn-no:active {
+            background: #5eead4;
+            transform: scale(0.95);
         }
     </style>
 </head>
@@ -451,20 +824,60 @@
                     <div class="bar-text"><span id="xp">0</span>/<span id="xpNeeded">10</span></div>
                 </div>
             </div>
-            <div>시간: <span id="time">0</span>s</div>
-            <div>처치: <span id="kills">0</span></div>
+        </div>
+        
+        <div id="timeUI">
+            ⏱️ <span id="time">0</span>s
         </div>
         
         <div id="goldUI">
             💰 골드: <span id="goldAmount">0</span>
         </div>
         
+        <div id="homeButton" onclick="showConfirmModal()">🏠</div>
+
+        <div id="confirmModal">
+            <h3>메인 메뉴로 돌아가기</h3>
+            <p>현재 게임을 종료하시겠습니까?<br>진행 상황은 저장되지 않습니다.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-yes" onclick="confirmGoHome()">예</button>
+                <button class="modal-btn modal-btn-no" onclick="closeConfirmModal()">아니오</button>
+            </div>
+        </div>
+
+        <div id="mainMenu">
+            <div class="menu-content">
+                <h1 class="menu-title">OCCULT SURVIVOR</h1>
+                <p class="menu-subtitle">오컬트 학생의 생존기</p>
+                <div class="menu-buttons">
+                    <button class="menu-button" onclick="startGame()">게임 시작</button>
+                    <button class="menu-button" onclick="openShopFromMenu()">캐릭터 상점</button>
+                </div>
+                <div class="menu-icon-buttons">
+                    <button class="menu-icon-button" onclick="openSettingsFromMenu()">⚙️</button>
+                </div>
+            </div>
+        </div>
+
         <div id="startScreen">
             <h1>🧛 SURVIVOR 🧛</h1>
             <p>PC: WASD 또는 화살표 키로 이동</p>
             <p>모바일: 화면을 터치하여 이동</p>
             <p>자동으로 적을 공격합니다</p>
             <p>레벨업하면서 더 강해지세요!</p>
+            
+            <div class="best-records">
+                <h3>🏆 개인 최고기록</h3>
+                <div class="record-item">
+                    <span class="record-label">⏱️ 최고 생존시간</span>
+                    <span class="record-value"><span id="bestTimeDisplay">0</span>초</span>
+                </div>
+                <div class="record-item">
+                    <span class="record-label">💀 최다 처치</span>
+                    <span class="record-value"><span id="bestKillsDisplay">0</span>마리</span>
+                </div>
+            </div>
+            
             <div class="start-buttons">
                 <button onclick="startGame()">게임 시작</button>
                 <button class="icon-button" onclick="openShop()">🛒</button>
@@ -481,7 +894,36 @@
         
         <div id="settingsScreen">
             <h1>⚙️ 설정</h1>
-            <p>설정 메뉴 (추후 추가 예정)</p>
+            
+            <div style="margin: 20px 0;">
+                <div style="margin-bottom: 25px;">
+                    <label style="display: block; margin-bottom: 8px; font-size: 16px;">
+                        🔊 마스터 볼륨: <span id="masterVolumeValue">100</span>%
+                    </label>
+                    <input type="range" id="masterVolumeSlider" min="0" max="100" value="100" 
+                           style="width: 100%; cursor: pointer;"
+                           oninput="updateVolume('master', this.value)">
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <label style="display: block; margin-bottom: 8px; font-size: 16px;">
+                        🎵 배경음악: <span id="musicVolumeValue">100</span>%
+                    </label>
+                    <input type="range" id="musicVolumeSlider" min="0" max="100" value="100" 
+                           style="width: 100%; cursor: pointer;"
+                           oninput="updateVolume('music', this.value)">
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <label style="display: block; margin-bottom: 8px; font-size: 16px;">
+                        🔔 효과음: <span id="sfxVolumeValue">100</span>%
+                    </label>
+                    <input type="range" id="sfxVolumeSlider" min="0" max="100" value="100" 
+                           style="width: 100%; cursor: pointer;"
+                           oninput="updateVolume('sfx', this.value)">
+                </div>
+            </div>
+            
             <button class="close-button" onclick="closeSettings()">닫기</button>
         </div>
         
@@ -489,7 +931,9 @@
             <h1>게임 오버</h1>
             <p>생존 시간: <span id="finalTime">0</span>초</p>
             <p>처치한 적: <span id="finalKills">0</span>마리</p>
+            <p>획득 골드: <span id="finalGold">0</span>G</p>
             <button onclick="restartGame()">다시 시작</button>
+            <button onclick="goToMainMenu()" style="background: #4ecca3; margin-left: 10px;">메인 메뉴</button>
         </div>
         
         <div id="levelUp">
@@ -554,6 +998,15 @@
         let totalGold = 0;
         let currentGold = 0;
         
+        // 개인 최고기록
+        let bestTime = 0;
+        let bestKills = 0;
+        
+        // 오디오 설정
+        let masterVolume = 1.0;
+        let musicVolume = 1.0;
+        let sfxVolume = 1.0;
+        
         const characters = [
             {
                 id: 'default',
@@ -569,7 +1022,7 @@
                 icon: '⚔️',
                 unlocked: false,
                 price: 500,
-                stats: { hp: 700, speed: 4.0, damage: 40 }
+                stats: { hp: 700, speed: 4.5, damage: 40 }
             },
             {
                 id: 'mage',
@@ -577,7 +1030,7 @@
                 icon: '🧙',
                 unlocked: false,
                 price: 800,
-                stats: { hp: 400, speed: 5.0, damage: 50 }
+                stats: { hp: 400, speed: 4.5, damage: 50 }
             },
             {
                 id: 'archer',
@@ -585,7 +1038,7 @@
                 icon: '🏹',
                 unlocked: false,
                 price: 600,
-                stats: { hp: 450, speed: 5.5, damage: 35 }
+                stats: { hp: 450, speed: 4.5, damage: 35 }
             },
             {
                 id: 'tank',
@@ -593,7 +1046,7 @@
                 icon: '🛡️',
                 unlocked: false,
                 price: 1000,
-                stats: { hp: 1000, speed: 3.5, damage: 25 }
+                stats: { hp: 1000, speed: 4.5, damage: 25 }
             },
             {
                 id: 'ninja',
@@ -601,7 +1054,7 @@
                 icon: '🥷',
                 unlocked: false,
                 price: 1200,
-                stats: { hp: 350, speed: 6.5, damage: 45 }
+                stats: { hp: 350, speed: 4.5, damage: 45 }
             }
         ];
         
@@ -695,14 +1148,16 @@
         }
         
         function startGame() {
+            document.getElementById('mainMenu').style.display = 'none';
             document.getElementById('startScreen').style.display = 'none';
-            
+            document.getElementById('homeButton').style.display = 'flex';
+
             const char = characters.find(c => c.id === selectedCharacter);
             player.maxHp = char.stats.hp;
             player.hp = char.stats.hp;
-            player.speed = char.stats.speed;
+            player.speed = 4.5;
             weaponDamage = char.stats.damage;
-            
+
             player.x = window.innerWidth / 2;
             player.y = window.innerHeight / 2;
             gameStarted = true;
@@ -712,23 +1167,76 @@
             updateGoldUI();
             gameLoop();
         }
-        
+
+        function openShopFromMenu() {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('shopScreen').style.display = 'block';
+            document.getElementById('shopGold').textContent = totalGold;
+            renderCharacters();
+        }
+
         function openShop() {
             document.getElementById('shopScreen').style.display = 'block';
             document.getElementById('shopGold').textContent = totalGold;
             renderCharacters();
         }
-        
+
         function closeShop() {
             document.getElementById('shopScreen').style.display = 'none';
+            if (!gameStarted) {
+                document.getElementById('mainMenu').style.display = 'flex';
+            }
         }
-        
+
+        function openSettingsFromMenu() {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('settingsScreen').style.display = 'block';
+        }
+
         function openSettings() {
             document.getElementById('settingsScreen').style.display = 'block';
         }
-        
+
         function closeSettings() {
             document.getElementById('settingsScreen').style.display = 'none';
+            if (!gameStarted) {
+                document.getElementById('mainMenu').style.display = 'flex';
+            }
+        }
+        
+        function updateVolume(type, value) {
+            const volume = value / 100;
+            
+            if (type === 'master') {
+                masterVolume = volume;
+                document.getElementById('masterVolumeValue').textContent = value;
+            } else if (type === 'music') {
+                musicVolume = volume;
+                document.getElementById('musicVolumeValue').textContent = value;
+                // 나중에 브금 추가 시: backgroundMusic.volume = masterVolume * musicVolume;
+            } else if (type === 'sfx') {
+                sfxVolume = volume;
+                document.getElementById('sfxVolumeValue').textContent = value;
+                // 나중에 효과음 추가 시: sfxSound.volume = masterVolume * sfxVolume;
+            }
+        }
+        
+        function showConfirmModal() {
+            if (!gameRunning) return;
+            gameRunning = false;
+            document.getElementById('confirmModal').style.display = 'block';
+        }
+        
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').style.display = 'none';
+            gameRunning = true;
+            lastTime = Date.now();
+        }
+        
+        function confirmGoHome() {
+            document.getElementById('confirmModal').style.display = 'none';
+            document.getElementById('homeButton').style.display = 'none';
+            goToMainMenu();
         }
         
         function renderCharacters() {
@@ -741,7 +1249,7 @@
                 if (!char.unlocked) card.classList.add('locked');
                 if (char.id === selectedCharacter) card.classList.add('selected');
                 
-                const statsText = `HP: ${char.stats.hp} | 속도: ${char.stats.speed} | 공격: ${char.stats.damage}`;
+                const statsText = `HP: ${char.stats.hp} | 공격: ${char.stats.damage}`;
                 
                 card.innerHTML = `
                     <div class="character-icon">${char.icon}</div>
@@ -779,14 +1287,20 @@
         
         function restartGame() {
             document.getElementById('gameOver').style.display = 'none';
+            document.getElementById('homeButton').style.display = 'flex';
+            
+            // 최고기록 업데이트
+            document.getElementById('bestTimeDisplay').textContent = bestTime;
+            document.getElementById('bestKillsDisplay').textContent = bestKills;
             
             const char = characters.find(c => c.id === selectedCharacter);
             player.maxHp = char.stats.hp;
             player.hp = char.stats.hp;
-            player.speed = char.stats.speed;
+            player.speed = 4.5;
             
             player.x = window.innerWidth / 2;
             player.y = window.innerHeight / 2;
+            player.speed = 4.5;
             player.xp = 0;
             player.level = 1;
             player.xpNeeded = 10;
@@ -1010,7 +1524,6 @@
             player.level++;
             player.xp = 0;
             player.xpNeeded = Math.floor(player.xpNeeded * 1.5);
-            player.speed = Math.max(4.5, player.speed);
             
             gameRunning = false;
             showUpgradeOptions();
@@ -1176,7 +1689,6 @@
                     if (clicked) return;
                     clicked = true;
                     item.upgrade.apply(item.finalRarity);
-                    player.speed = Math.max(4.5, player.speed);
                     levelUpDiv.style.display = 'none';
                     gameRunning = true;
                     lastTime = Date.now();
@@ -1574,7 +2086,6 @@
             document.getElementById('xp').textContent = player.xp;
             document.getElementById('xpNeeded').textContent = player.xpNeeded;
             document.getElementById('time').textContent = Math.floor(gameTime / 1000);
-            document.getElementById('kills').textContent = kills;
             
             const hpPercent = (player.hp / player.maxHp) * 100;
             document.getElementById('hpBar').style.width = hpPercent + '%';
@@ -1585,9 +2096,78 @@
         
         function gameOver() {
             gameRunning = false;
-            document.getElementById('finalTime').textContent = Math.floor(gameTime / 1000);
-            document.getElementById('finalKills').textContent = kills;
+            document.getElementById('homeButton').style.display = 'none';
+            
+            const finalTime = Math.floor(gameTime / 1000);
+            const finalKills = kills;
+            
+            // 최고기록 업데이트
+            if (finalTime > bestTime) bestTime = finalTime;
+            if (finalKills > bestKills) bestKills = finalKills;
+            
+            document.getElementById('finalTime').textContent = finalTime;
+            document.getElementById('finalKills').textContent = finalKills;
+            document.getElementById('finalGold').textContent = currentGold;
             document.getElementById('gameOver').style.display = 'block';
+        }
+        
+        function goToMainMenu() {
+            document.getElementById('gameOver').style.display = 'none';
+            document.getElementById('mainMenu').style.display = 'flex';
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('homeButton').style.display = 'none';
+            gameStarted = false;
+            
+            // 게임 상태 초기화 (캐릭터 언락 상태와 골드는 유지)
+            player.x = window.innerWidth / 2;
+            player.y = window.innerHeight / 2;
+            player.xp = 0;
+            player.level = 1;
+            player.xpNeeded = 10;
+            
+            enemies.length = 0;
+            projectiles.length = 0;
+            missiles.length = 0;
+            lightnings.length = 0;
+            enemyProjectiles.length = 0;
+            xpOrbs.length = 0;
+            goldOrbs.length = 0;
+            meleeWeapons.length = 0;
+            
+            kills = 0;
+            gameTime = 0;
+            shootTimer = 0;
+            missileTimer = 0;
+            currentGold = 0;
+            
+            weaponDamage = 30;
+            weaponSpeed = 350;
+            projectileSpeed = 5;
+            projectileCount = 1;
+            projectilePiercing = 0;
+            
+            hasMissile = false;
+            missileCount = 0;
+            missileDamage = 25;
+            missileSpeed = 4;
+            
+            meleeCount = 0;
+            meleeDamage = 0;
+            meleeOrbitRadius = 0;
+            meleeRotation = 0;
+            meleeRotationSpeed = 0.008;
+            
+            hasLightning = false;
+            lightningDamage = 40;
+            lightningTimer = 0;
+            lightningCooldown = 2500;
+            
+            magnetRange = 100;
+            
+            isPlayerHit = false;
+            hitFlashTime = 0;
+            
+            updateGoldUI();
         }
         
         function gameLoop() {

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp list:*)",
+      "Bash(if not exist \"F:\\GitHub\\sirvivor\\assets\" mkdir \"F:\\GitHub\\sirvivor\\assets\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
