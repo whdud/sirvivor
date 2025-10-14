@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Drone Warfare</title>
     <style>
         @font-face {
@@ -479,6 +479,12 @@
         }
 
         @media (max-width: 480px) {
+            #timeUI {
+                top: 130px;
+                left: 10px;
+                transform: none;
+            }
+
             .menu-title img {
                 max-width: 700px;
             }
@@ -1158,27 +1164,38 @@
             droneSpriteLoaded = true;
         };
 
-        // 적 스프라이트 로드
+        // 적 스프라이트 로드 - 새로운 우주선 스프라이트
         const enemySprite = new Image();
-        enemySprite.src = 'assets/Enermy.png';
+        enemySprite.src = 'assets/Stage1Enemy1.png';  // 기본 적 (빨간 우주선)
         let enemySpriteLoaded = false;
         enemySprite.onload = () => {
             enemySpriteLoaded = true;
-            console.log('Enermy.png loaded successfully');
+            console.log('Stage1Enemy1.png loaded successfully');
         };
         enemySprite.onerror = () => {
-            console.error('Failed to load Enermy.png');
+            console.error('Failed to load Stage1Enemy1.png');
+        };
+
+        const enemyPurpleSprite = new Image();
+        enemyPurpleSprite.src = 'assets/Stage1Enemy2.png';  // 보라색 적 (보라 우주선)
+        let enemyPurpleSpriteLoaded = false;
+        enemyPurpleSprite.onload = () => {
+            enemyPurpleSpriteLoaded = true;
+            console.log('Stage1Enemy2.png loaded successfully');
+        };
+        enemyPurpleSprite.onerror = () => {
+            console.error('Failed to load Stage1Enemy2.png');
         };
 
         const enemy2Sprite = new Image();
-        enemy2Sprite.src = 'assets/Enermy2.png';
+        enemy2Sprite.src = 'assets/Stage1Enemy3.png';  // 원거리 적 (황금 우주선)
         let enemy2SpriteLoaded = false;
         enemy2Sprite.onload = () => {
             enemy2SpriteLoaded = true;
-            console.log('Enermy2.png loaded successfully');
+            console.log('Stage1Enemy3.png loaded successfully');
         };
         enemy2Sprite.onerror = () => {
-            console.error('Failed to load Enermy2.png');
+            console.error('Failed to load Stage1Enemy3.png');
         };
 
         const bossSprite = new Image();
@@ -1187,6 +1204,23 @@
         bossSprite.onload = () => {
             bossSpriteLoaded = true;
         };
+
+        // 배경 이미지 로드
+        const backgroundSprite = new Image();
+        backgroundSprite.src = 'assets/Stage1Background.png';
+        let backgroundSpriteLoaded = false;
+        backgroundSprite.onload = () => {
+            backgroundSpriteLoaded = true;
+            console.log('Stage1Background.png loaded successfully');
+        };
+        backgroundSprite.onerror = () => {
+            console.error('Failed to load Stage1Background.png');
+        };
+
+        // 배경 스크롤 변수
+        let backgroundY1 = 0;
+        let backgroundY2 = 0;
+        let backgroundScrollSpeed = 1; // 배경 스크롤 속도
 
         // 애니메이션 변수 (30FPS = 33.33ms마다 프레임 전환)
         let animationFrame = 0;
@@ -1215,8 +1249,8 @@
         let gameRunning = false;
         let gameLoopId = 0;  // 게임 루프 중복 실행 방지용 ID
         let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        let sizeScale = isMobile ? 0.4 : 1;  // 적 크기 (원래대로)
-        let playerSizeScale = isMobile ? 0.75 : 1.5;  // 플레이어 크기 50% 증가 (0.5 → 0.75, 1 → 1.5)
+        let sizeScale = isMobile ? 0.8 : 1.5;  // 적 크기 (모바일 2배, PC 1.5배 증가)
+        let playerSizeScale = isMobile ? 1.5 : 2.25;  // 플레이어 크기 (모바일 2배, PC 1.5배 증가)
 
         const player = {
             x: 0,
@@ -1658,6 +1692,10 @@
             magnetRange = 100;
 
             isPlayerHit = false;
+
+            // 배경 스크롤 초기화
+            backgroundY1 = 0;
+            backgroundY2 = -window.innerHeight;
             hitFlashTime = 0;
 
             lastTime = Date.now();
@@ -2391,6 +2429,30 @@
 
             gameTime += deltaTime;
 
+            // 배경 스크롤 업데이트
+            if (backgroundSpriteLoaded) {
+                const bgHeight = window.innerHeight;
+                const bgAspect = backgroundSprite.width / backgroundSprite.height;
+                const screenAspect = window.innerWidth / bgHeight;
+
+                let drawHeight = bgHeight;
+                if (screenAspect > bgAspect) {
+                    drawHeight = window.innerWidth / bgAspect;
+                }
+
+                // 배경을 아래로 스크롤 (플레이어가 위로 이동하는 것처럼)
+                backgroundY1 += backgroundScrollSpeed;
+                backgroundY2 += backgroundScrollSpeed;
+
+                // 배경이 화면 아래로 벗어나면 위로 재배치
+                if (backgroundY1 >= bgHeight) {
+                    backgroundY1 = backgroundY2 - drawHeight;
+                }
+                if (backgroundY2 >= bgHeight) {
+                    backgroundY2 = backgroundY1 - drawHeight;
+                }
+            }
+
             // 드론 애니메이션 프레임 업데이트 (30FPS)
             animationTimer += deltaTime;
             if (animationTimer >= animationSpeed) {
@@ -2796,8 +2858,36 @@
         }
         
         function draw() {
-            ctx.fillStyle = '#0f3460';
-            ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+            // 배경 그리기 (스크롤)
+            if (backgroundSpriteLoaded) {
+                const bgWidth = window.innerWidth;
+                const bgHeight = window.innerHeight;
+
+                // 배경 이미지의 비율에 맞춰 크기 조정
+                const bgAspect = backgroundSprite.width / backgroundSprite.height;
+                const screenAspect = bgWidth / bgHeight;
+
+                let drawWidth = bgWidth;
+                let drawHeight = bgHeight;
+
+                // 화면을 가득 채우도록 비율 조정
+                if (screenAspect > bgAspect) {
+                    drawHeight = drawWidth / bgAspect;
+                } else {
+                    drawWidth = drawHeight * bgAspect;
+                }
+
+                const x = (bgWidth - drawWidth) / 2;
+
+                // 두 개의 배경을 이어서 그려 무한 스크롤 효과
+                ctx.imageSmoothingEnabled = false;
+                ctx.drawImage(backgroundSprite, x, backgroundY1, drawWidth, drawHeight);
+                ctx.drawImage(backgroundSprite, x, backgroundY2, drawWidth, drawHeight);
+            } else {
+                // 배경 로딩 전 기본 색상
+                ctx.fillStyle = '#0f3460';
+                ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+            }
 
             // 플레이어 드론 애니메이션 그리기
             if (droneSpriteLoaded) {
@@ -2911,9 +3001,29 @@
                     ctx.textAlign = 'center';
                     ctx.fillText('⚠️ BOSS ⚠️', enemy.x, enemy.y - enemy.size - 30);
                 } else if (enemy.type === 'purple') {
-                    // 보라 적 - 사각형 유지
-                    ctx.fillStyle = '#a855f7';
-                    ctx.fillRect(enemy.x - enemy.size/2, enemy.y - enemy.size/2, enemy.size, enemy.size);
+                    // 보라 적 - Enemy2.png (Stage1Enemy2.png) 사용 + 회전
+                    if (enemyPurpleSpriteLoaded) {
+                        const drawSize = enemy.size * 2;
+                        // 플레이어를 향하는 각도 계산
+                        const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
+
+                        ctx.save();
+                        ctx.translate(enemy.x, enemy.y);
+                        ctx.rotate(angle + Math.PI / 2); // 스프라이트가 아래를 향하므로 +90도
+                        ctx.imageSmoothingEnabled = false;
+                        ctx.drawImage(
+                            enemyPurpleSprite,
+                            -drawSize / 2,
+                            -drawSize / 2,
+                            drawSize,
+                            drawSize
+                        );
+                        ctx.restore();
+                    } else {
+                        // 폴백: 사각형 유지
+                        ctx.fillStyle = '#a855f7';
+                        ctx.fillRect(enemy.x - enemy.size/2, enemy.y - enemy.size/2, enemy.size, enemy.size);
+                    }
 
                     const barWidth = enemy.size * 2;
                     const barHeight = 4;
