@@ -59,7 +59,8 @@
       "Bash(dir:*)",
       "Bash(findstr:*)",
       "mcp__pixellab__create_sidescroller_tileset",
-      "Bash(curl --fail -o \"F:\\GitHub\\sirvivor\\assets\\apocalypse_background.png\" \"https://api.pixellab.ai/mcp/tilesets/8594631c-0b7a-48ad-837a-96c1c0ff21e0/image\")"
+      "Bash(curl --fail -o \"F:\\GitHub\\sirvivor\\assets\\apocalypse_background.png\" \"https://api.pixellab.ai/mcp/tilesets/8594631c-0b7a-48ad-837a-96c1c0ff21e0/image\")",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []

@@ -76,6 +76,19 @@
             padding: 8px 20px;
             border-radius: 20px;
             border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #timeUI::before {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background-image: url('assets/ClockIcon.png');
+            background-size: contain;
+            background-repeat: no-repeat;
         }
         
         #homeButton {
@@ -87,14 +100,16 @@
             background: rgba(0, 0, 0, 0.7);
             border: 2px solid #4ecca3;
             border-radius: 10px;
-            color: white;
-            font-size: 24px;
             cursor: pointer;
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 10;
             transition: all 0.3s;
+            background-image: url('assets/HomeIcon.png');
+            background-size: 60%;
+            background-position: center;
+            background-repeat: no-repeat;
         }
         
         #homeButton:hover {
@@ -161,6 +176,19 @@
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
             z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #goldUI::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-image: url('assets/Gear.png');
+            background-size: contain;
+            background-repeat: no-repeat;
         }
         
         #gameOver {
@@ -329,7 +357,7 @@
             background-image: url('assets/menu_bg.png');
             background-position: center;
             background-repeat: no-repeat;
-            background-size: contain;
+            background-size: cover;
             z-index: 0;
         }
 
@@ -363,16 +391,14 @@
 
         .menu-title {
             margin-bottom: 10px;
-        }
-
-        .menu-title img {
-            max-width: 2400px;
-            width: 98%;
-            height: auto;
-            image-rendering: pixelated;
-            filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.8))
-                    drop-shadow(0 0 40px rgba(168, 85, 247, 0.4))
-                    drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.8));
+            font-size: 120px;
+            color: #4ecca3;
+            text-shadow: 0 0 20px rgba(78, 204, 163, 0.8),
+                         0 0 40px rgba(78, 204, 163, 0.6),
+                         0 0 60px rgba(78, 204, 163, 0.4),
+                         4px 4px 8px rgba(0, 0, 0, 0.8);
+            letter-spacing: 8px;
+            font-weight: bold;
         }
 
         .menu-subtitle {
@@ -422,6 +448,7 @@
             transform: translate(2px, 2px);
             box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.4);
         }
+
 
         .menu-icon-buttons {
             display: flex;
@@ -485,8 +512,9 @@
                 transform: none;
             }
 
-            .menu-title img {
-                max-width: 700px;
+            .menu-title {
+                font-size: 48px;
+                letter-spacing: 4px;
             }
             .menu-subtitle {
                 font-size: 14px;
@@ -1012,14 +1040,14 @@
         </div>
         
         <div id="timeUI">
-            ⏱️ <span id="time">0</span>s
+            <span id="time">0</span>s
         </div>
         
         <div id="goldUI">
-            💰 골드: <span id="goldAmount">0</span>
+            스크랩: <span id="goldAmount">0</span>
         </div>
         
-        <div id="homeButton" onclick="showConfirmModal()">🏠</div>
+        <div id="homeButton" onclick="showConfirmModal()"></div>
 
         <div id="confirmModal">
             <h3>메인 메뉴로 돌아가기</h3>
@@ -1032,16 +1060,12 @@
 
         <div id="mainMenu">
             <div class="menu-content">
-                <h1 class="menu-title">
-                    <img src="assets/Logo.png" alt="DRONE WAR">
-                </h1>
+                <h1 class="menu-title">DRONE WAR</h1>
                 <p class="menu-subtitle">적 드론 격추 생존전</p>
                 <div class="menu-buttons">
                     <button class="menu-button" onclick="startGame()">게임 시작</button>
-                    <button class="menu-button" onclick="openShopFromMenu()">캐릭터 상점</button>
-                </div>
-                <div class="menu-icon-buttons">
-                    <button class="menu-icon-button" onclick="openSettingsFromMenu()">⚙️</button>
+                    <button class="menu-button" onclick="openShopFromMenu()">드론 변경</button>
+                    <button class="menu-button" onclick="openSettingsFromMenu()">설정</button>
                 </div>
             </div>
         </div>
@@ -1096,8 +1120,8 @@
         </div>
         
         <div id="shopScreen">
-            <h1>🛒 캐릭터 상점</h1>
-            <div class="gold-display">💰 보유 골드: <span id="shopGold">0</span></div>
+            <h1>드론 변경</h1>
+            <div class="gold-display">보유 스크랩: <span id="shopGold">0</span></div>
             <div class="character-grid" id="characterGrid"></div>
             <button class="close-button" onclick="closeShop()">닫기</button>
         </div>
@@ -1141,7 +1165,7 @@
             <h1>게임 오버</h1>
             <p>생존 시간: <span id="finalTime">0</span>초</p>
             <p>격추한 드론: <span id="finalKills">0</span>대</p>
-            <p>획득 골드: <span id="finalGold">0</span>G</p>
+            <p>획득 스크랩: <span id="finalGold">0</span></p>
             <button onclick="restartGame()">다시 시작</button>
             <button onclick="goToMainMenu()" style="background: #4ecca3; margin-left: 10px;">메인 메뉴</button>
         </div>
@@ -1217,6 +1241,18 @@
             console.error('Failed to load Stage1Background.png');
         };
 
+        // 기어 아이콘 로드 (XP 오브용)
+        const gearSprite = new Image();
+        gearSprite.src = 'assets/Gear.png';
+        let gearSpriteLoaded = false;
+        gearSprite.onload = () => {
+            gearSpriteLoaded = true;
+            console.log('Gear.png loaded successfully');
+        };
+        gearSprite.onerror = () => {
+            console.error('Failed to load Gear.png');
+        };
+
         // 배경 스크롤 변수
         let backgroundY1 = 0;
         let backgroundY2 = 0;
@@ -1249,8 +1285,8 @@
         let gameRunning = false;
         let gameLoopId = 0;  // 게임 루프 중복 실행 방지용 ID
         let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        let sizeScale = isMobile ? 0.8 : 1.5;  // 적 크기 (모바일 2배, PC 1.5배 증가)
-        let playerSizeScale = isMobile ? 1.5 : 2.25;  // 플레이어 크기 (모바일 2배, PC 1.5배 증가)
+        let sizeScale = isMobile ? 1.2 : 1.5;  // 적 크기 (모바일 3배, PC 1.5배 증가)
+        let playerSizeScale = isMobile ? 2.25 : 2.25;  // 플레이어 크기 (모바일 3배, PC 1.5배 증가)
 
         const player = {
             x: 0,
@@ -2077,7 +2113,7 @@
                 <h1 style="font-size: 4em; margin-bottom: 20px; color: #4CAF50;">🎉 스테이지 클리어! 🎉</h1>
                 <p style="font-size: 1.5em; margin-bottom: 10px;">처치: ${kills}</p>
                 <p style="font-size: 1.5em; margin-bottom: 10px;">생존 시간: ${Math.floor(gameTime / 1000)}초</p>
-                <p style="font-size: 1.5em; margin-bottom: 30px;">획득 골드: ${currentGold}G</p>
+                <p style="font-size: 1.5em; margin-bottom: 30px;">획득 스크랩: ${currentGold}</p>
                 ${nextStage ? `<p style="font-size: 1.2em; margin-bottom: 30px; color: #FFD700;">✨ 다음 스테이지가 해금되었습니다! ✨</p>` : `<p style="font-size: 1.2em; margin-bottom: 30px; color: #FFD700;">🏆 모든 스테이지를 클리어했습니다! 🏆</p>`}
                 <div style="display: flex; gap: 20px;">
                     <button onclick="returnToMenu()" style="padding: 15px 40px; font-size: 1.2em; cursor: pointer; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px;">메인 메뉴</button>
@@ -2898,6 +2934,20 @@
 
                 ctx.save();
 
+                // 플레이어 후광 효과 (배경에서 눈에 띄게)
+                const glowRadius = player.size * 1.5;
+                const gradient = ctx.createRadialGradient(
+                    player.x + shakeOffsetX, player.y + shakeOffsetY, 0,
+                    player.x + shakeOffsetX, player.y + shakeOffsetY, glowRadius
+                );
+                gradient.addColorStop(0, 'rgba(78, 204, 163, 0.4)');
+                gradient.addColorStop(0.5, 'rgba(78, 204, 163, 0.2)');
+                gradient.addColorStop(1, 'rgba(78, 204, 163, 0)');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(player.x + shakeOffsetX, player.y + shakeOffsetY, glowRadius, 0, Math.PI * 2);
+                ctx.fill();
+
                 // 피격 시 깜빡임 효과
                 if (isPlayerHit && Math.floor(hitFlashTime / 50) % 2 === 0) {
                     ctx.globalAlpha = 0.5;
@@ -2907,6 +2957,12 @@
                 // 픽셀 아트 렌더링
                 ctx.imageSmoothingEnabled = false;
 
+                // 그림자 효과 (깊이감)
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+                ctx.shadowBlur = 15;
+                ctx.shadowOffsetX = 3;
+                ctx.shadowOffsetY = 3;
+
                 ctx.drawImage(
                     droneSprite,
                     spriteX, 0,  // 소스 x, y
@@ -2914,6 +2970,12 @@
                     player.x - drawWidth / 2 + shakeOffsetX, player.y - drawHeight / 2 + shakeOffsetY,  // 대상 x, y (중앙 정렬 + 흔들림)
                     drawWidth, drawHeight  // 대상 너비, 높이
                 );
+
+                // 그림자 리셋
+                ctx.shadowColor = 'transparent';
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
 
                 ctx.restore();
             } else {
@@ -3126,18 +3188,44 @@
                 ctx.fill();
             });
             
-            ctx.fillStyle = '#00ffff';
             xpOrbs.forEach(orb => {
-                ctx.beginPath();
-                ctx.arc(orb.x, orb.y, orb.size, 0, Math.PI * 2);
-                ctx.fill();
+                if (gearSpriteLoaded) {
+                    const drawSize = orb.size * 2.5;
+                    ctx.imageSmoothingEnabled = false;
+                    ctx.drawImage(
+                        gearSprite,
+                        orb.x - drawSize / 2,
+                        orb.y - drawSize / 2,
+                        drawSize,
+                        drawSize
+                    );
+                } else {
+                    // 폴백: 원으로 표시
+                    ctx.fillStyle = '#00ffff';
+                    ctx.beginPath();
+                    ctx.arc(orb.x, orb.y, orb.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
             });
             
-            ctx.fillStyle = '#ffd700';
             goldOrbs.forEach(orb => {
-                ctx.beginPath();
-                ctx.arc(orb.x, orb.y, orb.size, 0, Math.PI * 2);
-                ctx.fill();
+                if (gearSpriteLoaded) {
+                    const drawSize = orb.size * 2.5;
+                    ctx.imageSmoothingEnabled = false;
+                    ctx.drawImage(
+                        gearSprite,
+                        orb.x - drawSize / 2,
+                        orb.y - drawSize / 2,
+                        drawSize,
+                        drawSize
+                    );
+                } else {
+                    // 폴백: 원으로 표시
+                    ctx.fillStyle = '#ffd700';
+                    ctx.beginPath();
+                    ctx.arc(orb.x, orb.y, orb.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
             });
             
             lightnings.forEach(lightning => {
