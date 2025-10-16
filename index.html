@@ -621,39 +621,62 @@
         }
         
         #shopScreen, #settingsScreen {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, rgba(26, 11, 41, 0.98), rgba(15, 8, 28, 0.98));
-            padding: 30px;
-            border-radius: 15px;
-            border: 2px solid rgba(168, 85, 247, 0.4);
-            box-shadow: 0 8px 32px rgba(88, 28, 135, 0.6),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
             color: white;
             display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
             z-index: 35;
-            width: 90%;
-            max-height: 90vh;
             overflow-y: auto;
         }
 
-        #shopScreen {
-            max-width: 600px;
+        #shopScreen::before, #settingsScreen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/menu_bg.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            z-index: 0;
         }
 
-        #settingsScreen {
-            max-width: 450px;
+        #shopScreen::after, #settingsScreen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(26, 11, 41, 0.5) 0%, rgba(15, 8, 28, 0.7) 100%);
+            z-index: 1;
+        }
+
+        #shopScreen > *, #settingsScreen > * {
+            position: relative;
+            z-index: 2;
         }
 
         #shopScreen h1, #settingsScreen h1 {
-            color: #e8d5f2;
-            text-shadow: 0 0 15px rgba(168, 85, 247, 0.7),
-                         2px 2px 4px rgba(0, 0, 0, 0.8);
-            margin-bottom: 20px;
-            font-size: 28px;
-            letter-spacing: 2px;
+            color: #4ecca3;
+            text-shadow: 0 0 20px rgba(78, 204, 163, 0.8),
+                         0 0 40px rgba(78, 204, 163, 0.6),
+                         4px 4px 8px rgba(0, 0, 0, 0.8);
+            margin-bottom: 30px;
+            font-size: 48px;
+            letter-spacing: 4px;
+            font-weight: bold;
+            text-align: center;
         }
         
         .gold-display {
@@ -661,6 +684,8 @@
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 20px;
+            position: relative;
+            z-index: 10;
         }
         
         .character-grid {
@@ -668,6 +693,8 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             margin: 20px 0;
+            position: relative;
+            z-index: 10;
         }
         
         @media (max-width: 480px) {
@@ -809,37 +836,70 @@
         }
         
         #modeSelectScreen {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, rgba(26, 11, 41, 0.98), rgba(15, 8, 28, 0.98));
-            padding: 40px;
-            border-radius: 15px;
-            border: 2px solid rgba(168, 85, 247, 0.4);
-            box-shadow: 0 8px 32px rgba(88, 28, 135, 0.6),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
             color: white;
             display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
             z-index: 35;
-            width: 90%;
-            max-width: 600px;
+        }
+
+        #modeSelectScreen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/menu_bg.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            z-index: 0;
+        }
+
+        #modeSelectScreen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(26, 11, 41, 0.5) 0%, rgba(15, 8, 28, 0.7) 100%);
+            z-index: 1;
+        }
+
+        #modeSelectScreen > * {
+            position: relative;
+            z-index: 2;
         }
 
         #modeSelectScreen h1 {
-            color: #e8d5f2;
-            text-shadow: 0 0 15px rgba(168, 85, 247, 0.7),
-                         2px 2px 4px rgba(0, 0, 0, 0.8);
+            color: #4ecca3;
+            text-shadow: 0 0 20px rgba(78, 204, 163, 0.8),
+                         0 0 40px rgba(78, 204, 163, 0.6),
+                         4px 4px 8px rgba(0, 0, 0, 0.8);
             margin-bottom: 30px;
-            font-size: 28px;
-            letter-spacing: 2px;
+            font-size: 48px;
+            letter-spacing: 4px;
+            font-weight: bold;
             text-align: center;
         }
 
         .mode-buttons {
             display: flex;
             gap: 20px;
-            margin-bottom: 20px;
+            margin: 0 auto 20px auto;
+            width: 100%;
+            max-width: 800px;
+            justify-content: center;
         }
 
         .mode-button {
@@ -877,39 +937,74 @@
         }
 
         #stageSelectScreen {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, rgba(26, 11, 41, 0.98), rgba(15, 8, 28, 0.98));
-            padding: 30px;
-            border-radius: 15px;
-            border: 2px solid rgba(168, 85, 247, 0.4);
-            box-shadow: 0 8px 32px rgba(88, 28, 135, 0.6),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
             color: white;
             display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
             z-index: 35;
-            width: 90%;
-            max-width: 700px;
-            max-height: 90vh;
             overflow-y: auto;
         }
 
+        #stageSelectScreen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/menu_bg.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            z-index: 0;
+        }
+
+        #stageSelectScreen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(26, 11, 41, 0.5) 0%, rgba(15, 8, 28, 0.7) 100%);
+            z-index: 1;
+        }
+
+        #stageSelectScreen > * {
+            position: relative;
+            z-index: 2;
+        }
+
         #stageSelectScreen h1 {
-            color: #e8d5f2;
-            text-shadow: 0 0 15px rgba(168, 85, 247, 0.7),
-                         2px 2px 4px rgba(0, 0, 0, 0.8);
-            margin-bottom: 20px;
-            font-size: 28px;
-            letter-spacing: 2px;
+            color: #4ecca3;
+            text-shadow: 0 0 20px rgba(78, 204, 163, 0.8),
+                         0 0 40px rgba(78, 204, 163, 0.6),
+                         4px 4px 8px rgba(0, 0, 0, 0.8);
+            margin-bottom: 30px;
+            font-size: 48px;
+            letter-spacing: 4px;
+            font-weight: bold;
+            text-align: center;
         }
 
         .stage-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
             gap: 15px;
-            margin: 20px 0;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+            z-index: 10;
+            justify-content: center;
         }
 
         .stage-card {
@@ -921,6 +1016,8 @@
             transition: all 0.3s;
             box-shadow: 0 2px 8px rgba(88, 28, 135, 0.3);
             text-align: center;
+            min-width: 200px;
+            width: 250px;
         }
 
         .stage-card:hover {
@@ -1071,26 +1168,30 @@
         </div>
 
         <div id="modeSelectScreen">
-            <h1>🎮 모드 선택</h1>
-            <div class="mode-buttons">
-                <div class="mode-button" onclick="selectMode('story')">
-                    <div class="mode-icon">📖</div>
-                    <div class="mode-name">스토리 모드</div>
-                    <div class="mode-desc">스테이지를 클리어하며<br>보스를 처치하세요</div>
+            <div style="text-align: center; max-width: 800px; width: 100%;">
+                <h1>🎮 모드 선택</h1>
+                <div class="mode-buttons">
+                    <div class="mode-button" onclick="selectMode('story')">
+                        <div class="mode-icon">📖</div>
+                        <div class="mode-name">스토리 모드</div>
+                        <div class="mode-desc">스테이지를 클리어하며<br>보스를 처치하세요</div>
+                    </div>
+                    <div class="mode-button" onclick="selectMode('endless')">
+                        <div class="mode-icon">♾️</div>
+                        <div class="mode-name">무한 모드</div>
+                        <div class="mode-desc">끝없이 밀려오는 적들을<br>얼마나 버틸 수 있을까?</div>
+                    </div>
                 </div>
-                <div class="mode-button" onclick="selectMode('endless')">
-                    <div class="mode-icon">♾️</div>
-                    <div class="mode-name">무한 모드</div>
-                    <div class="mode-desc">끝없이 밀려오는 적들을<br>얼마나 버틸 수 있을까?</div>
-                </div>
+                <button class="close-button" onclick="closeModeSelect()">뒤로 가기</button>
             </div>
-            <button class="close-button" onclick="closeModeSelect()">뒤로 가기</button>
         </div>
 
         <div id="stageSelectScreen">
-            <h1>📍 스테이지 선택</h1>
-            <div class="stage-grid" id="stageGrid"></div>
-            <button class="close-button" onclick="closeStageSelect()">뒤로 가기</button>
+            <div style="text-align: center; max-width: 900px; width: 100%;">
+                <h1>📍 스테이지 선택</h1>
+                <div class="stage-grid" id="stageGrid"></div>
+                <button class="close-button" onclick="closeStageSelect()">뒤로 가기</button>
+            </div>
         </div>
 
         <div id="startScreen">
@@ -1120,45 +1221,49 @@
         </div>
         
         <div id="shopScreen">
-            <h1>드론 변경</h1>
-            <div class="gold-display">보유 스크랩: <span id="shopGold">0</span></div>
-            <div class="character-grid" id="characterGrid"></div>
-            <button class="close-button" onclick="closeShop()">닫기</button>
+            <div style="text-align: center; max-width: 800px; width: 100%;">
+                <h1>드론 변경</h1>
+                <div class="gold-display" style="text-align: center;">보유 스크랩: <span id="shopGold">0</span></div>
+                <div class="character-grid" id="characterGrid"></div>
+                <button class="close-button" onclick="closeShop()">닫기</button>
+            </div>
         </div>
         
         <div id="settingsScreen">
-            <h1>⚙️ 설정</h1>
-            
-            <div style="margin: 20px 0;">
-                <div style="margin-bottom: 25px;">
-                    <label style="display: block; margin-bottom: 8px; font-size: 16px;">
-                        🔊 마스터 볼륨: <span id="masterVolumeValue">100</span>%
-                    </label>
-                    <input type="range" id="masterVolumeSlider" min="0" max="100" value="100" 
-                           style="width: 100%; cursor: pointer;"
-                           oninput="updateVolume('master', this.value)">
+            <div style="text-align: center; max-width: 500px; width: 100%;">
+                <h1>⚙️ 설정</h1>
+
+                <div style="margin: 20px 0;">
+                    <div style="margin-bottom: 25px;">
+                        <label style="display: block; margin-bottom: 8px; font-size: 16px;">
+                            🔊 마스터 볼륨: <span id="masterVolumeValue">100</span>%
+                        </label>
+                        <input type="range" id="masterVolumeSlider" min="0" max="100" value="100"
+                               style="width: 100%; cursor: pointer;"
+                               oninput="updateVolume('master', this.value)">
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <label style="display: block; margin-bottom: 8px; font-size: 16px;">
+                            🎵 배경음악: <span id="musicVolumeValue">100</span>%
+                        </label>
+                        <input type="range" id="musicVolumeSlider" min="0" max="100" value="100"
+                               style="width: 100%; cursor: pointer;"
+                               oninput="updateVolume('music', this.value)">
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <label style="display: block; margin-bottom: 8px; font-size: 16px;">
+                            🔔 효과음: <span id="sfxVolumeValue">100</span>%
+                        </label>
+                        <input type="range" id="sfxVolumeSlider" min="0" max="100" value="100"
+                               style="width: 100%; cursor: pointer;"
+                               oninput="updateVolume('sfx', this.value)">
+                    </div>
                 </div>
-                
-                <div style="margin-bottom: 25px;">
-                    <label style="display: block; margin-bottom: 8px; font-size: 16px;">
-                        🎵 배경음악: <span id="musicVolumeValue">100</span>%
-                    </label>
-                    <input type="range" id="musicVolumeSlider" min="0" max="100" value="100" 
-                           style="width: 100%; cursor: pointer;"
-                           oninput="updateVolume('music', this.value)">
-                </div>
-                
-                <div style="margin-bottom: 25px;">
-                    <label style="display: block; margin-bottom: 8px; font-size: 16px;">
-                        🔔 효과음: <span id="sfxVolumeValue">100</span>%
-                    </label>
-                    <input type="range" id="sfxVolumeSlider" min="0" max="100" value="100" 
-                           style="width: 100%; cursor: pointer;"
-                           oninput="updateVolume('sfx', this.value)">
-                </div>
+
+                <button class="close-button" onclick="closeSettings()">닫기</button>
             </div>
-            
-            <button class="close-button" onclick="closeSettings()">닫기</button>
         </div>
         
         <div id="gameOver">
@@ -1180,13 +1285,26 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
-        // 드론 스프라이트시트 로드
-        const droneSprite = new Image();
-        droneSprite.src = 'assets/drone_spritesheet.png';
-        let droneSpriteLoaded = false;
-        droneSprite.onload = () => {
-            droneSpriteLoaded = true;
-        };
+        // 드론 스프라이트시트 로드 (캐릭터별)
+        const droneSprites = {};
+        const droneIds = ['default', 'warrior', 'mage', 'archer', 'tank', 'ninja'];
+        const droneFiles = ['assets/drone_spritesheet.png', 'assets/SP-02.png', 'assets/SP-03.png', 'assets/SP-04.png', 'assets/SP-05.png', 'assets/SP-06.png'];
+
+        droneIds.forEach((id, index) => {
+            const sprite = new Image();
+            sprite.src = droneFiles[index];
+            sprite.onload = () => {
+                console.log(`${droneFiles[index]} loaded successfully`);
+            };
+            sprite.onerror = () => {
+                console.error(`Failed to load ${droneFiles[index]}`);
+            };
+            droneSprites[id] = sprite;
+        });
+
+        // 기본 드론 스프라이트 (하위 호환성)
+        const droneSprite = droneSprites['default'];
+        let droneSpriteLoaded = true;
 
         // 적 스프라이트 로드 - 새로운 우주선 스프라이트
         const enemySprite = new Image();
@@ -1229,17 +1347,41 @@
             bossSpriteLoaded = true;
         };
 
-        // 배경 이미지 로드
-        const backgroundSprite = new Image();
-        backgroundSprite.src = 'assets/Stage1Background.png';
-        let backgroundSpriteLoaded = false;
-        backgroundSprite.onload = () => {
-            backgroundSpriteLoaded = true;
+        // 배경 이미지 로드 (스테이지별)
+        const backgroundSprites = {};
+        const stage1Background = new Image();
+        stage1Background.src = 'assets/Stage1Background.png';
+        stage1Background.onload = () => {
             console.log('Stage1Background.png loaded successfully');
         };
-        backgroundSprite.onerror = () => {
+        stage1Background.onerror = () => {
             console.error('Failed to load Stage1Background.png');
         };
+        backgroundSprites[1] = stage1Background;
+
+        const stage2Background = new Image();
+        stage2Background.src = 'assets/Stage2Background.png';
+        stage2Background.onload = () => {
+            console.log('Stage2Background.png loaded successfully');
+        };
+        stage2Background.onerror = () => {
+            console.error('Failed to load Stage2Background.png');
+        };
+        backgroundSprites[2] = stage2Background;
+
+        const stage3Background = new Image();
+        stage3Background.src = 'assets/Stage3Background.png';
+        stage3Background.onload = () => {
+            console.log('Stage3Background.png loaded successfully');
+        };
+        stage3Background.onerror = () => {
+            console.error('Failed to load Stage3Background.png');
+        };
+        backgroundSprites[3] = stage3Background;
+
+        // 기본 배경 스프라이트 (하위 호환성)
+        const backgroundSprite = stage1Background;
+        let backgroundSpriteLoaded = true;
 
         // 기어 아이콘 로드 (XP 오브용)
         const gearSprite = new Image();
@@ -1251,6 +1393,18 @@
         };
         gearSprite.onerror = () => {
             console.error('Failed to load Gear.png');
+        };
+
+        // 총알 스프라이트 로드
+        const bulletSprite = new Image();
+        bulletSprite.src = 'assets/Bullet.png';
+        let bulletSpriteLoaded = false;
+        bulletSprite.onload = () => {
+            bulletSpriteLoaded = true;
+            console.log('Bullet.png loaded successfully');
+        };
+        bulletSprite.onerror = () => {
+            console.error('Failed to load Bullet.png');
         };
 
         // 배경 스크롤 변수
@@ -1285,8 +1439,8 @@
         let gameRunning = false;
         let gameLoopId = 0;  // 게임 루프 중복 실행 방지용 ID
         let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        let sizeScale = isMobile ? 1.2 : 1.5;  // 적 크기 (모바일 3배, PC 1.5배 증가)
-        let playerSizeScale = isMobile ? 2.25 : 2.25;  // 플레이어 크기 (모바일 3배, PC 1.5배 증가)
+        let sizeScale = isMobile ? 1.2 : 1.5;  // 적 크기 (모바일 1.2배, PC 1.5배)
+        let playerSizeScale = isMobile ? 1.5 : 2.25;  // 플레이어 크기 (모바일 1.5배, PC 2.25배)
 
         const player = {
             x: 0,
@@ -1346,7 +1500,7 @@
         const characters = [
             {
                 id: 'default',
-                name: '정찰기',
+                name: 'SP-01 Viper',
                 icon: '🛩️',
                 unlocked: true,
                 price: 0,
@@ -1354,42 +1508,42 @@
             },
             {
                 id: 'warrior',
-                name: '공격기',
+                name: 'SP-02 Falcon',
                 icon: '✈️',
                 unlocked: false,
-                price: 500,
+                price: 10000,
                 stats: { hp: 700, speed: 4.5, damage: 40 }
             },
             {
                 id: 'mage',
-                name: '스텔스기',
+                name: 'SP-03 Crane',
                 icon: '🛫',
                 unlocked: false,
-                price: 800,
+                price: 20000,
                 stats: { hp: 400, speed: 4.5, damage: 50 }
             },
             {
                 id: 'archer',
-                name: '미사일드론',
+                name: 'SP-04 Rhino',
                 icon: '🚁',
                 unlocked: false,
-                price: 600,
+                price: 15000,
                 stats: { hp: 450, speed: 4.5, damage: 35 }
             },
             {
                 id: 'tank',
-                name: '중장갑기',
+                name: 'SP-05 Specter',
                 icon: '🚀',
                 unlocked: false,
-                price: 1000,
+                price: 30000,
                 stats: { hp: 1000, speed: 4.5, damage: 25 }
             },
             {
                 id: 'ninja',
-                name: '특수작전기',
+                name: 'SP-06 Phantom',
                 icon: '🛸',
                 unlocked: false,
-                price: 1200,
+                price: 25000,
                 stats: { hp: 350, speed: 4.5, damage: 45 }
             }
         ];
@@ -1408,7 +1562,7 @@
                 icon: '🏭',
                 description: '3종류 적 드론 출현 (시간에 따라 강해짐)',
                 unlocked: true,
-                spawnRate: 0.0002,  // 적 출현율 대폭 감소 (0.0004 -> 0.0002)
+                spawnRate: 0.0008,  // 적 출현율 증가 (초반 몹이 더 많이 나옴)
                 enemyTypes: {
                     // 시간대별로 동적 변경 (getEnemyTypeForStage 함수 참조)
                     melee: 1.0,
@@ -1423,7 +1577,7 @@
                 icon: '🏙️',
                 description: '보라색 드론 등장',
                 unlocked: false,
-                spawnRate: 0.0005,
+                spawnRate: 0.001,
                 enemyTypes: {
                     melee: 0.7,
                     purple: 0.3,
@@ -1437,7 +1591,7 @@
                 icon: '🏜️',
                 description: '원거리 드론까지 출현',
                 unlocked: false,
-                spawnRate: 0.0006,
+                spawnRate: 0.0012,
                 enemyTypes: {
                     melee: 0.5,
                     purple: 0.3,
@@ -1452,7 +1606,7 @@
             name: '무한 생존',
             icon: '♾️',
             description: '끝없이 몰려오는 적들',
-            spawnRate: 0.0005,  // 무한모드 출현율
+            spawnRate: 0.001,  // 무한모드 출현율 증가
             enemyTypes: {
                 melee: 0.5,
                 purple: 0.3,
@@ -1477,8 +1631,8 @@
         let hasEMP = false;
         let empDamage = 30;
         let empTimer = 0;
-        let empCooldown = 3000;
-        let empRadius = 100;
+        let empCooldown = 2000;  // 3000 -> 2000 (50% 향상)
+        let empRadius = 200;  // 100 -> 200 (100% 향상)
         let empWaves = [];  // EMP 파장 효과
 
         // 위성 지원 공격 (기존 lightning)
@@ -1575,6 +1729,22 @@
                 gameTime = 299000; // 4분 59초 (299초)
                 console.log('치트 활성화: 4분 59초로 스킵');
             }
+
+            // 개발자 치트키: 2번 키로 메인 메뉴에서 모든 스테이지/캐릭터 해금
+            if (e.key === '2' && !gameStarted && document.getElementById('mainMenu').style.display !== 'none') {
+                // 모든 캐릭터 해금
+                characters.forEach(char => {
+                    char.unlocked = true;
+                });
+                // 모든 스테이지 해금
+                stages.forEach(stage => {
+                    stage.unlocked = true;
+                });
+                // 골드 추가
+                totalGold += 10000;
+                console.log('치트 활성화: 모든 캐릭터/스테이지 해금, 골드 +10000');
+                alert('치트 활성화!\n모든 캐릭터와 스테이지가 해금되었습니다.');
+            }
         });
         
         window.addEventListener('keyup', (e) => {
@@ -1593,7 +1763,7 @@
         
         function startGame() {
             document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('modeSelectScreen').style.display = 'block';
+            document.getElementById('modeSelectScreen').style.display = 'flex';
             // 메인 BGM 정지
             stopBgm();
         }
@@ -1604,7 +1774,7 @@
 
             if (mode === 'story') {
                 // 스토리 모드: 스테이지 선택
-                document.getElementById('stageSelectScreen').style.display = 'block';
+                document.getElementById('stageSelectScreen').style.display = 'flex';
                 renderStages();
             } else {
                 // 무한 모드: 바로 게임 시작
@@ -1709,8 +1879,8 @@
             hasEMP = false;
             empDamage = 30;
             empTimer = 0;
-            empCooldown = 3000;
-            empRadius = 100;
+            empCooldown = 2000;  // 3000 -> 2000 (50% 향상)
+            empRadius = 200;  // 100 -> 200 (100% 향상)
             empWaves.length = 0;
 
             // 위성 지원 초기화
@@ -1757,18 +1927,18 @@
 
         function closeStageSelect() {
             document.getElementById('stageSelectScreen').style.display = 'none';
-            document.getElementById('modeSelectScreen').style.display = 'block';
+            document.getElementById('modeSelectScreen').style.display = 'flex';
         }
 
         function openShopFromMenu() {
             document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('shopScreen').style.display = 'block';
+            document.getElementById('shopScreen').style.display = 'flex';
             document.getElementById('shopGold').textContent = totalGold;
             renderCharacters();
         }
 
         function openShop() {
-            document.getElementById('shopScreen').style.display = 'block';
+            document.getElementById('shopScreen').style.display = 'flex';
             document.getElementById('shopGold').textContent = totalGold;
             renderCharacters();
         }
@@ -1782,11 +1952,11 @@
 
         function openSettingsFromMenu() {
             document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('settingsScreen').style.display = 'block';
+            document.getElementById('settingsScreen').style.display = 'flex';
         }
 
         function openSettings() {
-            document.getElementById('settingsScreen').style.display = 'block';
+            document.getElementById('settingsScreen').style.display = 'flex';
         }
 
         function closeSettings() {
@@ -1841,24 +2011,46 @@
         function renderCharacters() {
             const grid = document.getElementById('characterGrid');
             grid.innerHTML = '';
-            
+
+            // 캐릭터 이미지 파일 경로 매핑
+            const characterImagePaths = {
+                'default': null,  // 기본 캐릭터는 이모지 사용
+                'warrior': 'assets/SP-02.png',
+                'mage': 'assets/SP-03.png',
+                'archer': 'assets/SP-04.png',
+                'tank': 'assets/SP-05.png',
+                'ninja': 'assets/SP-06.png'
+            };
+
             characters.forEach(char => {
                 const card = document.createElement('div');
                 card.className = 'character-card';
                 if (!char.unlocked) card.classList.add('locked');
                 if (char.id === selectedCharacter) card.classList.add('selected');
-                
+
                 const statsText = `HP: ${char.stats.hp} | 공격: ${char.stats.damage}`;
-                
+
+                // 캐릭터 아이콘/이미지 결정
+                let iconHtml;
+                const imagePath = characterImagePaths[char.id];
+
+                if (imagePath) {
+                    // SP-02~SP-06: 이미지 사용
+                    iconHtml = `<img src="${imagePath}" style="width: 64px; height: 64px; image-rendering: pixelated; margin-bottom: 8px;" />`;
+                } else {
+                    // 기본 캐릭터: 이모지 사용
+                    iconHtml = `<div class="character-icon">${char.icon}</div>`;
+                }
+
                 card.innerHTML = `
-                    <div class="character-icon">${char.icon}</div>
+                    ${iconHtml}
                     <div class="character-name">${char.name}</div>
                     <div class="character-stats">${statsText}</div>
-                    ${!char.unlocked ? `<div class="character-price">🔒 ${char.price}G</div>` : 
-                      char.id === selectedCharacter ? '<div style="color: #ffd700;">✓ 선택됨</div>' : 
+                    ${!char.unlocked ? `<div class="character-price">🔒 ${char.price.toLocaleString()}G</div>` :
+                      char.id === selectedCharacter ? '<div style="color: #ffd700;">✓ 선택됨</div>' :
                       '<div style="color: #4ecca3;">선택하기</div>'}
                 `;
-                
+
                 card.onclick = () => {
                     if (!char.unlocked) {
                         if (totalGold >= char.price) {
@@ -1875,7 +2067,7 @@
                         renderCharacters();
                     }
                 };
-                
+
                 grid.appendChild(card);
             });
         }
@@ -1938,8 +2130,8 @@
             hasEMP = false;
             empDamage = 30;
             empTimer = 0;
-            empCooldown = 3000;
-            empRadius = 100;
+            empCooldown = 2000;  // 3000 -> 2000 (50% 향상)
+            empRadius = 200;  // 100 -> 200 (100% 향상)
             empWaves.length = 0;
 
             // 위성 지원 초기화
@@ -2061,8 +2253,8 @@
                 y: centerY,
                 size: 60 * sizeScale,
                 speed: 1.2,
-                hp: 1000,
-                maxHp: 1000,
+                hp: 5000,
+                maxHp: 5000,
                 type: 'boss',
                 shootTimer: 0,
                 shootCooldown: 1500,
@@ -2894,13 +3086,17 @@
         }
         
         function draw() {
-            // 배경 그리기 (스크롤)
-            if (backgroundSpriteLoaded) {
+            // 배경 그리기 (스크롤) - 스테이지별 배경 선택
+            const currentBackground = (gameMode === 'story' && backgroundSprites[selectedStage])
+                ? backgroundSprites[selectedStage]
+                : backgroundSprites[1];
+
+            if (currentBackground && currentBackground.complete) {
                 const bgWidth = window.innerWidth;
                 const bgHeight = window.innerHeight;
 
                 // 배경 이미지의 비율에 맞춰 크기 조정
-                const bgAspect = backgroundSprite.width / backgroundSprite.height;
+                const bgAspect = currentBackground.width / currentBackground.height;
                 const screenAspect = bgWidth / bgHeight;
 
                 let drawWidth = bgWidth;
@@ -2917,8 +3113,8 @@
 
                 // 두 개의 배경을 이어서 그려 무한 스크롤 효과
                 ctx.imageSmoothingEnabled = false;
-                ctx.drawImage(backgroundSprite, x, backgroundY1, drawWidth, drawHeight);
-                ctx.drawImage(backgroundSprite, x, backgroundY2, drawWidth, drawHeight);
+                ctx.drawImage(currentBackground, x, backgroundY1, drawWidth, drawHeight);
+                ctx.drawImage(currentBackground, x, backgroundY2, drawWidth, drawHeight);
             } else {
                 // 배경 로딩 전 기본 색상
                 ctx.fillStyle = '#0f3460';
@@ -2926,11 +3122,27 @@
             }
 
             // 플레이어 드론 애니메이션 그리기
-            if (droneSpriteLoaded) {
-                const spriteX = animationFrame * frameWidth;
-                const scale = (player.size * 2) / frameWidth; // 스프라이트를 플레이어 크기에 맞게 조정
-                const drawWidth = frameWidth * scale;
-                const drawHeight = frameHeight * scale;
+            const currentDroneSprite = droneSprites[selectedCharacter] || droneSprite;
+            if (currentDroneSprite && currentDroneSprite.complete) {
+                // 기본 캐릭터만 애니메이션, 나머지는 정적 이미지
+                const isAnimated = selectedCharacter === 'default';
+
+                let spriteX = 0;
+                let spriteWidth = frameWidth;
+                let spriteHeight = frameHeight;
+
+                if (isAnimated) {
+                    // 기본 캐릭터: 4프레임 애니메이션
+                    spriteX = animationFrame * frameWidth;
+                } else {
+                    // SP-02~SP-06: 전체 이미지 사용
+                    spriteWidth = currentDroneSprite.width;
+                    spriteHeight = currentDroneSprite.height;
+                }
+
+                const scale = (player.size * 2) / spriteWidth; // 스프라이트를 플레이어 크기에 맞게 조정
+                const drawWidth = spriteWidth * scale;
+                const drawHeight = spriteHeight * scale;
 
                 ctx.save();
 
@@ -2964,9 +3176,9 @@
                 ctx.shadowOffsetY = 3;
 
                 ctx.drawImage(
-                    droneSprite,
+                    currentDroneSprite,
                     spriteX, 0,  // 소스 x, y
-                    frameWidth, frameHeight,  // 소스 너비, 높이
+                    spriteWidth, spriteHeight,  // 소스 너비, 높이
                     player.x - drawWidth / 2 + shakeOffsetX, player.y - drawHeight / 2 + shakeOffsetY,  // 대상 x, y (중앙 정렬 + 흔들림)
                     drawWidth, drawHeight  // 대상 너비, 높이
                 );
@@ -3063,15 +3275,15 @@
                     ctx.textAlign = 'center';
                     ctx.fillText('⚠️ BOSS ⚠️', enemy.x, enemy.y - enemy.size - 30);
                 } else if (enemy.type === 'purple') {
-                    // 보라 적 - Enemy2.png (Stage1Enemy2.png) 사용 + 회전
+                    // 보라 적 - Enemy2.png (Stage1Enemy2.png) 사용 + 회전 (반대 방향)
                     if (enemyPurpleSpriteLoaded) {
                         const drawSize = enemy.size * 2;
-                        // 플레이어를 향하는 각도 계산
+                        // 플레이어를 향하는 각도 계산 (반대 방향으로 180도 회전)
                         const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
 
                         ctx.save();
                         ctx.translate(enemy.x, enemy.y);
-                        ctx.rotate(angle + Math.PI / 2); // 스프라이트가 아래를 향하므로 +90도
+                        ctx.rotate(angle + Math.PI / 2 + Math.PI); // 반대 방향으로 180도 추가
                         ctx.imageSmoothingEnabled = false;
                         ctx.drawImage(
                             enemyPurpleSprite,
@@ -3094,15 +3306,15 @@
                     ctx.fillStyle = '#00ff00';
                     ctx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, (enemy.hp / enemy.maxHp) * barWidth, barHeight);
                 } else if (enemy.type === 'ranged') {
-                    // 원거리 적 - Enemy2.png 사용 + 회전
+                    // 원거리 적 - Enemy2.png 사용 + 회전 (반대 방향)
                     if (enemy2SpriteLoaded) {
                         const drawSize = enemy.size * 2;
-                        // 플레이어를 향하는 각도 계산
+                        // 플레이어를 향하는 각도 계산 (반대 방향으로 180도 회전)
                         const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
 
                         ctx.save();
                         ctx.translate(enemy.x, enemy.y);
-                        ctx.rotate(angle + Math.PI / 2); // 스프라이트가 아래를 향하므로 +90도
+                        ctx.rotate(angle + Math.PI / 2 + Math.PI); // 반대 방향으로 180도 추가
                         ctx.imageSmoothingEnabled = false;
                         ctx.drawImage(
                             enemy2Sprite,
@@ -3126,15 +3338,15 @@
                     ctx.fillStyle = '#00ff00';
                     ctx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, (enemy.hp / enemy.maxHp) * barWidth, barHeight);
                 } else {
-                    // 기본 적 - Enemy.png 사용 + 회전
+                    // 기본 적 - Enemy.png 사용 + 회전 (반대 방향)
                     if (enemySpriteLoaded) {
                         const drawSize = enemy.size * 2;
-                        // 플레이어를 향하는 각도 계산
+                        // 플레이어를 향하는 각도 계산 (반대 방향으로 180도 회전)
                         const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
 
                         ctx.save();
                         ctx.translate(enemy.x, enemy.y);
-                        ctx.rotate(angle + Math.PI / 2); // 스프라이트가 아래를 향하므로 +90도
+                        ctx.rotate(angle + Math.PI / 2 + Math.PI); // 반대 방향으로 180도 추가
                         ctx.imageSmoothingEnabled = false;
                         ctx.drawImage(
                             enemySprite,
@@ -3162,9 +3374,29 @@
             
             ctx.fillStyle = '#ffd700';
             projectiles.forEach(proj => {
-                ctx.beginPath();
-                ctx.arc(proj.x, proj.y, proj.size, 0, Math.PI * 2);
-                ctx.fill();
+                if (bulletSpriteLoaded) {
+                    const drawSize = proj.size * 9.6;  // 20% 감소 (12 -> 9.6)
+                    // 투사체가 날아가는 방향 계산 (반대 방향으로 180도 회전)
+                    const angle = Math.atan2(proj.vy, proj.vx);
+
+                    ctx.save();
+                    ctx.translate(proj.x, proj.y);
+                    ctx.rotate(angle + Math.PI / 2 + Math.PI); // 스프라이트 아래가 앞이므로 +90도, 그리고 반대방향 +180도
+                    ctx.imageSmoothingEnabled = false;
+                    ctx.drawImage(
+                        bulletSprite,
+                        -drawSize / 2,
+                        -drawSize / 2,
+                        drawSize,
+                        drawSize
+                    );
+                    ctx.restore();
+                } else {
+                    // 폴백: 원으로 표시
+                    ctx.beginPath();
+                    ctx.arc(proj.x, proj.y, proj.size * 3.2, 0, Math.PI * 2);  // 20% 감소 (4 -> 3.2)
+                    ctx.fill();
+                }
             });
             
             ctx.fillStyle = '#ff00ff';
@@ -3209,6 +3441,20 @@
             });
             
             goldOrbs.forEach(orb => {
+                // 금빛 아우라 효과
+                const glowRadius = orb.size * 2;
+                const gradient = ctx.createRadialGradient(
+                    orb.x, orb.y, 0,
+                    orb.x, orb.y, glowRadius
+                );
+                gradient.addColorStop(0, 'rgba(255, 215, 0, 0.5)');  // 금색
+                gradient.addColorStop(0.5, 'rgba(255, 215, 0, 0.3)');
+                gradient.addColorStop(1, 'rgba(255, 215, 0, 0)');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(orb.x, orb.y, glowRadius, 0, Math.PI * 2);
+                ctx.fill();
+
                 if (gearSpriteLoaded) {
                     const drawSize = orb.size * 2.5;
                     ctx.imageSmoothingEnabled = false;
@@ -3334,8 +3580,8 @@
             hasEMP = false;
             empDamage = 30;
             empTimer = 0;
-            empCooldown = 3000;
-            empRadius = 100;
+            empCooldown = 2000;  // 3000 -> 2000 (50% 향상)
+            empRadius = 200;  // 100 -> 200 (100% 향상)
             empWaves.length = 0;
 
             // 위성 지원 초기화
