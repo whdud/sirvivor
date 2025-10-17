@@ -1,11 +1,8 @@
 {
-  "version": 2,
-  "buildCommand": "node minify.js",
-  "outputDirectory": ".",
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/index.min.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
