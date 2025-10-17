@@ -3,7 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Drone Warfare</title>
+    <title>DRONE WAR - 드론 전쟁 | 레트로 액션 생존 게임</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="레트로 픽셀아트와 뱀파이어 서바이버류가 만난 드론 격투 액션 게임. 6가지 드론으로 스토리 모드와 무한 모드에서 생존하세요!">
+    <meta name="keywords" content="드론게임, 뱀서류, 레트로게임, 생존게임, 브라우저게임, HTML5게임, 픽셀아트, 드론전쟁, 액션게임">
+    <meta name="author" content="DRONE WAR">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DRONE WAR">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="game">
+    <meta property="og:title" content="DRONE WAR - 드론 전쟁">
+    <meta property="og:description" content="레트로 픽셀아트와 뱀파이어 서바이버류가 만난 드론 격투 액션 게임">
+    <meta property="og:image" content="assets/menu_bg.png">
+    <meta property="og:url" content="">
+    <meta property="og:site_name" content="DRONE WAR">
+    <meta property="og:locale" content="ko_KR">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DRONE WAR - 드론 전쟁">
+    <meta name="twitter:description" content="레트로 픽셀아트 × 뱀파이어 서바이버류 드론 액션">
+    <meta name="twitter:image" content="assets/menu_bg.png">
+
+    <!-- Game-specific -->
+    <meta name="game:genre" content="Action, Survival, Shooter">
+    <meta name="game:platform" content="Web, Mobile">
+    <meta name="game:release_date" content="2025">
+
+    <!-- Toss Apps-in-Toss Integration -->
+    <script src="toss-integration.js" defer></script>
+
     <style>
         @font-face {
             font-family: 'DungGeunMo';
@@ -176,19 +210,6 @@
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
             z-index: 10;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        #goldUI::before {
-            content: '';
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background-image: url('assets/Gear.png');
-            background-size: contain;
-            background-repeat: no-repeat;
         }
         
         #gameOver {
@@ -333,6 +354,93 @@
             color: #4ecca3;
         }
         
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #loadingScreen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/menu_bg.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            z-index: 0;
+        }
+
+        #loadingScreen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.9) 100%);
+            z-index: 1;
+        }
+
+        .loading-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .loading-title {
+            font-size: 72px;
+            font-weight: bold;
+            color: #4ecca3;
+            text-shadow: 0 0 20px rgba(78, 204, 163, 0.8),
+                         0 0 40px rgba(78, 204, 163, 0.6),
+                         4px 4px 8px rgba(0, 0, 0, 0.8);
+            margin-bottom: 30px;
+            letter-spacing: 8px;
+        }
+
+        .loading-text {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .loading-bar-container {
+            width: 400px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #4ecca3;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto 15px;
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4ecca3 0%, #2ecc71 100%);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(78, 204, 163, 0.8);
+        }
+
+        .loading-progress {
+            font-size: 18px;
+            color: #4ecca3;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
         #mainMenu {
             position: fixed;
             top: 0;
@@ -341,7 +449,7 @@
             height: 100vh;
             background: #000000;
             z-index: 30;
-            display: flex;
+            display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -506,10 +614,27 @@
         }
 
         @media (max-width: 480px) {
+            .loading-title {
+                font-size: 48px;
+                letter-spacing: 4px;
+            }
+
+            .loading-text {
+                font-size: 18px;
+            }
+
+            .loading-bar-container {
+                width: 300px;
+            }
+
             #timeUI {
-                top: 130px;
+                top: 80px;
                 left: 10px;
                 transform: none;
+            }
+
+            #goldUI {
+                top: 120px;
             }
 
             .menu-title {
@@ -1143,7 +1268,11 @@
         <div id="goldUI">
             스크랩: <span id="goldAmount">0</span>
         </div>
-        
+
+        <div id="fpsCounter" style="position: absolute; top: 10px; right: 10px; color: #4ecca3; font-size: 14px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); z-index: 10; display: none;">
+            FPS: <span id="fpsValue">60</span>
+        </div>
+
         <div id="homeButton" onclick="showConfirmModal()"></div>
 
         <div id="confirmModal">
@@ -1152,6 +1281,17 @@
             <div class="modal-buttons">
                 <button class="modal-btn modal-btn-yes" onclick="confirmGoHome()">예</button>
                 <button class="modal-btn modal-btn-no" onclick="closeConfirmModal()">아니오</button>
+            </div>
+        </div>
+
+        <div id="loadingScreen">
+            <div class="loading-content">
+                <h1 class="loading-title">DRONE WAR</h1>
+                <p class="loading-text">로딩중...</p>
+                <div class="loading-bar-container">
+                    <div class="loading-bar" id="loadingBar"></div>
+                </div>
+                <p class="loading-progress" id="loadingProgress">0%</p>
             </div>
         </div>
 
@@ -1169,15 +1309,13 @@
 
         <div id="modeSelectScreen">
             <div style="text-align: center; max-width: 800px; width: 100%;">
-                <h1>🎮 모드 선택</h1>
+                <h1>모드 선택</h1>
                 <div class="mode-buttons">
                     <div class="mode-button" onclick="selectMode('story')">
-                        <div class="mode-icon">📖</div>
                         <div class="mode-name">스토리 모드</div>
                         <div class="mode-desc">스테이지를 클리어하며<br>보스를 처치하세요</div>
                     </div>
                     <div class="mode-button" onclick="selectMode('endless')">
-                        <div class="mode-icon">♾️</div>
                         <div class="mode-name">무한 모드</div>
                         <div class="mode-desc">끝없이 밀려오는 적들을<br>얼마나 버틸 수 있을까?</div>
                     </div>
@@ -1188,21 +1326,21 @@
 
         <div id="stageSelectScreen">
             <div style="text-align: center; max-width: 900px; width: 100%;">
-                <h1>📍 스테이지 선택</h1>
+                <h1>스테이지 선택</h1>
                 <div class="stage-grid" id="stageGrid"></div>
                 <button class="close-button" onclick="closeStageSelect()">뒤로 가기</button>
             </div>
         </div>
 
         <div id="startScreen">
-            <h1>🚁 DRONE WARFARE 🚁</h1>
+            <h1>DRONE WARFARE</h1>
             <p>PC: WASD 또는 화살표 키로 이동</p>
             <p>모바일: 화면을 터치하여 이동</p>
             <p>자동으로 적 드론을 공격합니다</p>
             <p>레벨업하면서 더 강해지세요!</p>
             
             <div class="best-records">
-                <h3>🏆 개인 최고기록</h3>
+                <h3>개인 최고기록</h3>
                 <div class="record-item">
                     <span class="record-label">⏱️ 최고 생존시간</span>
                     <span class="record-value"><span id="bestTimeDisplay">0</span>초</span>
@@ -1215,8 +1353,8 @@
             
             <div class="start-buttons">
                 <button onclick="startGame()">게임 시작</button>
-                <button class="icon-button" onclick="openShop()">🛒</button>
-                <button class="icon-button" onclick="openSettings()">⚙️</button>
+                <button class="icon-button" onclick="openShop()">드론 변경</button>
+                <button class="icon-button" onclick="openSettings()">설정</button>
             </div>
         </div>
         
@@ -1231,12 +1369,12 @@
         
         <div id="settingsScreen">
             <div style="text-align: center; max-width: 500px; width: 100%;">
-                <h1>⚙️ 설정</h1>
+                <h1>설정</h1>
 
                 <div style="margin: 20px 0;">
                     <div style="margin-bottom: 25px;">
                         <label style="display: block; margin-bottom: 8px; font-size: 16px;">
-                            🔊 마스터 볼륨: <span id="masterVolumeValue">100</span>%
+                            마스터 볼륨: <span id="masterVolumeValue">100</span>%
                         </label>
                         <input type="range" id="masterVolumeSlider" min="0" max="100" value="100"
                                style="width: 100%; cursor: pointer;"
@@ -1245,7 +1383,7 @@
 
                     <div style="margin-bottom: 25px;">
                         <label style="display: block; margin-bottom: 8px; font-size: 16px;">
-                            🎵 배경음악: <span id="musicVolumeValue">100</span>%
+                            배경음악: <span id="musicVolumeValue">100</span>%
                         </label>
                         <input type="range" id="musicVolumeSlider" min="0" max="100" value="100"
                                style="width: 100%; cursor: pointer;"
@@ -1254,7 +1392,7 @@
 
                     <div style="margin-bottom: 25px;">
                         <label style="display: block; margin-bottom: 8px; font-size: 16px;">
-                            🔔 효과음: <span id="sfxVolumeValue">100</span>%
+                            효과음: <span id="sfxVolumeValue">100</span>%
                         </label>
                         <input type="range" id="sfxVolumeSlider" min="0" max="100" value="100"
                                style="width: 100%; cursor: pointer;"
@@ -1307,45 +1445,51 @@
         let droneSpriteLoaded = true;
 
         // 적 스프라이트 로드 - 새로운 우주선 스프라이트
-        const enemySprite = new Image();
-        enemySprite.src = 'assets/Stage1Enemy1.png';  // 기본 적 (빨간 우주선)
-        let enemySpriteLoaded = false;
-        enemySprite.onload = () => {
-            enemySpriteLoaded = true;
-            console.log('Stage1Enemy1.png loaded successfully');
-        };
-        enemySprite.onerror = () => {
-            console.error('Failed to load Stage1Enemy1.png');
-        };
+        // 스테이지별 적 스프라이트 로드
+        const enemySprites = {};
+        const enemySpriteLoaded = {};
 
-        const enemyPurpleSprite = new Image();
-        enemyPurpleSprite.src = 'assets/Stage1Enemy2.png';  // 보라색 적 (보라 우주선)
-        let enemyPurpleSpriteLoaded = false;
-        enemyPurpleSprite.onload = () => {
-            enemyPurpleSpriteLoaded = true;
-            console.log('Stage1Enemy2.png loaded successfully');
-        };
-        enemyPurpleSprite.onerror = () => {
-            console.error('Failed to load Stage1Enemy2.png');
-        };
+        // 스테이지 1 적 스프라이트
+        for (let i = 1; i <= 3; i++) {
+            for (let j = 1; j <= 3; j++) {
+                const key = `stage${i}_enemy${j}`;
+                enemySprites[key] = new Image();
+                enemySprites[key].src = `assets/Stage${i}Enemy${j}.png`;
+                enemySpriteLoaded[key] = false;
+                enemySprites[key].onload = () => {
+                    enemySpriteLoaded[key] = true;
+                    console.log(`Stage${i}Enemy${j}.png loaded successfully`);
+                };
+                enemySprites[key].onerror = () => {
+                    console.error(`Failed to load Stage${i}Enemy${j}.png`);
+                };
+            }
+        }
 
-        const enemy2Sprite = new Image();
-        enemy2Sprite.src = 'assets/Stage1Enemy3.png';  // 원거리 적 (황금 우주선)
-        let enemy2SpriteLoaded = false;
-        enemy2Sprite.onload = () => {
-            enemy2SpriteLoaded = true;
-            console.log('Stage1Enemy3.png loaded successfully');
-        };
-        enemy2Sprite.onerror = () => {
-            console.error('Failed to load Stage1Enemy3.png');
-        };
+        // 하위 호환성을 위한 참조 (Stage1 적들)
+        const enemySprite = enemySprites['stage1_enemy1'];
+        const enemyPurpleSprite = enemySprites['stage1_enemy2'];
+        const enemy2Sprite = enemySprites['stage1_enemy3'];
 
-        const bossSprite = new Image();
-        bossSprite.src = 'assets/Stage1Boss.png';
-        let bossSpriteLoaded = false;
-        bossSprite.onload = () => {
-            bossSpriteLoaded = true;
-        };
+        // 보스 스프라이트 로드
+        const bossSprites = {};
+        const bossSpriteLoaded = {};
+        for (let i = 1; i <= 3; i++) {
+            const key = `stage${i}`;
+            bossSprites[key] = new Image();
+            bossSprites[key].src = `assets/Stage${i}Boss.png`;
+            bossSpriteLoaded[key] = false;
+            bossSprites[key].onload = () => {
+                bossSpriteLoaded[key] = true;
+                console.log(`Stage${i}Boss.png loaded successfully`);
+            };
+            bossSprites[key].onerror = () => {
+                console.error(`Failed to load Stage${i}Boss.png`);
+            };
+        }
+
+        // 하위 호환성을 위한 참조
+        const bossSprite = bossSprites['stage1'];
 
         // 배경 이미지 로드 (스테이지별)
         const backgroundSprites = {};
@@ -1407,6 +1551,30 @@
             console.error('Failed to load Bullet.png');
         };
 
+        // 유도탄 스프라이트 로드
+        const guidedMissileSprite = new Image();
+        guidedMissileSprite.src = 'assets/guidedMissile.png';
+        let guidedMissileSpriteLoaded = false;
+        guidedMissileSprite.onload = () => {
+            guidedMissileSpriteLoaded = true;
+            console.log('guidedMissile.png loaded successfully');
+        };
+        guidedMissileSprite.onerror = () => {
+            console.error('Failed to load guidedMissile.png');
+        };
+
+        // 적 투사체 스프라이트 로드
+        const enemyBallSprite = new Image();
+        enemyBallSprite.src = 'assets/EnemyBall.png';
+        let enemyBallSpriteLoaded = false;
+        enemyBallSprite.onload = () => {
+            enemyBallSpriteLoaded = true;
+            console.log('EnemyBall.png loaded successfully');
+        };
+        enemyBallSprite.onerror = () => {
+            console.error('Failed to load EnemyBall.png');
+        };
+
         // 배경 스크롤 변수
         let backgroundY1 = 0;
         let backgroundY2 = 0;
@@ -1453,7 +1621,107 @@
             level: 1,
             xpNeeded: 10
         };
-        
+
+        // Spatial Hash Grid for collision optimization
+        class SpatialGrid {
+            constructor(cellSize = 100) {
+                this.cellSize = cellSize;
+                this.grid = new Map();
+            }
+
+            clear() {
+                this.grid.clear();
+            }
+
+            getKey(x, y) {
+                const cellX = Math.floor(x / this.cellSize);
+                const cellY = Math.floor(y / this.cellSize);
+                return `${cellX},${cellY}`;
+            }
+
+            insert(obj) {
+                const key = this.getKey(obj.x, obj.y);
+                if (!this.grid.has(key)) {
+                    this.grid.set(key, []);
+                }
+                this.grid.get(key).push(obj);
+            }
+
+            getNearby(x, y, range = 1) {
+                const nearby = [];
+                const centerCellX = Math.floor(x / this.cellSize);
+                const centerCellY = Math.floor(y / this.cellSize);
+
+                for (let dx = -range; dx <= range; dx++) {
+                    for (let dy = -range; dy <= range; dy++) {
+                        const key = `${centerCellX + dx},${centerCellY + dy}`;
+                        const cell = this.grid.get(key);
+                        if (cell) {
+                            nearby.push(...cell);
+                        }
+                    }
+                }
+                return nearby;
+            }
+        }
+
+        const enemyGrid = new SpatialGrid(150);
+
+        // Object Pool for performance
+        class ObjectPool {
+            constructor(createFn, resetFn, initialSize = 50) {
+                this.createFn = createFn;
+                this.resetFn = resetFn;
+                this.pool = [];
+                this.active = [];
+
+                // Pre-allocate objects
+                for (let i = 0; i < initialSize; i++) {
+                    this.pool.push(createFn());
+                }
+            }
+
+            get(...args) {
+                let obj;
+                if (this.pool.length > 0) {
+                    obj = this.pool.pop();
+                } else {
+                    obj = this.createFn();
+                }
+                this.resetFn(obj, ...args);
+                this.active.push(obj);
+                return obj;
+            }
+
+            release(obj) {
+                const index = this.active.indexOf(obj);
+                if (index > -1) {
+                    this.active.splice(index, 1);
+                    this.pool.push(obj);
+                }
+            }
+
+            clear() {
+                this.pool.push(...this.active);
+                this.active = [];
+            }
+        }
+
+        // Projectile pool
+        const projectilePool = new ObjectPool(
+            () => ({ x: 0, y: 0, vx: 0, vy: 0, size: 5, damage: 0, piercing: 0, hitCount: 0 }),
+            (obj, x, y, vx, vy, damage, piercing) => {
+                obj.x = x;
+                obj.y = y;
+                obj.vx = vx;
+                obj.vy = vy;
+                obj.damage = damage;
+                obj.piercing = piercing;
+                obj.hitCount = 0;
+            },
+            100
+        );
+
         const keys = {};
         const enemies = [];
         const projectiles = [];
@@ -1482,6 +1750,76 @@
         let musicVolume = 1.0;
         let sfxVolume = 1.0;
 
+        // Web Audio API for SFX
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSFX(type) {
+            if (sfxVolume === 0 || masterVolume === 0) return;
+
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            const volume = masterVolume * sfxVolume * 0.1;
+            gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+
+            switch(type) {
+                case 'hit':
+                    oscillator.type = 'square';
+                    oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.1);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.1);
+                    break;
+
+                case 'shoot':
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(220, audioContext.currentTime + 0.05);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.05);
+                    break;
+
+                case 'levelup':
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(523, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1);
+                    oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.3);
+                    break;
+
+                case 'bossdeath':
+                    oscillator.type = 'sawtooth';
+                    oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.5);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                    break;
+
+                case 'explosion':
+                    const noise = audioContext.createBufferSource();
+                    const bufferSize = audioContext.sampleRate * 0.2;
+                    const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+                    const data = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        data[i] = Math.random() * 2 - 1;
+                    }
+                    noise.buffer = buffer;
+                    noise.connect(gainNode);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                    noise.start(audioContext.currentTime);
+                    noise.stop(audioContext.currentTime + 0.2);
+                    break;
+            }
+        }
+
         // BGM 로드
         const mainBgm = new Audio('assets/bgm/MainBgm.mp3');
         mainBgm.loop = true;
@@ -1494,6 +1832,10 @@
         const stage2Bgm = new Audio('assets/bgm/Stage2Bgm.mp3');
         stage2Bgm.loop = true;
         stage2Bgm.volume = masterVolume * musicVolume;
+
+        const stage3Bgm = new Audio('assets/bgm/Stage3Bgm.mp3');
+        stage3Bgm.loop = true;
+        stage3Bgm.volume = masterVolume * musicVolume;
 
         let currentBgm = null;
         
@@ -1604,7 +1946,6 @@
         // 무한 모드 설정
         const endlessMode = {
             name: '무한 생존',
-            icon: '♾️',
             description: '끝없이 몰려오는 적들',
             spawnRate: 0.001,  // 무한모드 출현율 증가
             enemyTypes: {
@@ -1913,6 +2254,8 @@
                     playBgm(stage1Bgm);
                 } else if (selectedStage === 2) {
                     playBgm(stage2Bgm);
+                } else if (selectedStage === 3) {
+                    playBgm(stage3Bgm);
                 }
             } else {
                 // 무한 모드는 스테이지 1 BGM 사용
@@ -2191,7 +2534,21 @@
                 // 스테이지 1은 시간대별 적 비율 적용
                 enemyTypes = (selectedStage === 1) ? getEnemyTypeForStage1() : stage.enemyTypes;
             } else {
-                enemyTypes = endlessMode.enemyTypes;
+                // 무한 모드: 5분마다 스테이지 전환
+                const timeInMinutes = gameTime / 60000;
+                if (timeInMinutes < 5) {
+                    // 0~5분: 스테이지 1 적
+                    enemyTypes = stages[0].enemyTypes;
+                } else if (timeInMinutes < 10) {
+                    // 5~10분: 스테이지 2 적
+                    enemyTypes = stages[1].enemyTypes;
+                } else if (timeInMinutes < 15) {
+                    // 10~15분: 스테이지 3 적
+                    enemyTypes = stages[2].enemyTypes;
+                } else {
+                    // 15분 이후: 모든 적 혼합
+                    enemyTypes = { melee: 0.33, purple: 0.33, ranged: 0.34 };
+                }
             }
 
             const speedMultiplier = (1 + (gameTime / 300000)) * (isMobile ? 1.5 : 0.7);
@@ -2241,32 +2598,75 @@
             }
         }
 
-        function spawnBoss() {
+        function spawnBoss(stageId = 1) {
             if (bossSpawned || boss) return;
 
             bossSpawned = true;
             const centerX = window.innerWidth / 2;
             const centerY = -100;  // 화면 위에서 등장
 
+            // 스테이지별 보스 설정
+            let bossConfig = {};
+            if (stageId === 1) {
+                // Stage 1 보스: 기본 패턴 (8방향 방사형)
+                bossConfig = {
+                    hp: 5000,
+                    maxHp: 5000,
+                    speed: 1.2,
+                    shootCooldown: 1500,
+                    horizontalSpeed: 3,
+                    pattern: 'radial',
+                    stageId: 1
+                };
+            } else if (stageId === 2) {
+                // Stage 2 보스: 빠른 공격 + 나선형 패턴
+                bossConfig = {
+                    hp: 7000,
+                    maxHp: 7000,
+                    speed: 1.5,
+                    shootCooldown: 1000,
+                    horizontalSpeed: 4,
+                    pattern: 'spiral',
+                    spiralAngle: 0,
+                    stageId: 2
+                };
+            } else if (stageId === 3) {
+                // Stage 3 보스: 높은 체력 + 복합 패턴 (방사형 + 플레이어 타겟)
+                bossConfig = {
+                    hp: 10000,
+                    maxHp: 10000,
+                    speed: 1.8,
+                    shootCooldown: 800,
+                    horizontalSpeed: 5,
+                    pattern: 'mixed',
+                    patternCounter: 0,
+                    stageId: 3
+                };
+            }
+
             boss = {
                 x: centerX,
                 y: centerY,
                 size: 60 * sizeScale,
-                speed: 1.2,
-                hp: 5000,
-                maxHp: 5000,
+                speed: bossConfig.speed,
+                hp: bossConfig.hp,
+                maxHp: bossConfig.maxHp,
                 type: 'boss',
                 shootTimer: 0,
-                shootCooldown: 1500,
+                shootCooldown: bossConfig.shootCooldown,
                 phaseTimer: 0,
                 phase: 1,
                 isBoss: true,
-                moveDirection: 1,  // 1 = 오른쪽, -1 = 왼쪽
-                horizontalSpeed: 3,
-                moveTimer: 0,  // 이동 타이머
-                moveDuration: 2000,  // 2초 동안 이동
-                idleDuration: 3000,  // 3초 동안 대기 (총 5초 주기)
-                isMoving: false
+                moveDirection: 1,
+                horizontalSpeed: bossConfig.horizontalSpeed,
+                moveTimer: 0,
+                moveDuration: 2000,
+                idleDuration: 3000,
+                isMoving: false,
+                pattern: bossConfig.pattern,
+                spiralAngle: bossConfig.spiralAngle || 0,
+                patternCounter: bossConfig.patternCounter || 0,
+                stageId: bossConfig.stageId
             };
 
             enemies.push(boss);
@@ -2280,6 +2680,18 @@
             const nextStage = stages.find(s => s.id === nextStageId);
             if (nextStage) {
                 nextStage.unlocked = true;
+            }
+
+            // Toss 점수 저장 (스테이지 클리어)
+            if (window.tossIntegration && window.tossIntegration.isAuthenticated) {
+                window.tossIntegration.saveScore({
+                    score: kills * 10 + Math.floor(gameTime / 1000),
+                    kills: kills,
+                    time: gameTime,
+                    mode: gameMode,
+                    stage: selectedStage,
+                    cleared: true
+                }).catch(err => console.error('Failed to save score to Toss:', err));
             }
 
             // 스테이지 클리어 화면 표시
@@ -2302,11 +2714,11 @@
             `;
 
             clearDiv.innerHTML = `
-                <h1 style="font-size: 4em; margin-bottom: 20px; color: #4CAF50;">🎉 스테이지 클리어! 🎉</h1>
+                <h1 style="font-size: 4em; margin-bottom: 20px; color: #4CAF50;">스테이지 클리어!</h1>
                 <p style="font-size: 1.5em; margin-bottom: 10px;">처치: ${kills}</p>
                 <p style="font-size: 1.5em; margin-bottom: 10px;">생존 시간: ${Math.floor(gameTime / 1000)}초</p>
                 <p style="font-size: 1.5em; margin-bottom: 30px;">획득 스크랩: ${currentGold}</p>
-                ${nextStage ? `<p style="font-size: 1.2em; margin-bottom: 30px; color: #FFD700;">✨ 다음 스테이지가 해금되었습니다! ✨</p>` : `<p style="font-size: 1.2em; margin-bottom: 30px; color: #FFD700;">🏆 모든 스테이지를 클리어했습니다! 🏆</p>`}
+                ${nextStage ? `<p style="font-size: 1.2em; margin-bottom: 30px; color: #FFD700;">다음 스테이지가 해금되었습니다!</p>` : `<p style="font-size: 1.2em; margin-bottom: 30px; color: #FFD700;">모든 스테이지를 클리어했습니다!</p>`}
                 <div style="display: flex; gap: 20px;">
                     <button onclick="returnToMenu()" style="padding: 15px 40px; font-size: 1.2em; cursor: pointer; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px;">메인 메뉴</button>
                     ${nextStage ? `<button onclick="nextStage()" style="padding: 15px 40px; font-size: 1.2em; cursor: pointer; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border: none; border-radius: 10px;">다음 스테이지</button>` : ''}
@@ -2363,6 +2775,11 @@
                     hitCount: 0
                 });
             });
+
+            // SFX for shooting
+            if (Math.random() < 0.3) {  // Only play 30% of the time to avoid spam
+                playSFX('shoot');
+            }
         }
         
         function shootMissiles() {
@@ -2418,7 +2835,12 @@
                 nearest.hp -= satelliteDamage;
                 if (nearest.hp <= 0) {
                     // 보스 처치 체크
-                    if (nearest.isBoss && gameMode === 'story') {
+                    if (nearest.isBoss) {
+                        // SFX and haptic feedback for boss kill
+                        playSFX('bossdeath');
+                        if (navigator.vibrate) {
+                            navigator.vibrate([200, 100, 200, 100, 200]);
+                        }
                         dropXP(nearest.x, nearest.y, 50);
                         dropGold(nearest.x, nearest.y, 100);
                         const index = enemies.indexOf(nearest);
@@ -2427,7 +2849,11 @@
                             kills++;
                             boss = null;
                             bossSpawned = false;
-                            stageClear();
+
+                            // 스토리 모드에서만 스테이지 클리어
+                            if (gameMode === 'story') {
+                                stageClear();
+                            }
                         }
                     } else {
                         dropXP(nearest.x, nearest.y, 5);
@@ -2445,15 +2871,29 @@
         function findNearestEnemy() {
             let nearest = null;
             let minDist = Infinity;
-            
-            enemies.forEach(enemy => {
+
+            // Spatial grid 사용 - 주변 셀만 검사
+            const nearbyEnemies = enemyGrid.getNearby(player.x, player.y, 2);
+
+            nearbyEnemies.forEach(enemy => {
                 const dist = Math.hypot(enemy.x - player.x, enemy.y - player.y);
                 if (dist < minDist) {
                     minDist = dist;
                     nearest = enemy;
                 }
             });
-            
+
+            // 주변에 없으면 전체 검색 (fallback)
+            if (!nearest && enemies.length > 0) {
+                enemies.forEach(enemy => {
+                    const dist = Math.hypot(enemy.x - player.x, enemy.y - player.y);
+                    if (dist < minDist) {
+                        minDist = dist;
+                        nearest = enemy;
+                    }
+                });
+            }
+
             return nearest;
         }
         
@@ -2480,8 +2920,14 @@
         function levelUp() {
             player.level++;
             player.xp = 0;
-            player.xpNeeded = Math.floor(player.xpNeeded * 1.5);
-            
+            player.xpNeeded = Math.floor(player.xpNeeded * 1.2);  // 1.5 → 1.2로 감소 (더 빠른 레벨업)
+
+            // SFX and haptic feedback for level up
+            playSFX('levelup');
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]);
+            }
+
             gameRunning = false;
             showUpgradeOptions();
         }
@@ -2657,6 +3103,10 @@
 
             gameTime += deltaTime;
 
+            // Spatial grid 초기화 (매 프레임)
+            enemyGrid.clear();
+            enemies.forEach(enemy => enemyGrid.insert(enemy));
+
             // 배경 스크롤 업데이트
             if (backgroundSpriteLoaded) {
                 const bgHeight = window.innerHeight;
@@ -2762,15 +3212,28 @@
 
                         if (enemy.hp <= 0) {
                             // 보스 처치 체크
-                            if (enemy.isBoss && gameMode === 'story') {
+                            if (enemy.isBoss) {
+                                // SFX and haptic feedback for boss kill
+                                playSFX('bossdeath');
+                                if (navigator.vibrate) {
+                                    navigator.vibrate([200, 100, 200, 100, 200]);
+                                }
                                 dropXP(enemy.x, enemy.y, 50);
                                 dropGold(enemy.x, enemy.y, 100);
                                 enemies.splice(eIndex, 1);
                                 kills++;
                                 boss = null;
                                 bossSpawned = false;
-                                stageClear();
+
+                                // 스토리 모드에서만 스테이지 클리어
+                                if (gameMode === 'story') {
+                                    stageClear();
+                                }
                             } else {
+                                // SFX for regular enemy death
+                                if (Math.random() < 0.2) {  // Only play 20% of the time to avoid spam
+                                    playSFX('explosion');
+                                }
                                 dropXP(enemy.x, enemy.y, 5);
                                 dropGold(enemy.x, enemy.y, Math.floor(Math.random() * 3) + 1);
                                 enemies.splice(eIndex, 1);
@@ -2794,7 +3257,7 @@
 
                 // 보스 출현 체크 (스토리 모드에만)
                 if (gameTime >= stage.bossTime && !bossSpawned) {
-                    spawnBoss();
+                    spawnBoss(selectedStage);
                 }
 
                 // 스테이지별 적 출현율 (시간에 따른 증가량 대폭 감소)
@@ -2802,8 +3265,20 @@
                     spawnEnemy();
                 }
             } else {
-                // 무한 모드 - 보스 없이 계속 적 출현
-                if (Math.random() < endlessMode.spawnRate + (gameTime / 10000000)) {
+                // 무한 모드 - 5분마다 보스 출현 및 스테이지별 적
+                const timeInMinutes = gameTime / 60000;
+
+                // 보스 출현 (5분, 10분, 15분)
+                if ((gameTime >= 300000 && gameTime < 300100 && !bossSpawned) ||
+                    (gameTime >= 600000 && gameTime < 600100 && !bossSpawned) ||
+                    (gameTime >= 900000 && gameTime < 900100 && !bossSpawned)) {
+                    const bossStage = Math.floor(timeInMinutes / 5);
+                    spawnBoss(Math.min(bossStage, 3));
+                }
+
+                // 적 출현 (난이도 시간에 따라 증가)
+                const difficultyMultiplier = 1 + (gameTime / 300000); // 5분마다 2배
+                if (Math.random() < endlessMode.spawnRate * difficultyMultiplier) {
                     spawnEnemy();
                 }
             }
@@ -2847,20 +3322,68 @@
                         }
                     }
 
-                    // 보스 공격 패턴
+                    // 보스 공격 패턴 (스테이지별)
                     enemy.shootTimer += deltaTime;
                     if (enemy.shootTimer >= enemy.shootCooldown) {
-                        // 방사형 탄막 (8방향)
-                        for (let i = 0; i < 8; i++) {
-                            const angle = (Math.PI * 2 / 8) * i;
-                            enemyProjectiles.push({
-                                x: enemy.x,
-                                y: enemy.y,
-                                vx: Math.cos(angle) * 4,
-                                vy: Math.sin(angle) * 4,
-                                size: 8 * sizeScale,
-                                damage: 15
-                            });
+                        if (enemy.pattern === 'radial') {
+                            // Stage 1: 8방향 방사형 탄막
+                            for (let i = 0; i < 8; i++) {
+                                const angle = (Math.PI * 2 / 8) * i;
+                                enemyProjectiles.push({
+                                    x: enemy.x,
+                                    y: enemy.y,
+                                    vx: Math.cos(angle) * 4,
+                                    vy: Math.sin(angle) * 4,
+                                    size: 8 * sizeScale,
+                                    damage: 15
+                                });
+                            }
+                        } else if (enemy.pattern === 'spiral') {
+                            // Stage 2: 나선형 패턴 (12방향, 회전)
+                            for (let i = 0; i < 12; i++) {
+                                const angle = (Math.PI * 2 / 12) * i + enemy.spiralAngle;
+                                enemyProjectiles.push({
+                                    x: enemy.x,
+                                    y: enemy.y,
+                                    vx: Math.cos(angle) * 5,
+                                    vy: Math.sin(angle) * 5,
+                                    size: 8 * sizeScale,
+                                    damage: 20
+                                });
+                            }
+                            enemy.spiralAngle += 0.2; // 나선 회전
+                        } else if (enemy.pattern === 'mixed') {
+                            // Stage 3: 혼합 패턴 (방사형 + 플레이어 타겟)
+                            enemy.patternCounter++;
+
+                            if (enemy.patternCounter % 2 === 0) {
+                                // 16방향 방사형
+                                for (let i = 0; i < 16; i++) {
+                                    const angle = (Math.PI * 2 / 16) * i;
+                                    enemyProjectiles.push({
+                                        x: enemy.x,
+                                        y: enemy.y,
+                                        vx: Math.cos(angle) * 6,
+                                        vy: Math.sin(angle) * 6,
+                                        size: 8 * sizeScale,
+                                        damage: 25
+                                    });
+                                }
+                            } else {
+                                // 플레이어 방향으로 3발 산탄
+                                const angleToPlayer = Math.atan2(player.y - enemy.y, player.x - enemy.x);
+                                for (let i = -1; i <= 1; i++) {
+                                    const spreadAngle = angleToPlayer + (i * 0.3);
+                                    enemyProjectiles.push({
+                                        x: enemy.x,
+                                        y: enemy.y,
+                                        vx: Math.cos(spreadAngle) * 7,
+                                        vy: Math.sin(spreadAngle) * 7,
+                                        size: 10 * sizeScale,
+                                        damage: 25
+                                    });
+                                }
+                            }
                         }
                         enemy.shootTimer = 0;
                     }
@@ -2902,7 +3425,8 @@
                     if (!isPlayerHit) {
                         isPlayerHit = true;
                         hitFlashTime = 0;
-                        if (isMobile && navigator.vibrate) {
+                        playSFX('hit');
+                        if (navigator.vibrate) {
                             navigator.vibrate(50);
                         }
                     }
@@ -2933,15 +3457,28 @@
                         
                         if (enemy.hp <= 0) {
                             // 보스 처치 체크
-                            if (enemy.isBoss && gameMode === 'story') {
+                            if (enemy.isBoss) {
+                                // SFX and haptic feedback for boss kill
+                                playSFX('bossdeath');
+                                if (navigator.vibrate) {
+                                    navigator.vibrate([200, 100, 200, 100, 200]);
+                                }
                                 dropXP(enemy.x, enemy.y, 50);
                                 dropGold(enemy.x, enemy.y, 100);
                                 enemies.splice(eIndex, 1);
                                 kills++;
                                 boss = null;
                                 bossSpawned = false;
-                                stageClear();
+
+                                // 스토리 모드에서만 스테이지 클리어
+                                if (gameMode === 'story') {
+                                    stageClear();
+                                }
                             } else {
+                                // SFX for regular enemy death
+                                if (Math.random() < 0.2) {  // Only play 20% of the time to avoid spam
+                                    playSFX('explosion');
+                                }
                                 dropXP(enemy.x, enemy.y, 5);
                                 dropGold(enemy.x, enemy.y, Math.floor(Math.random() * 3) + 1);
                                 enemies.splice(eIndex, 1);
@@ -2984,15 +3521,28 @@
                         
                         if (enemy.hp <= 0) {
                             // 보스 처치 체크
-                            if (enemy.isBoss && gameMode === 'story') {
+                            if (enemy.isBoss) {
+                                // SFX and haptic feedback for boss kill
+                                playSFX('bossdeath');
+                                if (navigator.vibrate) {
+                                    navigator.vibrate([200, 100, 200, 100, 200]);
+                                }
                                 dropXP(enemy.x, enemy.y, 50);
                                 dropGold(enemy.x, enemy.y, 100);
                                 enemies.splice(eIndex, 1);
                                 kills++;
                                 boss = null;
                                 bossSpawned = false;
-                                stageClear();
+
+                                // 스토리 모드에서만 스테이지 클리어
+                                if (gameMode === 'story') {
+                                    stageClear();
+                                }
                             } else {
+                                // SFX for regular enemy death
+                                if (Math.random() < 0.2) {  // Only play 20% of the time to avoid spam
+                                    playSFX('explosion');
+                                }
                                 dropXP(enemy.x, enemy.y, 5);
                                 dropGold(enemy.x, enemy.y, Math.floor(Math.random() * 3) + 1);
                                 enemies.splice(eIndex, 1);
@@ -3019,7 +3569,8 @@
                     if (!isPlayerHit) {
                         isPlayerHit = true;
                         hitFlashTime = 0;
-                        if (isMobile && navigator.vibrate) {
+                        playSFX('hit');
+                        if (navigator.vibrate) {
                             navigator.vibrate(50);
                         }
                     }
@@ -3236,13 +3787,34 @@
             });
 
             enemies.forEach(enemy => {
+                // 현재 스테이지 결정
+                let currentStage = 1;
+                if (gameMode === 'story') {
+                    currentStage = selectedStage;
+                } else {
+                    // 무한 모드: 5분마다 스테이지 전환
+                    const timeInMinutes = gameTime / 60000;
+                    if (timeInMinutes < 5) currentStage = 1;
+                    else if (timeInMinutes < 10) currentStage = 2;
+                    else currentStage = 3;
+                }
+
+                // 보스는 자신의 stageId 사용
+                if (enemy.type === 'boss' && enemy.stageId) {
+                    currentStage = enemy.stageId;
+                }
+
                 if (enemy.type === 'boss') {
-                    // 보스 스프라이트 렌더링
-                    if (bossSpriteLoaded) {
+                    // 보스 스프라이트 렌더링 (스테이지별)
+                    const bossKey = `stage${currentStage}`;
+                    const currentBossSprite = bossSprites[bossKey];
+                    const isBossLoaded = bossSpriteLoaded[bossKey];
+
+                    if (isBossLoaded && currentBossSprite) {
                         const drawSize = enemy.size * 2;
                         ctx.imageSmoothingEnabled = false;
                         ctx.drawImage(
-                            bossSprite,
+                            currentBossSprite,
                             enemy.x - drawSize / 2,
                             enemy.y - drawSize / 2,
                             drawSize,
@@ -3273,10 +3845,14 @@
                     ctx.fillStyle = '#ffff00';
                     ctx.font = 'bold 16px Arial';
                     ctx.textAlign = 'center';
-                    ctx.fillText('⚠️ BOSS ⚠️', enemy.x, enemy.y - enemy.size - 30);
+                    ctx.fillText('BOSS', enemy.x, enemy.y - enemy.size - 30);
                 } else if (enemy.type === 'purple') {
-                    // 보라 적 - Enemy2.png (Stage1Enemy2.png) 사용 + 회전 (반대 방향)
-                    if (enemyPurpleSpriteLoaded) {
+                    // 보라 적 - StageXEnemy2.png 사용 + 회전 (반대 방향)
+                    const enemyKey = `stage${currentStage}_enemy2`;
+                    const currentEnemySprite = enemySprites[enemyKey];
+                    const isEnemyLoaded = enemySpriteLoaded[enemyKey];
+
+                    if (isEnemyLoaded && currentEnemySprite) {
                         const drawSize = enemy.size * 2;
                         // 플레이어를 향하는 각도 계산 (반대 방향으로 180도 회전)
                         const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
@@ -3286,7 +3862,7 @@
                         ctx.rotate(angle + Math.PI / 2 + Math.PI); // 반대 방향으로 180도 추가
                         ctx.imageSmoothingEnabled = false;
                         ctx.drawImage(
-                            enemyPurpleSprite,
+                            currentEnemySprite,
                             -drawSize / 2,
                             -drawSize / 2,
                             drawSize,
@@ -3306,8 +3882,12 @@
                     ctx.fillStyle = '#00ff00';
                     ctx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, (enemy.hp / enemy.maxHp) * barWidth, barHeight);
                 } else if (enemy.type === 'ranged') {
-                    // 원거리 적 - Enemy2.png 사용 + 회전 (반대 방향)
-                    if (enemy2SpriteLoaded) {
+                    // 원거리 적 - StageXEnemy3.png 사용 + 회전 (반대 방향)
+                    const enemyKey = `stage${currentStage}_enemy3`;
+                    const currentEnemySprite = enemySprites[enemyKey];
+                    const isEnemyLoaded = enemySpriteLoaded[enemyKey];
+
+                    if (isEnemyLoaded && currentEnemySprite) {
                         const drawSize = enemy.size * 2;
                         // 플레이어를 향하는 각도 계산 (반대 방향으로 180도 회전)
                         const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
@@ -3317,7 +3897,7 @@
                         ctx.rotate(angle + Math.PI / 2 + Math.PI); // 반대 방향으로 180도 추가
                         ctx.imageSmoothingEnabled = false;
                         ctx.drawImage(
-                            enemy2Sprite,
+                            currentEnemySprite,
                             -drawSize / 2,
                             -drawSize / 2,
                             drawSize,
@@ -3338,8 +3918,12 @@
                     ctx.fillStyle = '#00ff00';
                     ctx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, (enemy.hp / enemy.maxHp) * barWidth, barHeight);
                 } else {
-                    // 기본 적 - Enemy.png 사용 + 회전 (반대 방향)
-                    if (enemySpriteLoaded) {
+                    // 기본 적 - StageXEnemy1.png 사용 + 회전 (반대 방향)
+                    const enemyKey = `stage${currentStage}_enemy1`;
+                    const currentEnemySprite = enemySprites[enemyKey];
+                    const isEnemyLoaded = enemySpriteLoaded[enemyKey];
+
+                    if (isEnemyLoaded && currentEnemySprite) {
                         const drawSize = enemy.size * 2;
                         // 플레이어를 향하는 각도 계산 (반대 방향으로 180도 회전)
                         const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
@@ -3349,7 +3933,7 @@
                         ctx.rotate(angle + Math.PI / 2 + Math.PI); // 반대 방향으로 180도 추가
                         ctx.imageSmoothingEnabled = false;
                         ctx.drawImage(
-                            enemySprite,
+                            currentEnemySprite,
                             -drawSize / 2,
                             -drawSize / 2,
                             drawSize,
@@ -3399,25 +3983,58 @@
                 }
             });
             
-            ctx.fillStyle = '#ff00ff';
             missiles.forEach(missile => {
-                ctx.beginPath();
-                ctx.arc(missile.x, missile.y, missile.size, 0, Math.PI * 2);
-                ctx.fill();
-                
-                ctx.strokeStyle = '#ff00ff';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(missile.x, missile.y);
-                ctx.lineTo(missile.x - missile.vx * 2, missile.y - missile.vy * 2);
-                ctx.stroke();
+                if (guidedMissileSpriteLoaded) {
+                    const drawSize = missile.size * 8;
+                    // 미사일이 날아가는 방향 계산
+                    const angle = Math.atan2(missile.vy, missile.vx);
+
+                    ctx.save();
+                    ctx.translate(missile.x, missile.y);
+                    ctx.rotate(angle + Math.PI / 2); // 스프라이트 아래가 앞이므로 +90도
+                    ctx.imageSmoothingEnabled = false;
+                    ctx.drawImage(
+                        guidedMissileSprite,
+                        -drawSize / 2,
+                        -drawSize / 2,
+                        drawSize,
+                        drawSize
+                    );
+                    ctx.restore();
+                } else {
+                    // 폴백: 보라색 원과 트레일
+                    ctx.fillStyle = '#ff00ff';
+                    ctx.beginPath();
+                    ctx.arc(missile.x, missile.y, missile.size, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.strokeStyle = '#ff00ff';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(missile.x, missile.y);
+                    ctx.lineTo(missile.x - missile.vx * 2, missile.y - missile.vy * 2);
+                    ctx.stroke();
+                }
             });
             
-            ctx.fillStyle = '#ff4444';
             enemyProjectiles.forEach(proj => {
-                ctx.beginPath();
-                ctx.arc(proj.x, proj.y, proj.size, 0, Math.PI * 2);
-                ctx.fill();
+                if (enemyBallSpriteLoaded) {
+                    const drawSize = proj.size * 4;
+                    ctx.imageSmoothingEnabled = false;
+                    ctx.drawImage(
+                        enemyBallSprite,
+                        proj.x - drawSize / 2,
+                        proj.y - drawSize / 2,
+                        drawSize,
+                        drawSize
+                    );
+                } else {
+                    // 폴백: 빨간 원
+                    ctx.fillStyle = '#ff4444';
+                    ctx.beginPath();
+                    ctx.arc(proj.x, proj.y, proj.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
             });
             
             xpOrbs.forEach(orb => {
@@ -3508,18 +4125,29 @@
         function gameOver() {
             gameRunning = false;
             document.getElementById('homeButton').style.display = 'none';
-            
+
             const finalTime = Math.floor(gameTime / 1000);
             const finalKills = kills;
-            
+
             // 최고기록 업데이트
             if (finalTime > bestTime) bestTime = finalTime;
             if (finalKills > bestKills) bestKills = finalKills;
-            
+
             document.getElementById('finalTime').textContent = finalTime;
             document.getElementById('finalKills').textContent = finalKills;
             document.getElementById('finalGold').textContent = currentGold;
             document.getElementById('gameOver').style.display = 'block';
+
+            // Toss 점수 저장
+            if (window.tossIntegration && window.tossIntegration.isAuthenticated) {
+                window.tossIntegration.saveScore({
+                    score: finalKills * 10 + finalTime,
+                    kills: finalKills,
+                    time: gameTime,
+                    mode: gameMode,
+                    stage: selectedStage
+                }).catch(err => console.error('Failed to save score to Toss:', err));
+            }
         }
         
         function goToMainMenu() {
@@ -3606,13 +4234,118 @@
             updateGoldUI();
         }
 
-        // 페이지 로드 시 메인 BGM 재생 준비
+        // 에셋 프리로더
+        let assetsLoaded = 0;
+        let totalAssets = 0;
+        const assetsToLoad = [];
+
+        // 모든 이미지 에셋 수집
+        function collectAssets() {
+            // 플레이어 스프라이트
+            assetsToLoad.push(droneSprites['default']);
+
+            // 적 스프라이트 (3 스테이지 x 3 적 = 9개)
+            for (let i = 1; i <= 3; i++) {
+                for (let j = 1; j <= 3; j++) {
+                    assetsToLoad.push(enemySprites[`stage${i}_enemy${j}`]);
+                }
+            }
+
+            // 보스 스프라이트 (3개)
+            for (let i = 1; i <= 3; i++) {
+                assetsToLoad.push(bossSprites[`stage${i}`]);
+            }
+
+            // 배경 (3개)
+            assetsToLoad.push(backgroundSprites[1], backgroundSprites[2], backgroundSprites[3]);
+
+            // UI 스프라이트
+            assetsToLoad.push(gearSprite, bulletSprite, guidedMissileSprite, enemyBallSprite);
+
+            totalAssets = assetsToLoad.length;
+        }
+
+        function updateLoadingProgress() {
+            assetsLoaded++;
+            const progress = Math.floor((assetsLoaded / totalAssets) * 100);
+            const loadingBar = document.getElementById('loadingBar');
+            const loadingProgress = document.getElementById('loadingProgress');
+
+            if (loadingBar) loadingBar.style.width = progress + '%';
+            if (loadingProgress) loadingProgress.textContent = progress + '%';
+
+            if (assetsLoaded >= totalAssets) {
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                    document.getElementById('mainMenu').style.display = 'flex';
+                }, 500);
+            }
+        }
+
+        // 모든 이미지에 로드 리스너 추가
+        function setupAssetLoaders() {
+            collectAssets();
+
+            assetsToLoad.forEach(asset => {
+                if (asset.complete) {
+                    updateLoadingProgress();
+                } else {
+                    asset.addEventListener('load', updateLoadingProgress);
+                    asset.addEventListener('error', () => {
+                        console.warn('Asset failed to load:', asset.src);
+                        updateLoadingProgress(); // 실패해도 진행
+                    });
+                }
+            });
+        }
+
+        // 전역 에러 핸들러
+        window.addEventListener('error', (e) => {
+            console.error('Game Error:', e.error);
+            // 게임 중 에러 발생 시 계속 진행
+            if (gameRunning) {
+                console.warn('Error during gameplay - attempting to continue');
+            }
+        });
+
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('Unhandled Promise Rejection:', e.reason);
+        });
+
+        // 페이지 로드 시 실행
         window.addEventListener('load', () => {
+            setupAssetLoaders();
+
             // 사용자 인터랙션 후 BGM 재생
             document.addEventListener('click', function initBgm() {
                 playBgm(mainBgm);
                 document.removeEventListener('click', initBgm);
             }, { once: true });
+        });
+
+        // FPS 카운터
+        let fpsFrames = 0;
+        let fpsLastTime = Date.now();
+        let showFPS = false;
+
+        function updateFPS() {
+            fpsFrames++;
+            const now = Date.now();
+            if (now - fpsLastTime >= 1000) {
+                if (showFPS) {
+                    document.getElementById('fpsValue').textContent = fpsFrames;
+                }
+                fpsFrames = 0;
+                fpsLastTime = now;
+            }
+        }
+
+        // 치트키: 'F' 키로 FPS 토글
+        window.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 'f' && gameRunning) {
+                showFPS = !showFPS;
+                document.getElementById('fpsCounter').style.display = showFPS ? 'block' : 'none';
+            }
         });
 
         function gameLoop(loopId) {
@@ -3626,6 +4359,7 @@
             const deltaTime = currentTime - lastTime;
             lastTime = currentTime;
 
+            updateFPS();
             update(deltaTime);
             draw();
 

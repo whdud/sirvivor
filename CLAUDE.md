@@ -46,11 +46,16 @@ The entire game is contained in `index.html` with three main sections:
 - **EMP Wave** (formerly melee): Circular shockwave that damages nearby enemies
 - **Satellite Strike** (formerly lightning): Orbital bombardment from above
 
-**Enemy Types** (sprite-based)
-- **Standard Drone** (Stage1Enemy1.png): Basic chase behavior
-- **Purple Drone** (Stage1Enemy2.png): Faster, higher HP
-- **Ranged Drone** (Stage1Enemy3.png): Keeps distance and shoots projectiles
-- **Boss Drones** (Stage1Boss.png, Stage2Boss.png): Large HP pools, special attacks
+**Enemy Types** (sprite-based, stage-specific)
+- **Stage-specific sprites**: Each stage has unique enemy visuals (Stage1/2/3Enemy1/2/3.png)
+  - Enemy1: Basic melee drone (chase behavior)
+  - Enemy2: Enhanced/purple drone (faster, higher HP)
+  - Enemy3: Ranged drone (keeps distance, shoots projectiles)
+- **Boss Drones**: Each stage has unique boss sprite (Stage1/2/3Boss.png)
+  - Stage 1 Boss: 8-way radial bullet pattern
+  - Stage 2 Boss: 12-way spiral pattern (rotating)
+  - Stage 3 Boss: 16-way + targeted mixed pattern
+- **Endless Mode**: Cycles through stage enemies every 5 minutes, bosses at 5/10/15min
 
 **Progression System**
 - Level-up triggers pause and shows 3 random upgrades
@@ -58,6 +63,7 @@ The entire game is contained in `index.html` with three main sections:
 - 14+ upgrade types: weapon enhancements, stat boosts, new weapon unlocks
 - XP orbs (Gear.png sprites) drop from enemies and auto-collect based on magnet range
 - Gold/"Scrap" currency for character unlocks
+- **XP Scaling**: 1.2x multiplier per level (reduced from 1.5x for faster progression)
 
 **Input Handling**
 - Keyboard: WASD or arrow keys for movement (~lines 1570-1582)
@@ -73,22 +79,43 @@ Simply open `index.html` in any modern web browser. No build step or dependencie
 **Required Assets Structure:**
 ```
 /assets/
-  /bgm/              - Background music files (MainBgm.mp3, Stage1Bgm.mp3, Stage2Bgm.mp3)
+  /bgm/              - Background music files
+    MainBgm.mp3      - Main menu music
+    Stage1Bgm.mp3    - Stage 1 music
+    Stage2Bgm.mp3    - Stage 2 music
+    Stage3Bgm.mp3    - Stage 3 music
   /fonts/            - Custom fonts (DungGeunMo)
   drone_spritesheet.png    - Player drone sprites (4-frame animation, 64x64 each)
-  Stage1Enemy1.png   - Basic enemy sprite
-  Stage1Enemy2.png   - Purple enemy sprite
-  Stage1Enemy3.png   - Ranged enemy sprite
+
+  # Enemy sprites (stage-specific)
+  Stage1Enemy1.png   - Stage 1 basic melee enemy
+  Stage1Enemy2.png   - Stage 1 enhanced enemy
+  Stage1Enemy3.png   - Stage 1 ranged enemy
+  Stage2Enemy1.png   - Stage 2 basic melee enemy
+  Stage2Enemy2.png   - Stage 2 enhanced enemy
+  Stage2Enemy3.png   - Stage 2 ranged enemy
+  Stage3Enemy1.png   - Stage 3 basic melee enemy
+  Stage3Enemy2.png   - Stage 3 enhanced enemy
+  Stage3Enemy3.png   - Stage 3 ranged enemy
+
+  # Boss sprites
   Stage1Boss.png     - Stage 1 boss sprite
   Stage2Boss.png     - Stage 2 boss sprite
+  Stage3Boss.png     - Stage 3 boss sprite
+
+  # Backgrounds
   Stage1Background.png - Stage 1 background (scrolling)
   Stage2Background.png - Stage 2 background
   Stage3Backfround.png - Stage 3 background (note: typo in filename)
+  menu_bg.png        - Main menu background
+
+  # Projectiles and UI
   Gear.png           - XP orb icon
   Bullet.png         - Projectile sprite
+  guidedMissile.png  - Guided missile sprite
+  EnemyBall.png      - Enemy projectile sprite
   ClockIcon.png      - Time display icon
   HomeIcon.png       - Home button icon
-  menu_bg.png        - Main menu background
 ```
 
 ### Testing
@@ -125,10 +152,18 @@ Simply open `index.html` in any modern web browser. No build step or dependencie
 - Calls `draw()` for rendering
 - Uses `gameLoopId` to prevent duplicate loops
 
-**Audio System**: (~lines 1326-1565)
+**Audio System**: (~lines 1750-1900)
 - `masterVolume`, `musicVolume`, `sfxVolume` control audio levels
 - `playBgm()` handles BGM transitions between menus/stages
-- BGM files: mainBgm, stage1Bgm, stage2Bgm
+- BGM files: mainBgm, stage1Bgm, stage2Bgm, stage3Bgm
+- **SFX System** (Web Audio API, procedurally generated):
+  - `playSFX('hit')` - Square wave impact sound (player damage)
+  - `playSFX('shoot')` - Sine wave projectile sound (30% trigger rate)
+  - `playSFX('levelup')` - C-E-G ascending chord
+  - `playSFX('bossdeath')` - Sawtooth descending tone (0.5s)
+  - `playSFX('explosion')` - White noise burst (enemy death, 20% rate)
+  - All SFX respect master and SFX volume settings
+  - Zero file size overhead (no audio files needed)
 
 ## Language and Localization
 
@@ -154,7 +189,10 @@ Mobile-specific adjustments:
 - Size scaling: `sizeScale = 1.2`, `playerSizeScale = 2.25` for mobile (increases visibility) (~line 1288-1289)
 - Touch event handlers prevent default browser behavior with `{ passive: false }` (~lines 1566-1568)
 - Direct touch-drag movement system (~lines 1508-1538)
-- Haptic feedback on hit via `navigator.vibrate()` (when available)
+- **Haptic Feedback** via `navigator.vibrate()`:
+  - 50ms pulse on player damage (enemy collision or projectile hit)
+  - [100, 50, 100]ms double pulse on level up
+  - [200, 100, 200, 100, 200]ms triple pulse on boss kill
 - Responsive CSS breakpoints for small screens (~line 508)
 - Time UI repositioned on mobile devices
 
@@ -185,8 +223,49 @@ Canvas uses device pixel ratio for sharp rendering on high-DPI displays:
 - Best records (`bestTime`, `bestKills`) tracked per session
 - Stage unlocks persist across game sessions
 
-**Performance Considerations**:
+**Performance Optimizations**:
+- **Spatial Hash Grid** (~lines 1587-1630): Cell-based collision detection (150px cells) reduces O(n²) to O(n)
+- **Object Pooling** (~lines 1632-1685): Pre-allocated projectile pool (100 objects) reduces GC pressure
+- **Asset Preloader** (~lines 3843-3906): Progressive loading with visual feedback (22 assets)
+- **FPS Counter** (toggle with 'F' key): Performance monitoring tool for development
+- **Loading Screen**: Menu background with progress bar during asset loading
 - Single HTML file = no bundler, but ~4000+ lines of JavaScript
 - All assets loaded as external files
 - Canvas rendering with sprite-based graphics
-- Entity arrays (enemies, projectiles) grow during gameplay - monitor performance on long runs
+- Entity arrays (enemies, projectiles) managed with pooling for better performance
+
+## Production Build
+
+### Files
+- **index.html** (162KB) - Development version with full comments and formatting
+- **index.min.html** (91KB) - Production version, 44% smaller
+- **minify.js** - Node.js build script for creating minified version
+- **BUILD.md** - Comprehensive production deployment guide
+
+### SEO & Social Media
+Complete meta tags in `<head>` section (~lines 8-36):
+- SEO meta tags (description, keywords, author)
+- Open Graph tags for Facebook/Kakao sharing
+- Twitter Card support
+- PWA-ready meta tags (mobile-web-app-capable, theme-color)
+- Game-specific metadata
+
+### Building for Production
+```bash
+node minify.js
+```
+Outputs `index.min.html` with:
+- All comments removed
+- Whitespace compressed
+- 44% file size reduction
+- Further compression possible with gzip (15-20KB estimated)
+
+### Deployment Checklist
+See `BUILD.md` for complete guide including:
+- Meta tag URL updates
+- Mobile testing verification
+- Audio/haptic testing
+- Asset verification
+- CORS configuration
+- Server gzip setup
+- Optional service worker for offline play

@@ -1,0 +1,28 @@
+# Node modules
+node_modules/
+
+# Certificates (보안 중요!)
+certs/
+*.key
+*.crt
+*.pem
+
+# Environment variables
+.env
+.env.local
+
+# Build files
+*.min.html.backup
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+nul
+
+# IDE
+.vscode/
+.idea/
