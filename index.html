@@ -1900,11 +1900,9 @@
         const stages = [
             {
                 id: 1,
-                name: '기지 방어전',
-                icon: '🏭',
-                description: '3종류 적 드론 출현 (시간에 따라 강해짐)',
+                name: '파괴된 도시',
                 unlocked: true,
-                spawnRate: 0.0008,  // 적 출현율 증가 (초반 몹이 더 많이 나옴)
+                spawnRate: 0.0016,  // 모바일 초반 스폰 개선 (2배 증가)
                 enemyTypes: {
                     // 시간대별로 동적 변경 (getEnemyTypeForStage 함수 참조)
                     melee: 1.0,
@@ -1915,11 +1913,9 @@
             },
             {
                 id: 2,
-                name: '도시 전선',
-                icon: '🏙️',
-                description: '보라색 드론 등장',
+                name: '사막 점거지',
                 unlocked: false,
-                spawnRate: 0.001,
+                spawnRate: 0.002,  // 모바일 초반 스폰 개선 (2배 증가)
                 enemyTypes: {
                     melee: 0.7,
                     purple: 0.3,
@@ -1929,11 +1925,9 @@
             },
             {
                 id: 3,
-                name: '사막 작전',
-                icon: '🏜️',
-                description: '원거리 드론까지 출현',
+                name: '최종장',
                 unlocked: false,
-                spawnRate: 0.0012,
+                spawnRate: 0.0024,  // 모바일 초반 스폰 개선 (2배 증가)
                 enemyTypes: {
                     melee: 0.5,
                     purple: 0.3,
@@ -2138,9 +2132,7 @@
                 if (!stage.unlocked) card.classList.add('locked');
 
                 card.innerHTML = `
-                    <div class="stage-icon">${stage.icon}</div>
                     <div class="stage-name">${stage.name}</div>
-                    <div class="stage-description">${stage.description}</div>
                     ${!stage.unlocked ? '<div style="color: #666; margin-top: 10px;">🔒 잠김</div>' : ''}
                 `;
 
@@ -2794,7 +2786,7 @@
                         y: player.y,
                         vx: Math.cos(angle) * missileSpeed,
                         vy: Math.sin(angle) * missileSpeed,
-                        size: 6 * sizeScale,
+                        size: 3 * sizeScale,  // 크기 반으로 줄임 (6 → 3)
                         damage: missileDamage,
                         target: nearest
                     });
