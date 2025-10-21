@@ -1904,7 +1904,7 @@
                 id: 1,
                 name: '파괴된 도시',
                 unlocked: true,
-                spawnRate: 0.0016,  // 모바일 초반 스폰 개선 (2배 증가)
+                spawnRate: 0.005,  // 초반 스폰율 3배 증가 (1~2초마다 적 출현)
                 enemyTypes: {
                     // 시간대별로 동적 변경 (getEnemyTypeForStage 함수 참조)
                     melee: 1.0,
@@ -1917,7 +1917,7 @@
                 id: 2,
                 name: '사막 점거지',
                 unlocked: false,
-                spawnRate: 0.002,  // 모바일 초반 스폰 개선 (2배 증가)
+                spawnRate: 0.006,  // Stage 2 스폰율 증가
                 enemyTypes: {
                     melee: 0.7,
                     purple: 0.3,
@@ -1929,7 +1929,7 @@
                 id: 3,
                 name: '최종장',
                 unlocked: false,
-                spawnRate: 0.0024,  // 모바일 초반 스폰 개선 (2배 증가)
+                spawnRate: 0.007,  // Stage 3 스폰율 증가
                 enemyTypes: {
                     melee: 0.5,
                     purple: 0.3,
@@ -1943,7 +1943,7 @@
         const endlessMode = {
             name: '무한 생존',
             description: '끝없이 몰려오는 적들',
-            spawnRate: 0.001,  // 무한모드 출현율 증가
+            spawnRate: 0.004,  // 무한모드 출현율 4배 증가
             enemyTypes: {
                 melee: 0.5,
                 purple: 0.3,
@@ -3254,8 +3254,8 @@
                     spawnBoss(selectedStage);
                 }
 
-                // 스테이지별 적 출현율 (시간에 따른 증가량 대폭 감소)
-                if (Math.random() < stage.spawnRate + (gameTime / 10000000)) {
+                // 스테이지별 적 출현율 (시간에 따른 증가량 10배 상향)
+                if (Math.random() < stage.spawnRate + (gameTime / 1000000)) {
                     spawnEnemy();
                 }
             } else {
