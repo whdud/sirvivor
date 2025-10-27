@@ -69,7 +69,10 @@
       "Bash(start \"http://localhost:3000?token=test_token_12345\")",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push)"
+      "Bash(git push)",
+      "WebFetch(domain:www.youtube.com)",
+      "Bash(powershell:*)",
+      "Bash(awk:*)"
     ],
     "deny": [],
     "ask": []
