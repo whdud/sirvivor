@@ -1512,7 +1512,7 @@
         </div>
         
         <div id="timeUI" onclick="handleBossCheatTap()" style="cursor: pointer; user-select: none;">
-            <span id="time">0</span>s
+            시간: <span id="time">0</span>s
         </div>
         
         <div id="goldUI">
@@ -1635,7 +1635,7 @@
             <div class="start-buttons">
                 <button onclick="startGame()">게임 시작</button>
                 <button class="icon-button" onclick="openShop()">드론 변경</button>
-                <button class="icon-button" onclick="openSettings()">설정</button>
+                <button class="icon-button" onclick="openSettingsFromMenu()">설정</button>
             </div>
         </div>
         
@@ -1693,8 +1693,13 @@
             <p>생존 시간: <span id="finalTime">0</span>초</p>
             <p>격추한 드론: <span id="finalKills">0</span>대</p>
             <p>획득 스크랩: <span id="finalGold">0</span></p>
+
             <button onclick="restartGame()">다시 시작</button>
-            <button onclick="goToMainMenu()" style="background: #4ecca3; margin-left: 10px;">메인 메뉴</button>
+            <button onclick="goToMainMenu()" style="background: #4ecca3;">메인 메뉴</button>
+            <!-- 보상형 광고 부활 버튼 -->
+            <button id="reviveButton" onclick="watchAdToRevive()" style="background: #ff6b6b; color: white; margin: 10px auto; width: fit-content; display: none;">
+                광고보고 부활
+            </button>
         </div>
         
         <div id="levelUp">
@@ -1935,9 +1940,15 @@
         let gameStarted = false;
         let gameRunning = false;
         let gameLoopId = 0;  // 게임 루프 중복 실행 방지용 ID
+        let settingsOpenedFrom = 'menu';  // 설정을 어디서 열었는지 추적 ('menu' 또는 'game')
         let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         let sizeScale = isMobile ? 1.2 : 1.5;  // 적 크기 (모바일 1.2배, PC 1.5배)
         let playerSizeScale = isMobile ? 1.5 : 2.25;  // 플레이어 크기 (모바일 1.5배, PC 2.25배)
+
+        // 화면 흔들림 변수
+        let shakeIntensity = 0;  // 현재 흔들림 강도
+        let shakeX = 0;          // X축 흔들림 오프셋
+        let shakeY = 0;          // Y축 흔들림 오프셋
 
         const player = {
             x: 0,
@@ -2279,6 +2290,7 @@
         let gameMode = 'story';  // 'story' or 'endless'
         let bossSpawned = false;
         let boss = null;
+        let lastBossSpawnTime = -1;  // 마지막 보스 스폰 시간 (무한 모드용)
 
         // 필살기 시스템 변수
         let ultimateReady = true;
@@ -2789,6 +2801,8 @@
             gameRunning = true;
             bossSpawned = false;
             boss = null;
+            lastBossSpawnTime = -1;
+            canRevive = true;  // 부활 기회 초기화
 
             // 필살기 초기화
             ultimateReady = true;
@@ -2918,6 +2932,7 @@
         }
 
         function openSettingsFromMenu() {
+            settingsOpenedFrom = 'menu';  // 메뉴에서 열었음을 기록
             document.getElementById('mainMenu').style.display = 'none';
             document.getElementById('settingsScreen').style.display = 'flex';
 
@@ -2931,6 +2946,7 @@
         }
 
         function openSettings() {
+            settingsOpenedFrom = 'game';  // 게임에서 열었음을 기록
             // 게임 중이라면 일시정지
             if (gameRunning) {
                 gameRunning = false;
@@ -2948,12 +2964,22 @@
 
         function closeSettings() {
             document.getElementById('settingsScreen').style.display = 'none';
-            if (!gameStarted) {
+
+            // 설정을 어디서 열었는지에 따라 다르게 처리
+            if (settingsOpenedFrom === 'menu') {
+                // 메뉴에서 열었으면 메뉴로 돌아감
                 document.getElementById('mainMenu').style.display = 'flex';
             } else {
-                // 게임 중이었다면 게임 재개
-                gameRunning = true;
-                lastTime = Date.now();
+                // 게임에서 열었으면 게임 재개 (단, 특수 상황 제외)
+                const levelUpVisible = document.getElementById('levelUp').style.display === 'block';
+                const gameOverVisible = document.getElementById('gameOver').style.display === 'block';
+                const stageClearVisible = document.getElementById('stageClear').style.display === 'block';
+
+                // 보스 사망 애니메이션, 레벨업, 게임오버, 스테이지 클리어 화면이 없을 때만 재개
+                if (!bossDeathAnimation && !levelUpVisible && !gameOverVisible && !stageClearVisible) {
+                    gameRunning = true;
+                    lastTime = Date.now();
+                }
             }
         }
 
@@ -3025,6 +3051,14 @@
             if (navigator.vibrate) {
                 navigator.vibrate(pattern);
             }
+        }
+
+        /**
+         * 화면 흔들림 효과 (iOS에서도 작동)
+         * @param {number} intensity - 흔들림 강도 (픽셀)
+         */
+        function triggerScreenShake(intensity) {
+            shakeIntensity = Math.max(shakeIntensity, intensity);
         }
 
         /**
@@ -3670,7 +3704,8 @@
             bossDeathFlashTimer = 0;
             gameRunning = false; // 게임 일시정지
 
-            // 강력한 진동
+            // 강력한 진동 및 화면 흔들림
+            triggerScreenShake(15);  // 매우 강한 흔들림 (15픽셀)
             if (navigator.vibrate) {
                 navigator.vibrate([100, 50, 100, 50, 100, 50, 100, 50, 100, 50, 500]);
             }
@@ -3901,7 +3936,7 @@
             }
         }
 
-        function spawnBoss(stageId = 1) {
+        function spawnBoss(stageId = 1, difficultyMultiplier = 1) {
             if (bossSpawned || boss) return;
 
             bossSpawned = true;
@@ -3913,10 +3948,10 @@
             if (stageId === 1) {
                 // Stage 1 보스: 기본 패턴 (8방향 방사형)
                 bossConfig = {
-                    hp: 40000,
-                    maxHp: 40000,
+                    hp: Math.floor(40000 * difficultyMultiplier),
+                    maxHp: Math.floor(40000 * difficultyMultiplier),
                     speed: 1.2,
-                    shootCooldown: 1500,
+                    shootCooldown: Math.max(500, Math.floor(1500 / difficultyMultiplier)),
                     horizontalSpeed: 3,
                     pattern: 'radial',
                     stageId: 1
@@ -3924,10 +3959,10 @@
             } else if (stageId === 2) {
                 // Stage 2 보스: 빠른 공격 + 나선형 패턴
                 bossConfig = {
-                    hp: 56000,
-                    maxHp: 56000,
+                    hp: Math.floor(56000 * difficultyMultiplier),
+                    maxHp: Math.floor(56000 * difficultyMultiplier),
                     speed: 1.5,
-                    shootCooldown: 1000,
+                    shootCooldown: Math.max(400, Math.floor(1000 / difficultyMultiplier)),
                     horizontalSpeed: 4,
                     pattern: 'spiral',
                     spiralAngle: 0,
@@ -3936,10 +3971,10 @@
             } else if (stageId === 3) {
                 // Stage 3 보스: 높은 체력 + 복합 패턴 (방사형 + 플레이어 타겟)
                 bossConfig = {
-                    hp: 80000,
-                    maxHp: 80000,
+                    hp: Math.floor(80000 * difficultyMultiplier),
+                    maxHp: Math.floor(80000 * difficultyMultiplier),
                     speed: 1.8,
-                    shootCooldown: 800,
+                    shootCooldown: Math.max(300, Math.floor(800 / difficultyMultiplier)),
                     horizontalSpeed: 5,
                     pattern: 'mixed',
                     patternCounter: 0,
@@ -3969,7 +4004,8 @@
                 pattern: bossConfig.pattern,
                 spiralAngle: bossConfig.spiralAngle || 0,
                 patternCounter: bossConfig.patternCounter || 0,
-                stageId: bossConfig.stageId
+                stageId: bossConfig.stageId,
+                difficultyLevel: Math.max(1, Math.floor(difficultyMultiplier))  // 난이도 레벨 (1, 2, 3, ...)
             };
 
             enemies.push(boss);
@@ -4447,6 +4483,18 @@
         }
         
         function update(deltaTime) {
+            // 화면 흔들림 업데이트 (게임 일시정지 중에도 작동)
+            if (shakeIntensity > 0) {
+                shakeX = (Math.random() - 0.5) * shakeIntensity * 2;
+                shakeY = (Math.random() - 0.5) * shakeIntensity * 2;
+                shakeIntensity *= 0.9; // 감쇠
+                if (shakeIntensity < 0.1) {
+                    shakeIntensity = 0;
+                    shakeX = 0;
+                    shakeY = 0;
+                }
+            }
+
             // 보스 사망 애니메이션 중이면 애니메이션만 업데이트
             if (bossDeathAnimation) {
                 bossDeathTimer += deltaTime;
@@ -4873,15 +4921,22 @@
                     spawnEnemy();
                 }
             } else {
-                // 무한 모드 - 5분마다 보스 출현 및 스테이지별 적
-                const timeInMinutes = gameTime / 60000;
+                // 무한 모드 - 5분마다 보스 출현 (순차적으로 1→2→3 반복, 사이클마다 강화)
+                const currentBossInterval = Math.floor(gameTime / 300000); // 5분 = 300000ms
 
-                // 보스 출현 (5분, 10분, 15분)
-                if ((gameTime >= 300000 && gameTime < 300100 && !bossSpawned) ||
-                    (gameTime >= 600000 && gameTime < 600100 && !bossSpawned) ||
-                    (gameTime >= 900000 && gameTime < 900100 && !bossSpawned)) {
-                    const bossStage = Math.floor(timeInMinutes / 5);
-                    spawnBoss(Math.min(bossStage, 3));
+                // 새로운 5분 구간에 진입했고 보스가 없을 때 (첫 보스는 5분부터)
+                if (currentBossInterval > 0 && currentBossInterval > lastBossSpawnTime && !bossSpawned && !boss) {
+                    // 보스 스테이지를 1→2→3 순환
+                    const bossStage = ((currentBossInterval - 1) % 3) + 1;
+
+                    // 사이클 계산 (3번마다 1사이클 = 15분마다)
+                    const cycle = Math.floor((currentBossInterval - 1) / 3);
+
+                    // 난이도 배율: 사이클마다 50% 증가 (1.0 → 1.5 → 2.0 → 2.5 ...)
+                    const difficultyMultiplier = 1 + (cycle * 0.5);
+
+                    spawnBoss(bossStage, difficultyMultiplier);
+                    lastBossSpawnTime = currentBossInterval;
                 }
 
                 // 적 출현 (난이도 시간에 따라 증가)
@@ -5060,6 +5115,7 @@
                             isPlayerHit = true;
                             hitFlashTime = 0;
                             playSFX('hit');
+                            triggerScreenShake(3);  // 약한 흔들림 (3픽셀)
                             if (navigator.vibrate) {
                                 navigator.vibrate(50);
                             }
@@ -5194,6 +5250,7 @@
                             isPlayerHit = true;
                             hitFlashTime = 0;
                             playSFX('hit');
+                            triggerScreenShake(3);  // 약한 흔들림 (3픽셀)
                             if (navigator.vibrate) {
                                 navigator.vibrate(50);
                             }
@@ -5270,11 +5327,31 @@
                     updateGoldUI();
                 }
             });
-            
+
             updateUI();
         }
-        
+
+        // 둥근 모서리 사각형 그리기 헬퍼 함수
+        function fillRoundedRect(x, y, width, height, radius) {
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.arcTo(x + width, y, x + width, y + radius, radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.arcTo(x + width, y + height, x + width - radius, y + height, radius);
+            ctx.lineTo(x + radius, y + height);
+            ctx.arcTo(x, y + height, x, y + height - radius, radius);
+            ctx.lineTo(x, y + radius);
+            ctx.arcTo(x, y, x + radius, y, radius);
+            ctx.closePath();
+            ctx.fill();
+        }
+
         function draw() {
+            // 화면 흔들림 적용 (iOS에서도 작동)
+            ctx.save();
+            ctx.translate(shakeX, shakeY);
+
             // 배경 그리기 (스크롤) - 스테이지별 배경 선택
             const currentBackground = (gameMode === 'story' && backgroundSprites[selectedStage])
                 ? backgroundSprites[selectedStage]
@@ -5730,21 +5807,23 @@
                         ctx.stroke();
                     }
 
-                    // 보스 HP 바 (더 크게)
+                    // 보스 HP 바 (더 크게, 둥근 모서리)
                     const barWidth = enemy.size * 2.5;
                     const barHeight = 8;
+                    const barRadius = 3;
                     ctx.fillStyle = '#000000';
-                    ctx.fillRect(enemy.x - barWidth/2, enemy.y - enemy.size - 20, barWidth, barHeight);
+                    fillRoundedRect(enemy.x - barWidth/2, enemy.y - enemy.size - 20, barWidth, barHeight, barRadius);
                     ctx.fillStyle = '#ff0000';
-                    ctx.fillRect(enemy.x - barWidth/2 + 2, enemy.y - enemy.size - 18, barWidth - 4, barHeight - 4);
+                    fillRoundedRect(enemy.x - barWidth/2 + 2, enemy.y - enemy.size - 18, barWidth - 4, barHeight - 4, barRadius - 1);
                     ctx.fillStyle = '#ffff00';
-                    ctx.fillRect(enemy.x - barWidth/2 + 2, enemy.y - enemy.size - 18, (enemy.hp / enemy.maxHp) * (barWidth - 4), barHeight - 4);
+                    fillRoundedRect(enemy.x - barWidth/2 + 2, enemy.y - enemy.size - 18, (enemy.hp / enemy.maxHp) * (barWidth - 4), barHeight - 4, barRadius - 1);
 
-                    // 보스 이름 표시
+                    // 보스 이름 표시 (난이도 레벨 포함)
                     ctx.fillStyle = '#ffff00';
                     ctx.font = 'bold 16px Arial';
                     ctx.textAlign = 'center';
-                    ctx.fillText('BOSS', enemy.x, enemy.y - enemy.size - 30);
+                    const bossLabel = enemy.difficultyLevel > 1 ? `BOSS [Lv.${enemy.difficultyLevel}]` : 'BOSS';
+                    ctx.fillText(bossLabel, enemy.x, enemy.y - enemy.size - 30);
                 } else if (enemy.type === 'purple') {
                     // 보라 적 - StageXEnemy2.png 사용 + 회전 (반대 방향)
                     const enemyKey = `stage${currentStage}_enemy2`;
@@ -5776,10 +5855,11 @@
 
                     const barWidth = enemy.size * 2;
                     const barHeight = 4;
+                    const barRadius = 2;
                     ctx.fillStyle = '#ff0000';
-                    ctx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, barWidth, barHeight);
+                    fillRoundedRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, barWidth, barHeight, barRadius);
                     ctx.fillStyle = '#00ff00';
-                    ctx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, (enemy.hp / enemy.maxHp) * barWidth, barHeight);
+                    fillRoundedRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, (enemy.hp / enemy.maxHp) * barWidth, barHeight, barRadius);
                 } else if (enemy.type === 'ranged') {
                     // 원거리 적 - StageXEnemy3.png 사용 + 회전 (반대 방향)
                     const enemyKey = `stage${currentStage}_enemy3`;
@@ -5812,10 +5892,11 @@
 
                     const barWidth = enemy.size * 2;
                     const barHeight = 4;
+                    const barRadius = 2;
                     ctx.fillStyle = '#ff0000';
-                    ctx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, barWidth, barHeight);
+                    fillRoundedRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, barWidth, barHeight, barRadius);
                     ctx.fillStyle = '#00ff00';
-                    ctx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, (enemy.hp / enemy.maxHp) * barWidth, barHeight);
+                    fillRoundedRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, (enemy.hp / enemy.maxHp) * barWidth, barHeight, barRadius);
                 } else {
                     // 기본 적 - StageXEnemy1.png 사용 + 회전 (반대 방향)
                     const enemyKey = `stage${currentStage}_enemy1`;
@@ -5848,10 +5929,11 @@
 
                     const barWidth = enemy.size * 2;
                     const barHeight = 4;
+                    const barRadius = 2;
                     ctx.fillStyle = '#ff0000';
-                    ctx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, barWidth, barHeight);
+                    fillRoundedRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, barWidth, barHeight, barRadius);
                     ctx.fillStyle = '#00ff00';
-                    ctx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, (enemy.hp / enemy.maxHp) * barWidth, barHeight);
+                    fillRoundedRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, (enemy.hp / enemy.maxHp) * barWidth, barHeight, barRadius);
                 }
             });
             
@@ -6084,8 +6166,11 @@
 
                 ctx.restore();
             }
+
+            // 화면 흔들림 복원
+            ctx.restore();
         }
-        
+
         function updateUI() {
             document.getElementById('hp').textContent = Math.max(0, Math.floor(player.hp));
             document.getElementById('maxHp').textContent = player.maxHp;
@@ -6101,6 +6186,8 @@
             document.getElementById('xpBar').style.width = xpPercent + '%';
         }
         
+        let canRevive = true;  // 게임당 1회만 부활 가능
+
         function gameOver() {
             gameRunning = false;
             document.getElementById('homeButton').style.display = 'none';
@@ -6115,6 +6202,15 @@
             document.getElementById('finalTime').textContent = finalTime;
             document.getElementById('finalKills').textContent = finalKills;
             document.getElementById('finalGold').textContent = currentGold;
+
+            // 부활 버튼 표시 여부 (1회만 가능)
+            const reviveBtn = document.getElementById('reviveButton');
+            if (canRevive) {
+                reviveBtn.style.display = 'block';
+            } else {
+                reviveBtn.style.display = 'none';
+            }
+
             document.getElementById('gameOver').style.display = 'block';
 
             // Toss 점수 저장
@@ -6126,6 +6222,50 @@
                     mode: gameMode,
                     stage: selectedStage
                 }).catch(err => console.error('Failed to save score to Toss:', err));
+            }
+        }
+
+        // 광고 보고 부활하기
+        async function watchAdToRevive() {
+            if (!window.tossIntegration) {
+                alert('Toss 연동이 필요합니다.');
+                return;
+            }
+
+            if (!canRevive) {
+                alert('이미 부활을 사용했습니다.');
+                return;
+            }
+
+            // 광고 표시 및 보상 처리
+            const success = await window.tossIntegration.showRewardedAd((reward) => {
+                console.log('✅ 부활 보상 획득:', reward);
+
+                // 부활 처리
+                player.hp = player.maxHp * 0.5;  // HP 50% 회복
+                canRevive = false;  // 부활 사용 완료
+                gameRunning = true;
+
+                // 게임 오버 화면 닫기
+                document.getElementById('gameOver').style.display = 'none';
+                document.getElementById('homeButton').style.display = 'block';
+
+                // 무적 시간 5초 부여
+                invincible = true;
+                invincibleTimer = 5000;
+
+                // 효과음 및 화면 흔들림
+                playSFX('levelup');
+                triggerScreenShake(10);
+
+                // UI 업데이트
+                updateUI();
+
+                console.log('🎮 부활 완료! 무적 5초 부여');
+            });
+
+            if (!success) {
+                console.error('광고 표시 실패');
             }
         }
         
