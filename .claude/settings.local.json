@@ -73,7 +73,11 @@
       "WebFetch(domain:www.youtube.com)",
       "Bash(powershell:*)",
       "Bash(awk:*)",
-      "WebFetch(domain:psw-tony.tistory.com)"
+      "WebFetch(domain:psw-tony.tistory.com)",
+      "Bash(npm run dev:*)",
+      "Bash(netstat:*)",
+      "Bash(nul)",
+      "Bash(taskkill /PID 7636 /F)"
     ],
     "deny": [],
     "ask": []

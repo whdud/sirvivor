@@ -35,6 +35,9 @@
     <meta name="game:platform" content="Web, Mobile">
     <meta name="game:release_date" content="2025">
 
+    <!-- Toss Apps-in-Toss SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@apps-in-toss/web-framework@latest/dist/index.js"></script>
+
     <!-- Toss Apps-in-Toss Integration -->
     <script src="toss-integration.js" defer></script>
 
@@ -1031,6 +1034,7 @@
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 2px 8px rgba(88, 28, 135, 0.3);
+            position: relative;
         }
 
         .character-card:hover {
@@ -1067,6 +1071,174 @@
             margin: 3px 0;
         }
         
+        .character-info-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: transparent;
+            color: rgba(78, 204, 163, 1);
+            border: 2px solid rgba(78, 204, 163, 1);
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .character-info-btn:hover {
+            background: rgba(78, 204, 163, 0.15);
+            color: #fff;
+            border-color: #fff;
+            transform: scale(1.15);
+            box-shadow: 0 0 12px rgba(78, 204, 163, 0.6);
+        }
+
+        /* 캐릭터 상세 모달 */
+        .character-lore-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .character-lore-content {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.98), rgba(59, 7, 100, 0.95));
+            border: 3px solid rgba(168, 85, 247, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 50px rgba(168, 85, 247, 0.5);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .character-lore-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 51, 51, 0.8);
+            color: white;
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .character-lore-close:hover {
+            background: rgba(255, 51, 51, 1);
+            transform: rotate(90deg);
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.8);
+        }
+
+        .character-lore-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(168, 85, 247, 0.5);
+        }
+
+        .character-lore-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            background: rgba(168, 85, 247, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(168, 85, 247, 0.5);
+        }
+
+        .character-lore-icon img {
+            width: 64px;
+            height: 64px;
+            image-rendering: pixelated;
+        }
+
+        .character-lore-title {
+            flex: 1;
+        }
+
+        .character-lore-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .character-lore-stats {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .character-lore-ultimate {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid #ffd700;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .character-lore-ultimate-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 8px;
+        }
+
+        .character-lore-ultimate-desc {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #fff;
+        }
+
+        .character-lore-description {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #ddd;
+            white-space: pre-line;
+        }
+
         .character-price {
             color: #ffd700;
             font-weight: bold;
@@ -1488,6 +1660,64 @@
             background: #5eead4;
             transform: scale(0.95);
         }
+
+        /* 캐릭터 설명 모달 */
+        #characterDescModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        #characterDescModal .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            border: 2px solid #4ecca3;
+            box-shadow: 0 0 30px rgba(78, 204, 163, 0.5);
+        }
+
+        #characterDescModal h2 {
+            color: #4ecca3;
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        #characterDescModal .desc-text {
+            color: #ddd;
+            line-height: 1.8;
+            white-space: pre-line;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        #characterDescModal button {
+            width: 100%;
+            padding: 12px;
+            background: #4ecca3;
+            color: #1a1a2e;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #characterDescModal button:hover {
+            background: #5eead4;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -1539,6 +1769,16 @@
             </div>
         </div>
 
+        <!-- 에너지 부족 모달 -->
+        <div id="energyDepletedModal" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.95); padding: 30px; border-radius: 15px; text-align: center; color: white; display: none; z-index: 35; min-width: 300px; border: 2px solid #ff6b6b;">
+            <h3 style="color: #ff6b6b; margin-bottom: 20px; font-size: 20px;">에너지 부족</h3>
+            <p style="margin-bottom: 25px; color: #aaa; font-size: 14px;">에너지가 부족합니다! 친구초대로 에너지 충전하기!</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-yes" onclick="inviteFriendsFromModal()">친구 초대</button>
+                <button class="modal-btn modal-btn-no" onclick="closeEnergyModal()">취소</button>
+            </div>
+        </div>
+
         <div id="unlockModal" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.95); padding: 30px; border-radius: 15px; text-align: center; color: white; display: none; z-index: 30; min-width: 300px; border: 2px solid #4ecca3;">
             <h3 style="color: #4ecca3; margin-bottom: 20px; font-size: 20px;">캐릭터 해금</h3>
             <p id="unlockModalText" style="margin-bottom: 25px; color: #aaa; font-size: 14px;"></p>
@@ -1569,13 +1809,25 @@
             </div>
         </div>
 
+        <!-- 에너지 표시 (모든 화면 좌측 상단 고정, 인게임 제외) -->
+        <div id="heartDisplay" style="position: fixed; top: 20px; left: 20px; color: white; font-size: 18px; z-index: 1000; display: none; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);">
+            <div id="heartIcons" style="display: flex; gap: 3px; margin-bottom: 5px;"></div>
+            <div id="heartCount" style="font-size: 14px; color: #4ecca3; font-weight: bold;">5/5</div>
+            <div id="heartTimer" style="font-size: 12px; color: #fff; margin-top: 3px;"></div>
+        </div>
+
         <div id="mainMenu">
+            <!-- 연령 등급 (우측 상단) -->
+            <div style="position: absolute; top: 20px; right: 20px; color: white; font-size: 14px; text-align: right; z-index: 10;">
+                전체이용가
+            </div>
             <div class="menu-content">
                 <h1 class="menu-title">DRONE WAR</h1>
                 <p class="menu-subtitle" style="font-size: 28px; color: #ff3333; font-weight: bold; margin-top: 10px;">드론 워</p>
                 <div class="menu-buttons">
-                    <button class="menu-button" onclick="startGame()">게임 시작</button>
+                    <button class="menu-button" id="startGameButton" onclick="tryStartGame()">게임 시작</button>
                     <button class="menu-button" onclick="openShopFromMenu()">드론 변경</button>
+                    <button class="menu-button" onclick="openTossLeaderboard()">리더보드</button>
                     <button class="menu-button" onclick="openSettingsFromMenu()">설정</button>
                 </div>
             </div>
@@ -1647,7 +1899,26 @@
                 <button class="close-button" onclick="closeShop()">닫기</button>
             </div>
         </div>
-        
+
+        <!-- 캐릭터 상세 정보 모달 -->
+        <div id="characterLoreModal" class="character-lore-modal" onclick="closeCharacterLore(event)">
+            <div class="character-lore-content" onclick="event.stopPropagation()">
+                <button class="character-lore-close" onclick="closeCharacterLore()">×</button>
+                <div class="character-lore-header">
+                    <div class="character-lore-icon" id="loreCharacterIcon"></div>
+                    <div class="character-lore-title">
+                        <div class="character-lore-name" id="loreCharacterName"></div>
+                        <div class="character-lore-stats" id="loreCharacterStats"></div>
+                    </div>
+                </div>
+                <div class="character-lore-ultimate">
+                    <div class="character-lore-ultimate-title" id="loreUltimateTitle">필살기</div>
+                    <div class="character-lore-ultimate-desc" id="loreUltimateDesc"></div>
+                </div>
+                <div class="character-lore-description" id="loreCharacterDesc"></div>
+            </div>
+        </div>
+
         <div id="settingsScreen">
             <div style="text-align: center; max-width: 500px; width: 100%;">
                 <h1 id="settingsTitle" onclick="handleCheatTap()" style="cursor: pointer; user-select: none;">설정</h1>
@@ -1701,7 +1972,7 @@
                 광고보고 부활
             </button>
         </div>
-        
+
         <div id="levelUp">
             <h2>레벨 업! 업그레이드를 선택하세요</h2>
             <div id="upgradeOptions"></div>
@@ -2095,8 +2366,8 @@
         
         // 오디오 설정
         let masterVolume = 1.0;
-        let musicVolume = 1.0;
-        let sfxVolume = 1.0;
+        let musicVolume = 0.3;  // 배경음악 30%
+        let sfxVolume = 0.8;    // 효과음 80% (Web Audio API에서 증폭)
 
         // Web Audio API for SFX and BGM volume control
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -2115,7 +2386,7 @@
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
 
-            const volume = masterVolume * sfxVolume * 0.3;  // 3배 증가 (0.1 -> 0.3)
+            const volume = masterVolume * sfxVolume * 0.5;  // 효과음 증폭
             gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
 
             switch(type) {
@@ -2138,14 +2409,11 @@
                     break;
 
                 case 'levelup':
-                    oscillator.type = 'sine';
-                    oscillator.frequency.setValueAtTime(523, audioContext.currentTime);
-                    oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1);
-                    oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.3);
-                    break;
+                    // upgrade.wav 파일 재생
+                    upgradeSfx.volume = volume;
+                    upgradeSfx.currentTime = 0; // 처음부터 재생
+                    upgradeSfx.play().catch(err => console.warn('레벨업 사운드 재생 실패:', err));
+                    return; // oscillator 사용 안 함
 
                 case 'bossdeath':
                     oscillator.type = 'sawtooth';
@@ -2206,6 +2474,10 @@
         stage3BgmSource.connect(stage3BgmGain);
         stage3BgmGain.connect(audioContext.destination);
 
+        // 레벨업 SFX 로드
+        const upgradeSfx = new Audio('assets/bgm/upgrade.wav');
+        upgradeSfx.preload = 'auto';
+
         // BGM GainNode 맵핑
         const bgmGainMap = new Map([
             [mainBgm, mainBgmGain],
@@ -2221,7 +2493,188 @@
         ultimateSound.volume = masterVolume * sfxVolume;
 
         let currentBgm = null;
-        
+
+        // ==================== 에너지 시스템 ====================
+        class HeartSystem {
+            constructor(userKey) {
+                this.userKey = userKey;
+                this.maxHearts = 5;
+                this.recoveryTimeMs = 30 * 60 * 1000; // 30분
+                this.costPerGame = 1;
+                this.storageKey = `hearts_${userKey}`;
+                this.data = this.load();
+                this.startRecoveryTimer();
+            }
+
+            load() {
+                try {
+                    const stored = localStorage.getItem(this.storageKey);
+                    if (stored) {
+                        const data = JSON.parse(stored);
+                        // 경과 시간만큼 에너지 회복
+                        this.recoverHearts(data);
+                        return data;
+                    }
+                } catch (error) {
+                    console.error('에너지 로드 실패:', error);
+                }
+
+                // 기본값: 최대 에너지로 시작
+                return {
+                    hearts: this.maxHearts,
+                    lastRecoveryTime: Date.now()
+                };
+            }
+
+            save() {
+                try {
+                    localStorage.setItem(this.storageKey, JSON.stringify(this.data));
+                } catch (error) {
+                    console.error('에너지 저장 실패:', error);
+                }
+            }
+
+            recoverHearts(data) {
+                if (data.hearts >= this.maxHearts) {
+                    data.lastRecoveryTime = Date.now();
+                    return;
+                }
+
+                const elapsed = Date.now() - data.lastRecoveryTime;
+                const recoveredCount = Math.floor(elapsed / this.recoveryTimeMs);
+
+                if (recoveredCount > 0) {
+                    data.hearts = Math.min(this.maxHearts, data.hearts + recoveredCount);
+                    data.lastRecoveryTime += recoveredCount * this.recoveryTimeMs;
+                }
+            }
+
+            getHearts() {
+                return this.data.hearts;
+            }
+
+            hasHeart() {
+                return this.data.hearts > 0;
+            }
+
+            useHeart() {
+                if (!this.hasHeart()) {
+                    return false;
+                }
+
+                this.data.hearts--;
+
+                // 첫 에너지 사용 시 회복 타이머 시작
+                if (this.data.hearts === this.maxHearts - 1) {
+                    this.data.lastRecoveryTime = Date.now();
+                }
+
+                this.save();
+                this.notifyUpdate();
+                return true;
+            }
+
+            addHearts(amount) {
+                this.data.hearts = Math.min(this.maxHearts, this.data.hearts + amount);
+                this.save();
+                this.notifyUpdate();
+                console.log(`✅ 에너지 ${amount}개 충전됨! 현재: ${this.data.hearts}/${this.maxHearts}`);
+            }
+
+            getTimeUntilNextHeart() {
+                if (this.data.hearts >= this.maxHearts) {
+                    return 0;
+                }
+
+                const elapsed = Date.now() - this.data.lastRecoveryTime;
+                const remaining = this.recoveryTimeMs - (elapsed % this.recoveryTimeMs);
+                return remaining;
+            }
+
+            formatTime(ms) {
+                const minutes = Math.floor(ms / 60000);
+                const seconds = Math.floor((ms % 60000) / 1000);
+                return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+
+            startRecoveryTimer() {
+                setInterval(() => {
+                    if (this.data.hearts < this.maxHearts) {
+                        this.recoverHearts(this.data);
+                        this.save();
+                        this.notifyUpdate();
+                    }
+                }, 1000); // 1초마다 체크
+            }
+
+            notifyUpdate() {
+                // UI 업데이트 이벤트 발생
+                window.dispatchEvent(new CustomEvent('heartsUpdated', {
+                    detail: {
+                        hearts: this.data.hearts,
+                        max: this.maxHearts,
+                        timeUntilNext: this.getTimeUntilNextHeart()
+                    }
+                }));
+            }
+
+            reset() {
+                this.data = {
+                    hearts: this.maxHearts,
+                    lastRecoveryTime: Date.now()
+                };
+                this.save();
+                this.notifyUpdate();
+            }
+        }
+
+        // 전역 에너지 시스템 (초기화는 나중에)
+        let heartSystem = null;
+
+        // ==================== 게임 상수 정의 ====================
+        const GAME_CONSTANTS = {
+            // 필살기 쿨다운 및 지속시간
+            ULTIMATE_COOLDOWN: 30000,           // 30초
+            VIPER_STUN_DURATION: 4000,          // 4초
+            FALCON_SHIELD_DURATION: 10000,      // 10초
+            CRANE_CLONE_DURATION: 7000,         // 7초
+            RHINO_WAVE_DELAY: 500,              // 0.5초
+            RHINO_MAX_WAVES: 3,
+            SPECTER_PULL_DURATION: 3000,        // 3초
+            SPECTER_COMPRESS_DURATION: 1000,    // 1초
+            SPECTER_RADIUS: 400,
+            PHANTOM_LASER_DURATION: 3000,       // 3초
+            PHANTOM_COOLDOWN: 35000,            // 35초
+
+            // 캐릭터 가격
+            CHAR_PRICE_FALCON: 10000,
+            CHAR_PRICE_CRANE: 15000,
+            CHAR_PRICE_RHINO: 20000,
+            CHAR_PRICE_SPECTER: 25000,
+            CHAR_PRICE_PHANTOM: 30000,
+
+            // 강화 시스템
+            UPGRADE_BASE_COST: 1000,
+            UPGRADE_COST_MULTIPLIER: 1.5,
+            UPGRADE_STAT_MULTIPLIER: 0.1,       // 레벨당 10% 증가
+            MAX_UPGRADE_LEVEL: 9,
+        };
+
+        // 캐릭터 이미지 매핑 (중복 제거)
+        const CHARACTER_IMAGE_PATHS = {
+            'default': 'assets/NormalDrone.png',
+            'warrior': 'assets/SP-02.png',
+            'mage': 'assets/SP-03.png',
+            'archer': 'assets/SP-04.png',
+            'tank': 'assets/SP-05.png',
+            'ninja': 'assets/SP-06.png'
+        };
+
+        // 캐릭터 이미지 가져오기 헬퍼 함수
+        function getCharacterImagePath(charId) {
+            return CHARACTER_IMAGE_PATHS[charId] || null;
+        }
+
         const characters = [
             {
                 id: 'default',
@@ -2231,57 +2684,63 @@
                 price: 0,
                 upgradeLevel: 0,
                 stats: { hp: 500, speed: 4.5, damage: 30 },
-                ultimate: '⚡ 플라즈마 폭풍: 4초간 모든 적 스턴'
+                ultimate: '플라즈마 폭풍: 4초간 모든 적 스턴',
+                description: '【기원】\n세계 연합군이 최초로 양산한 1세대 전투 드론입니다. 수많은 전장에서 검증된 균형잡힌 설계로 "전장의 만능 해결사"라 불립니다.\n\n【전술 특성】\n안정적인 기동성과 화력의 조화. 어떤 상황에서도 믿을 수 있는 범용성이 강점입니다.\n\n【필살기: 플라즈마 폭풍】\n고전압 플라즈마 에너지를 방출하여 4초간 주변 모든 적의 전자 시스템을 무력화시킵니다.'
             },
             {
                 id: 'warrior',
                 name: 'SP-02 Falcon',
                 icon: '✈️',
                 unlocked: false,
-                price: 10000,
+                price: GAME_CONSTANTS.CHAR_PRICE_FALCON,
                 upgradeLevel: 0,
                 stats: { hp: 700, speed: 4.5, damage: 40 },
-                ultimate: '🛡️ 타격 편대: 전방에 3기 공격 드론 소환'
+                ultimate: '철벽 보호막: 10초간 무적 상태',
+                description: '【기원】\n독일 특수부대 GSG-9와 공동 개발한 중거리 타격 전문 드론. "철의 독수리"라는 코드네임으로 유럽 전선을 지켜냈습니다.\n\n【전술 특성】\n강화된 장갑과 화력으로 중거리에서 압도적인 화력 투사가 가능합니다. 방어와 공격의 균형이 뛰어납니다.\n\n【필살기: 철벽 보호막】\n10초간 완전한 무적 상태가 됩니다. 어떤 공격도 통하지 않는 절대 방어 시스템을 전개하여 최전방에서 버텨냅니다.'
             },
             {
                 id: 'mage',
                 name: 'SP-03 Crane',
                 icon: '🛫',
                 unlocked: false,
-                price: 15000,
+                price: GAME_CONSTANTS.CHAR_PRICE_CRANE,
                 upgradeLevel: 0,
                 stats: { hp: 400, speed: 4.5, damage: 50 },
-                ultimate: '👥 노바 클론: 분신 생성 + 적 감속 필드'
+                ultimate: '홀로그램 클론: 7초간 분신 생성',
+                description: '【기원】\n미국 국방부 첨단연구계획국(DARPA)에서 극비리에 개발한 차세대 전자전 드론. 홀로그램 기술과 EMP 무기를 탑재하여 "전장의 환영"이라 불립니다.\n\n【전술 특성】\n최첨단 기술의 집약체. 낮은 내구도를 압도적 화력과 전술적 기만으로 보완합니다. 고숙련 파일럿에게 추천됩니다.\n\n【필살기: 홀로그램 클론】\n홀로그램 분신을 7초간 생성하여 일시적으로 두 배의 화력을 발휘합니다. 분신도 동일한 공격 능력을 가지고 있어 화력이 2배로 증가합니다.'
             },
             {
                 id: 'archer',
                 name: 'SP-04 Rhino',
                 icon: '🚁',
                 unlocked: false,
-                price: 20000,
+                price: GAME_CONSTANTS.CHAR_PRICE_RHINO,
                 upgradeLevel: 0,
                 stats: { hp: 450, speed: 4.5, damage: 35 },
-                ultimate: '💥 방사형 폭발: 360° 직선 공격 3회 (즉사)'
+                ultimate: '방사형 폭발: 360° 직선 공격 3회 (즉사)',
+                description: '【기원】\n러시아 군사기술연구소에서 개발한 중화력 폭격 드론. 시베리아 작전에서 단 1기로 적 부대 전체를 섬멸하며 "붉은 심판자"라는 전설을 만들었습니다.\n\n【전술 특성】\n폭발 무기 전문가들이 설계한 파괴의 예술품. 한 번의 공격으로 전장의 판도를 뒤집는 압도적 파괴력이 특징입니다.\n\n【필살기: 방사형 폭발】\n360도 전방향으로 3차례의 직선 폭격을 발사합니다. 범위 내 모든 적은 회피 불가능한 즉사 판정을 받게 됩니다.'
             },
             {
                 id: 'tank',
                 name: 'SP-05 Specter',
                 icon: '🚀',
                 unlocked: false,
-                price: 25000,
+                price: GAME_CONSTANTS.CHAR_PRICE_SPECTER,
                 upgradeLevel: 0,
                 stats: { hp: 1000, speed: 4.5, damage: 25 },
-                ultimate: '🌀 중력 붕괴: 전방에 중력장 발사 후 폭발'
+                ultimate: '중력 붕괴: 전방에 중력장 발사 후 폭발',
+                description: '【기원】\n프랑스 우주항공연구소(CNES)가 우주 전쟁을 대비해 개발한 실험형 중력 제어 드론. 블랙홀 이론을 무기화한 인류 최초의 중력병기로 "어비스"라 명명되었습니다.\n\n【전술 특성】\n압도적인 방어력으로 최전방을 담당합니다. 적의 공격을 받아내며 아군을 지키는 불굴의 요새입니다.\n\n【필살기: 중력 붕괴】\n인공 중력장을 전방으로 발사하여 적들을 한 곳으로 끌어당긴 후, 중력을 반전시켜 강력한 폭발로 섬멸합니다. 과학이 만든 블랙홀입니다.'
             },
             {
                 id: 'ninja',
                 name: 'SP-06 Phantom',
                 icon: '🛸',
                 unlocked: false,
-                price: 30000,
+                price: GAME_CONSTANTS.CHAR_PRICE_PHANTOM,
                 upgradeLevel: 0,
                 stats: { hp: 350, speed: 4.5, damage: 45 },
-                ultimate: '⚔️ 쌍검 레이저: 회전하는 쌍검 레이저 (35초)'
+                ultimate: '쌍검 레이저: 3초간 회전 레이저',
+                description: '【기원】\n일본 방위성 특수기술연구본부가 닌자의 전술을 AI에 학습시켜 탄생시킨 암살 전문 드론. 400년 전통의 인술(忍術)과 최첨단 기술의 융합체로 "무음의 사신"이라 두려움의 대상입니다.\n\n【전술 특성】\n최소한의 장갑으로 극한의 기동성을 확보. 빠른 공격과 회피로 적을 농락하는 고난이도 기체입니다.\n\n【필살기: 쌍검 레이저】\n드론 주변에 쌍검 형태의 고출력 레이저가 3초간 회전하며 접근하는 모든 적을 단숨에 베어버립니다. 피할 수 없는 일격필살의 검무입니다.'
             }
         ];
         
@@ -2294,7 +2753,7 @@
 
         // 필살기 시스템 변수
         let ultimateReady = true;
-        let ultimateCooldown = 30000; // 30초
+        let ultimateCooldown = GAME_CONSTANTS.ULTIMATE_COOLDOWN;
         let ultimateTimer = 0;
         let pendingUnlockCharacter = null; // 해금 대기 중인 캐릭터
         let pendingUpgradeCharacter = null; // 강화 대기 중인 캐릭터
@@ -2302,20 +2761,20 @@
         // Falcon 필살기: 무적 보호막
         let invincible = false;
         let invincibleTimer = 0;
-        let invincibleDuration = 10000; // 10초
+        let invincibleDuration = GAME_CONSTANTS.FALCON_SHIELD_DURATION;
 
         // Crane 필살기: 분신
         let hasClone = false;
         let cloneTimer = 0;
-        let cloneDuration = 7000; // 7초
+        let cloneDuration = GAME_CONSTANTS.CRANE_CLONE_DURATION;
         let cloneX = 0;
         let cloneY = 0;
 
         // Rhino 필살기: 360도 직선 공격 (3 waves)
         let radialBlastActive = false;
         let radialBlastWaveCount = 0; // 현재 발사한 wave 수
-        let radialBlastMaxWaves = 3; // 총 3번 발사
-        let radialBlastWaveDelay = 500; // wave 간 딜레이 500ms
+        let radialBlastMaxWaves = GAME_CONSTANTS.RHINO_MAX_WAVES;
+        let radialBlastWaveDelay = GAME_CONSTANTS.RHINO_WAVE_DELAY;
         let radialBlastWaveTimer = 0;
         let radialBlastProjectiles = []; // 필살기 전용 투사체 배열
 
@@ -2323,16 +2782,16 @@
         let gravityCollapseActive = false;
         let gravityCollapsePhase = 0; // 0: 대기, 1: 끌어당김, 2: 압축, 3: 폭발
         let gravityCollapseTimer = 0;
-        let gravityCollapsePullDuration = 3000; // 3초
-        let gravityCollapseCompressDuration = 1000; // 1초
-        let gravityCollapseRadius = 400;
+        let gravityCollapsePullDuration = GAME_CONSTANTS.SPECTER_PULL_DURATION;
+        let gravityCollapseCompressDuration = GAME_CONSTANTS.SPECTER_COMPRESS_DURATION;
+        let gravityCollapseRadius = GAME_CONSTANTS.SPECTER_RADIUS;
         let gravityCollapseX = 0;
         let gravityCollapseY = 0;
 
         // Phantom 필살기: 쌍검 회전 레이저
         let dualLaserActive = false;
         let dualLaserTimer = 0;
-        let dualLaserDuration = 3000; // 3초
+        let dualLaserDuration = GAME_CONSTANTS.PHANTOM_LASER_DURATION;
         let dualLaser1Angle = 0; // 레이저 1 (시계방향)
         let dualLaser2Angle = 0; // 레이저 2 (반시계방향)
         let dualLaserHitEnemies = new Set(); // 중복 타격 방지
@@ -2520,7 +2979,29 @@
                 currentBgm.currentTime = 0;
             }
         }
-        
+
+        // 광고 재생 중 오디오 일시정지 (Toss 가이드라인)
+        function pauseAllAudio() {
+            if (currentBgm && !currentBgm.paused) {
+                currentBgm.pause();
+                console.log('🔇 광고 재생 중 - BGM 일시정지');
+            }
+        }
+
+        // 광고 종료 후 오디오 재개 (Toss 가이드라인)
+        function resumeAllAudio() {
+            if (currentBgm && currentBgm.paused) {
+                currentBgm.play().catch(err => {
+                    console.log('BGM resume failed:', err);
+                });
+                console.log('🔊 광고 종료 - BGM 재개');
+            }
+        }
+
+        // 전역으로 노출 (toss-integration.js에서 사용)
+        window.pauseAllAudio = pauseAllAudio;
+        window.resumeAllAudio = resumeAllAudio;
+
         canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
         canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
         canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
@@ -2583,6 +3064,150 @@
             }
         }
         
+        // 에너지 UI 표시 여부 제어 (인게임 제외)
+        function updateHeartDisplayVisibility() {
+            const heartDisplay = document.getElementById('heartDisplay');
+            if (!heartDisplay) return;
+
+            // 확인 모달(홈 버튼)이 떠있으면 숨김
+            const confirmModal = document.getElementById('confirmModal');
+            const isConfirmModalVisible = confirmModal && confirmModal.style.display === 'block';
+
+            // 에너지 부족 모달이 떠있으면 숨김
+            const energyModal = document.getElementById('energyDepletedModal');
+            const isEnergyModalVisible = energyModal && energyModal.style.display === 'block';
+
+            // 게임 오버 체크
+            const gameOverScreen = document.getElementById('gameOver');
+            const isGameOver = gameOverScreen && gameOverScreen.style.display === 'block';
+
+            // 게임이 실행 중이거나 확인 모달이 떠있으면 숨김
+            // 게임 오버 시에는 표시
+            if ((gameStarted && gameRunning) || isConfirmModalVisible || isEnergyModalVisible) {
+                heartDisplay.style.display = 'none';
+            } else {
+                heartDisplay.style.display = 'block';
+            }
+        }
+
+        // 에너지 UI 업데이트
+        function updateHeartUI() {
+            if (!heartSystem) return;
+
+            const hearts = heartSystem.getHearts();
+            const maxHearts = heartSystem.maxHearts;
+            const timeUntilNext = heartSystem.getTimeUntilNextHeart();
+
+            // 에너지 아이콘 업데이트 (Thunder.png 사용)
+            const heartIcons = document.getElementById('heartIcons');
+            if (heartIcons) {
+                heartIcons.innerHTML = '';
+                for (let i = 0; i < maxHearts; i++) {
+                    const img = document.createElement('img');
+                    img.src = 'assets/Thunder.png';
+                    img.style.cssText = `
+                        width: 24px;
+                        height: 24px;
+                        image-rendering: pixelated;
+                        opacity: ${i < hearts ? '1' : '0.3'};
+                        filter: ${i < hearts ? 'none' : 'grayscale(100%)'};
+                    `;
+                    heartIcons.appendChild(img);
+                }
+            }
+
+            // 에너지 개수 텍스트
+            const heartCount = document.getElementById('heartCount');
+            if (heartCount) {
+                heartCount.textContent = `${hearts}/${maxHearts}`;
+            }
+
+            // 회복 타이머
+            const heartTimer = document.getElementById('heartTimer');
+            if (heartTimer) {
+                if (hearts < maxHearts && timeUntilNext > 0) {
+                    heartTimer.textContent = `다음 회복: ${heartSystem.formatTime(timeUntilNext)}`;
+                } else {
+                    heartTimer.textContent = '';
+                }
+            }
+
+            // 친구 초대 버튼 표시/숨김
+            const inviteButton = document.getElementById('inviteFriendsButton');
+            const startButton = document.getElementById('startGameButton');
+            if (hearts === 0) {
+                if (inviteButton) inviteButton.style.display = 'block';
+                if (startButton) startButton.style.opacity = '0.5';
+            } else {
+                if (inviteButton) inviteButton.style.display = 'none';
+                if (startButton) startButton.style.opacity = '1';
+            }
+
+            // 표시 여부 업데이트
+            updateHeartDisplayVisibility();
+        }
+
+        // 게임 시작 시도 (에너지 체크만, 소모는 인게임 진입 시)
+        function tryStartGame() {
+            if (!heartSystem) {
+                // 에너지 시스템 없으면 바로 시작 (fallback)
+                startGame();
+                return;
+            }
+
+            if (!heartSystem.hasHeart()) {
+                // 에너지 부족 모달 표시
+                document.getElementById('energyDepletedModal').style.display = 'block';
+                updateHeartDisplayVisibility(); // 에너지 UI 숨김
+                return;
+            }
+
+            // 에너지 체크만 하고 게임 시작 (소모는 initGame에서)
+            startGame();
+        }
+
+        // 친구 초대하고 에너지 받기
+        function inviteFriendsForHearts() {
+            if (!window.tossIntegration) {
+                alert('Toss 연동이 필요합니다.');
+                return;
+            }
+
+            window.tossIntegration.inviteFriends((rewardAmount) => {
+                // 에너지 충전
+                if (heartSystem) {
+                    heartSystem.addHearts(rewardAmount);
+                    alert(`친구 초대 성공!\n에너지 ${rewardAmount}개를 받았습니다! 🎉`);
+                }
+            });
+        }
+
+        // 에너지 부족 모달에서 친구 초대
+        function inviteFriendsFromModal() {
+            // 모달 닫기
+            closeEnergyModal();
+
+            // 친구 초대 실행
+            if (!window.tossIntegration) {
+                alert('Toss 연동이 필요합니다.');
+                return;
+            }
+
+            window.tossIntegration.inviteFriends((rewardAmount) => {
+                // 에너지 충전
+                if (heartSystem) {
+                    heartSystem.addHearts(rewardAmount);
+                    alert(`친구 초대 성공!\n에너지 ${rewardAmount}개를 받았습니다! 🎉`);
+                }
+            });
+        }
+
+        // 에너지 부족 모달 닫기
+        function closeEnergyModal() {
+            document.getElementById('energyDepletedModal').style.display = 'none';
+            updateHeartDisplayVisibility(); // 에너지 UI 다시 표시
+        }
+
         function startGame() {
             document.getElementById('mainMenu').style.display = 'none';
             document.getElementById('modeSelectScreen').style.display = 'flex';
@@ -2648,7 +3273,7 @@
         function createStageCardHTML(stage) {
             const lockedBadge = stage.unlocked
                 ? ''
-                : `<div style="${CAROUSEL_STYLES.LOCKED_TEXT}">🔒 잠김</div>`;
+                : `<div style="${CAROUSEL_STYLES.LOCKED_TEXT}"><img src="assets/lock.png" style="width: 16px; height: 16px; vertical-align: middle; image-rendering: pixelated;"> 잠김</div>`;
 
             return `
                 <div class="stage-number">Stage ${stage.id}</div>
@@ -2748,6 +3373,12 @@
         }
 
         function initGame() {
+            // 에너지 소모 (실제 인게임 진입 시)
+            if (heartSystem && heartSystem.hasHeart()) {
+                heartSystem.useHeart();
+                console.log('✅ 에너지 소모 - 게임 시작');
+            }
+
             // AudioContext 재개 (모바일 브라우저 호환성)
             if (audioContext.state === 'suspended') {
                 audioContext.resume().then(() => {
@@ -2762,6 +3393,10 @@
 
             document.getElementById('homeButton').style.display = 'flex';
             document.getElementById('ultimateButton').style.display = 'flex';
+
+            // 에너지 UI 즉시 숨김 (인게임)
+            const heartDisplay = document.getElementById('heartDisplay');
+            if (heartDisplay) heartDisplay.style.display = 'none';
 
             // 키 입력 및 터치 초기화
             Object.keys(keys).forEach(key => keys[key] = false);
@@ -3253,12 +3888,16 @@
             if (!gameRunning) return;
             gameRunning = false;
             document.getElementById('confirmModal').style.display = 'block';
+            // 확인 모달 시 에너지 UI 숨김 (게임 중이므로)
+            updateHeartDisplayVisibility();
         }
-        
+
         function closeConfirmModal() {
             document.getElementById('confirmModal').style.display = 'none';
             gameRunning = true;
             lastTime = Date.now();
+            // 재개 시 에너지 UI 계속 숨김 (게임 중)
+            updateHeartDisplayVisibility();
         }
         
         function confirmGoHome() {
@@ -3269,12 +3908,12 @@
         
         // 강화 비용 계산 함수
         function getUpgradeCost(level) {
-            return Math.floor(1000 * Math.pow(1.5, level));
+            return Math.floor(GAME_CONSTANTS.UPGRADE_BASE_COST * Math.pow(GAME_CONSTANTS.UPGRADE_COST_MULTIPLIER, level));
         }
 
         // 강화 시 스탯 증가 계산
         function getUpgradedStats(baseStats, level) {
-            const multiplier = 1 + (level * 0.1); // 레벨당 10% 증가
+            const multiplier = 1 + (level * GAME_CONSTANTS.UPGRADE_STAT_MULTIPLIER);
             return {
                 hp: Math.floor(baseStats.hp * multiplier),
                 speed: baseStats.speed,
@@ -3288,8 +3927,8 @@
             if (!char || !char.unlocked) return;
 
             // 최대 강화 레벨 체크
-            if (char.upgradeLevel >= 9) {
-                alert('최대 강화 레벨입니다! (+9)');
+            if (char.upgradeLevel >= GAME_CONSTANTS.MAX_UPGRADE_LEVEL) {
+                alert(`최대 강화 레벨입니다! (+${GAME_CONSTANTS.MAX_UPGRADE_LEVEL})`);
                 return;
             }
 
@@ -3310,6 +3949,37 @@
         function closeUpgradeModal() {
             document.getElementById('upgradeModal').style.display = 'none';
             pendingUpgradeCharacter = null;
+        }
+
+        // 캐릭터 로어 모달 함수
+        function showCharacterLore(char) {
+            // 강화된 스탯 계산
+            const currentStats = getUpgradedStats(char.stats, char.upgradeLevel);
+
+            // 모달 내용 채우기
+            const iconElement = document.getElementById('loreCharacterIcon');
+            const imagePath = getCharacterImagePath(char.id);
+            if (imagePath) {
+                iconElement.innerHTML = `<img src="${imagePath}" alt="${char.name}" />`;
+            } else {
+                iconElement.innerHTML = `<div style="font-size: 48px;">${char.icon}</div>`;
+            }
+
+            document.getElementById('loreCharacterName').textContent = char.name;
+            document.getElementById('loreCharacterStats').textContent = `HP: ${currentStats.hp} | 공격력: ${currentStats.damage} | 속도: ${currentStats.speed}`;
+            document.getElementById('loreUltimateDesc').textContent = char.ultimate;
+            document.getElementById('loreCharacterDesc').textContent = char.description;
+
+            // 모달 표시
+            document.getElementById('characterLoreModal').style.display = 'flex';
+        }
+
+        function closeCharacterLore(event) {
+            // event가 있고, 모달 배경을 클릭한 경우만 닫기 (content 클릭은 무시)
+            if (event && event.target.className !== 'character-lore-modal') {
+                return;
+            }
+            document.getElementById('characterLoreModal').style.display = 'none';
         }
 
         function confirmUpgrade() {
@@ -3334,16 +4004,6 @@
             const grid = document.getElementById('characterGrid');
             grid.innerHTML = '';
 
-            // 캐릭터 이미지 파일 경로 매핑
-            const characterImagePaths = {
-                'default': 'assets/NormalDrone.png',
-                'warrior': 'assets/SP-02.png',
-                'mage': 'assets/SP-03.png',
-                'archer': 'assets/SP-04.png',
-                'tank': 'assets/SP-05.png',
-                'ninja': 'assets/SP-06.png'
-            };
-
             characters.forEach(char => {
                 const card = document.createElement('div');
                 card.className = 'character-card';
@@ -3352,15 +4012,14 @@
 
                 // 강화된 스탯 계산
                 const currentStats = getUpgradedStats(char.stats, char.upgradeLevel);
-                const statsText = `HP: ${currentStats.hp} | 공격: ${currentStats.damage}`;
+                const statsText = `HP: ${currentStats.hp}<br>공격: ${currentStats.damage}`;
 
-                // 필살기 설명
-                const ultimateText = char.ultimate ?
-                    `<div style="font-size: 11px; color: #ffd700; margin: 8px 0; line-height: 1.4; text-align: left; padding: 0 8px;">${char.ultimate}</div>` : '';
+                // 필살기 설명 - 카드에서는 제거하고 모달에서만 표시
+                const ultimateText = '';
 
                 // 캐릭터 아이콘/이미지 결정
                 let iconHtml;
-                const imagePath = characterImagePaths[char.id];
+                const imagePath = getCharacterImagePath(char.id);
 
                 if (imagePath) {
                     // SP-02~SP-06: 이미지 사용
@@ -3377,7 +4036,7 @@
                 // 버튼 영역
                 let statusHtml = '';
                 if (!char.unlocked) {
-                    statusHtml = `<div class="character-price">🔒 ${char.price.toLocaleString()}G</div>`;
+                    statusHtml = `<div class="character-price"><img src="assets/lock.png" style="width: 14px; height: 14px; vertical-align: middle; image-rendering: pixelated;"> ${char.price.toLocaleString()}G</div>`;
                 } else {
                     const isSelected = char.id === selectedCharacter;
                     statusHtml = isSelected ?
@@ -3388,7 +4047,7 @@
                 // 해금된 캐릭터에게만 강화 버튼 HTML 추가
                 let upgradeButtonHtml = '';
                 if (char.unlocked) {
-                    const isMaxLevel = char.upgradeLevel >= 9;
+                    const isMaxLevel = char.upgradeLevel >= GAME_CONSTANTS.MAX_UPGRADE_LEVEL;
                     const upgradeCost = getUpgradeCost(char.upgradeLevel);
 
                     if (isMaxLevel) {
@@ -3409,6 +4068,7 @@
                 }
 
                 card.innerHTML = `
+                    <button class="character-info-btn" data-char-id="${char.id}">i</button>
                     ${iconHtml}
                     <div class="character-name">${char.name}</div>
                     <div class="character-stats">${statsText}</div>
@@ -3418,16 +4078,31 @@
                     ${upgradeButtonHtml}
                 `;
 
+                // info 버튼 이벤트 리스너
+                const infoBtn = card.querySelector('.character-info-btn');
+                if (infoBtn) {
+                    infoBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showCharacterLore(char);
+                    });
+                }
+
                 // 카드 클릭 이벤트
                 if (!char.unlocked) {
-                    card.onclick = () => {
+                    card.onclick = (e) => {
+                        // info 버튼 클릭이면 무시
+                        if (e.target.classList.contains('character-info-btn')) {
+                            return;
+                        }
                         showUnlockModal(char);
                     };
                 } else {
                     card.style.cursor = 'pointer';
                     card.onclick = (e) => {
-                        // 강화 버튼 클릭이면 무시
-                        if (e.target.classList.contains('character-upgrade-btn')) {
+                        // info 버튼 또는 강화 버튼 클릭이면 무시
+                        if (e.target.classList.contains('character-upgrade-btn') ||
+                            e.target.classList.contains('character-info-btn')) {
                             return;
                         }
                         selectedCharacter = char.id;
@@ -3510,7 +4185,7 @@
                 // 모든 적 스턴 처리
                 enemies.forEach(enemy => {
                     enemy.stunned = true;
-                    enemy.stunTimer = 4000; // 4초 스턴
+                    enemy.stunTimer = GAME_CONSTANTS.VIPER_STUN_DURATION;
                     enemy.stunShakeTimer = 0;
                 });
 
@@ -3639,7 +4314,7 @@
 
                 // 쿨타임 시작 (Phantom은 35초)
                 ultimateReady = false;
-                ultimateTimer = 35000; // 35초
+                ultimateTimer = GAME_CONSTANTS.PHANTOM_COOLDOWN;
                 updateUltimateButton();
 
                 // 진동 피드백
@@ -3710,11 +4385,14 @@
                 navigator.vibrate([100, 50, 100, 50, 100, 50, 100, 50, 100, 50, 500]);
             }
 
-            // 레트로 폭발 사운드 재생 (모바일 호환성 개선)
+            // 보스 사망 사운드 재생 (폴백 포함)
+            // 1. 프로시저럴 사운드를 먼저 재생 (확실히 작동)
+            playSFX('bossdeath');
+
+            // 2. 레트로 폭발 사운드도 시도 (추가 효과)
             try {
                 bossExplosionSound.currentTime = 0;
                 bossExplosionSound.volume = masterVolume * sfxVolume;
-                // 모바일에서는 사용자 상호작용이 필요할 수 있음
                 const playPromise = bossExplosionSound.play();
                 if (playPromise !== undefined) {
                     playPromise
@@ -3723,13 +4401,10 @@
                         })
                         .catch(err => {
                             console.log('Boss explosion sound error:', err);
-                            // 폴백: playSFX 사용
-                            playSFX('bossdeath');
                         });
                 }
             } catch (err) {
                 console.log('Boss explosion sound exception:', err);
-                playSFX('bossdeath');
             }
         }
         
@@ -4090,25 +4765,49 @@
             if (!nearest) return;
             
             const targetAngle = Math.atan2(nearest.y - player.y, nearest.x - player.x);
-            const angles = [];
-            
+            const projectileData = [];
+
             if (projectileCount === 1) {
-                angles.push(targetAngle);
+                // 1개: 중앙에서 정면으로
+                projectileData.push({
+                    angle: targetAngle,
+                    offsetX: 0,
+                    offsetY: 0
+                });
+            } else if (projectileCount === 2) {
+                // 2개: 좌우로 나란히 평행하게
+                const perpAngle = targetAngle + Math.PI / 2; // 90도 회전 (좌우 방향)
+                const offset = 15; // 좌우 간격
+                projectileData.push({
+                    angle: targetAngle,
+                    offsetX: Math.cos(perpAngle) * offset,
+                    offsetY: Math.sin(perpAngle) * offset
+                });
+                projectileData.push({
+                    angle: targetAngle,
+                    offsetX: Math.cos(perpAngle) * -offset,
+                    offsetY: Math.sin(perpAngle) * -offset
+                });
             } else {
+                // 3개 이상: 부채꼴로 퍼뜨림
                 const spread = Math.PI / 6;
                 const angleStep = (spread * 2) / (projectileCount - 1);
                 for (let i = 0; i < projectileCount; i++) {
-                    angles.push(targetAngle - spread + (i * angleStep));
+                    projectileData.push({
+                        angle: targetAngle - spread + (i * angleStep),
+                        offsetX: 0,
+                        offsetY: 0
+                    });
                 }
             }
-            
-            angles.forEach(angle => {
+
+            projectileData.forEach(data => {
                 if (projectiles.length < MAX_PROJECTILES) {
                     projectiles.push({
-                        x: player.x,
-                        y: player.y,
-                        vx: Math.cos(angle) * projectileSpeed,
-                        vy: Math.sin(angle) * projectileSpeed,
+                        x: player.x + data.offsetX,
+                        y: player.y + data.offsetY,
+                        vx: Math.cos(data.angle) * projectileSpeed,
+                        vy: Math.sin(data.angle) * projectileSpeed,
                         size: 2.5 * sizeScale,
                         damage: weaponDamage,
                         piercing: projectilePiercing,
@@ -4124,13 +4823,13 @@
 
             // Crane 분신도 동일하게 발사
             if (hasClone) {
-                angles.forEach(angle => {
+                projectileData.forEach(data => {
                     if (projectiles.length < MAX_PROJECTILES) {
                         projectiles.push({
-                            x: cloneX,
-                            y: cloneY,
-                            vx: Math.cos(angle) * projectileSpeed,
-                            vy: Math.sin(angle) * projectileSpeed,
+                            x: cloneX + data.offsetX,
+                            y: cloneY + data.offsetY,
+                            vx: Math.cos(data.angle) * projectileSpeed,
+                            vy: Math.sin(data.angle) * projectileSpeed,
                             size: 2.5 * sizeScale,
                             damage: weaponDamage,
                             piercing: projectilePiercing,
@@ -4474,12 +5173,18 @@
                     levelUpDiv.style.display = 'none';
                     gameRunning = true;
                     lastTime = Date.now();
+                    // 업그레이드 선택 후에도 에너지 UI 계속 숨김 (게임 중)
+                    const heartDisplay = document.getElementById('heartDisplay');
+                    if (heartDisplay) heartDisplay.style.display = 'none';
                 };
-                
+
                 optionsDiv.appendChild(div);
             });
-            
+
             levelUpDiv.style.display = 'block';
+            // 레벨업도 게임 중이므로 에너지 UI 숨김
+            const heartDisplay = document.getElementById('heartDisplay');
+            if (heartDisplay) heartDisplay.style.display = 'none';
         }
         
         function update(deltaTime) {
@@ -6213,15 +6918,22 @@
 
             document.getElementById('gameOver').style.display = 'block';
 
-            // Toss 점수 저장
-            if (window.tossIntegration && window.tossIntegration.isAuthenticated) {
-                window.tossIntegration.saveScore({
-                    score: finalKills * 10 + finalTime,
-                    kills: finalKills,
-                    time: gameTime,
-                    mode: gameMode,
-                    stage: selectedStage
-                }).catch(err => console.error('Failed to save score to Toss:', err));
+            // 에너지 UI 표시 (게임 오버)
+            updateHeartDisplayVisibility();
+
+            // Toss Game Center 점수 제출
+            if (window.tossIntegration) {
+                // 점수 계산: kills * 100 + time(초)
+                // 예: 50 kills, 180초 = 5180점
+                const gameScore = finalKills * 100 + finalTime;
+
+                window.tossIntegration.submitGameCenterScore(gameScore)
+                    .then(success => {
+                        if (success) {
+                            console.log('✅ Game Center 점수 제출 완료:', gameScore);
+                        }
+                    })
+                    .catch(err => console.error('❌ 점수 제출 실패:', err));
             }
         }
 
@@ -6281,6 +6993,9 @@
             // 키 입력 및 터치 초기화
             Object.keys(keys).forEach(key => keys[key] = false);
             touchActive = false;
+
+            // 에너지 UI 표시 (메인 메뉴)
+            updateHeartDisplayVisibility();
 
             // 메인 BGM 재생
             playBgm(mainBgm);
@@ -6361,8 +7076,10 @@
 
         // 모든 이미지 에셋 수집
         function collectAssets() {
+            console.log('=== Collecting assets ===');
             // 플레이어 스프라이트
             assetsToLoad.push(droneSprites['default']);
+            console.log('Added player sprite');
 
             // 적 스프라이트 (3 스테이지 x 3 적 = 9개)
             for (let i = 1; i <= 3; i++) {
@@ -6383,6 +7100,7 @@
             assetsToLoad.push(xpSprite, gearSprite, bulletSprite, guidedMissileSprite, enemyBallSprite);
 
             totalAssets = assetsToLoad.length;
+            console.log('Total assets to load:', totalAssets);
         }
 
         function updateLoadingProgress() {
@@ -6391,10 +7109,13 @@
             const loadingBar = document.getElementById('loadingBar');
             const loadingProgress = document.getElementById('loadingProgress');
 
+            console.log(`Loading progress: ${assetsLoaded}/${totalAssets} (${progress}%)`);
+
             if (loadingBar) loadingBar.style.width = progress + '%';
             if (loadingProgress) loadingProgress.textContent = progress + '%';
 
             if (assetsLoaded >= totalAssets) {
+                console.log('All assets loaded! Showing main menu...');
                 setTimeout(() => {
                     document.getElementById('loadingScreen').style.display = 'none';
                     document.getElementById('mainMenu').style.display = 'flex';
@@ -6434,6 +7155,31 @@
             console.error('Unhandled Promise Rejection:', e.reason);
         });
 
+        // 에너지 시스템 초기화 및 UI 업데이트 리스너
+        window.addEventListener('heartsUpdated', (event) => {
+            updateHeartUI();
+        });
+
+        // Toss 유저 키 받은 후 에너지 시스템 초기화
+        async function initializeHeartSystem() {
+            try {
+                // tossIntegration이 있고 userKey가 있으면 사용
+                if (window.tossIntegration && window.tossIntegration.userKey) {
+                    heartSystem = new HeartSystem(window.tossIntegration.userKey);
+                    console.log('✅ 에너지 시스템 초기화 완료:', window.tossIntegration.userKey);
+                } else {
+                    // fallback: 테스트 키 생성
+                    const testKey = 'local_' + Date.now();
+                    heartSystem = new HeartSystem(testKey);
+                    console.log('⚠️ 테스트 모드로 에너지 시스템 초기화');
+                }
+
+                updateHeartUI();
+            } catch (error) {
+                console.error('에너지 시스템 초기화 실패:', error);
+            }
+        }
+
         // 페이지 로드 시 실행
         window.addEventListener('load', () => {
             setupAssetLoaders();
@@ -6452,6 +7198,11 @@
                 playBgm(mainBgm);
                 document.removeEventListener('click', initBgm);
             }, { once: true });
+
+            // 에너지 시스템 초기화 (약간의 딜레이 후 - tossIntegration 초기화 대기)
+            setTimeout(() => {
+                initializeHeartSystem();
+            }, 500);
         });
 
         // 백그라운드 전환 시 자동 일시정지 (모바일 최적화)
@@ -6535,6 +7286,18 @@
             draw();
 
             requestAnimationFrame(() => gameLoop(loopId));
+        }
+
+        // ==================== Toss Game Center 리더보드 ====================
+
+        // Toss Game Center 리더보드 열기
+        function openTossLeaderboard() {
+            if (window.tossIntegration) {
+                window.tossIntegration.openGameCenterLeaderboard();
+            } else {
+                console.warn('⚠️ Toss Integration not ready');
+                alert('Toss 앱에서 실행 시 리더보드를 볼 수 있습니다.');
+            }
         }
     </script>
 </body>

@@ -9,7 +9,7 @@ export default defineConfig({
     bridgeColorMode: 'inverted',
   },
   web: {
-    host: '125.130.241.135',  // ⭐ localhost에서 IP로 변경!
+    host: '210.103.109.142',  // ⭐ 현재 IP 주소
     port: 3000,
     commands: {
       dev: 'node server.js',
