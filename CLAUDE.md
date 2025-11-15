@@ -234,6 +234,85 @@ Canvas uses device pixel ratio for sharp rendering on high-DPI displays:
 - Canvas rendering with sprite-based graphics
 - Entity arrays (enemies, projectiles) managed with pooling for better performance
 
+## Toss Apps-in-Toss Integration
+
+This game is designed for the **Toss Game Competition** and integrates with Toss's Apps-in-Toss platform.
+
+### Configuration Files
+- **granite.config.ts** - Toss Apps-in-Toss framework configuration
+  - App name: `dronewar`, display name: `드론 워`
+  - Primary color: `#FF4444`
+  - Bridge view settings: `inverted` color mode
+  - Web server configuration
+    - Host: `14.33.15.42` (update when IP changes)
+    - Port: `3000`
+  - App icon: `assets/app-icon.png` (718KB PNG)
+  - Build output: `./dist` directory
+
+- **toss-integration.js** - Toss SDK integration module
+  - Game Center leaderboard integration
+  - User authentication and user key management
+  - Rewarded ads (AdMob)
+  - Friend invitation system
+  - Audio control for ads (pause/resume)
+
+### Key Integrations
+
+**Game Center Leaderboard** (toss-integration.js:205-238, index.html:8769-8789)
+- `openGameCenterLeaderboard()` - Opens leaderboard (requires Toss v5.221.0+)
+- Returns `{ success: true/false, reason: '...' }` object
+- Handles version check and SDK availability
+- `submitGameCenterLeaderBoardScore({ score: 'string' })` - Submits score
+
+**Background Audio Management** (index.html:8012-8034)
+- Page Visibility API integration (already implemented)
+- Auto-pauses game and BGM when app goes to background
+- Auto-resumes game and BGM when app returns to foreground
+- Integrated with game state management (`gameRunning`)
+- Respects Toss guidelines for audio in ads
+- Additional `pauseAllAudio()` / `resumeAllAudio()` functions for ad integration (line 3444-3463)
+
+**User Key System** (toss-integration.js:14-69)
+- `getUserKeyForGame()` - Gets hashed user key for game features
+- Fallback to localStorage test key for local development
+- Required for leaderboard and game progress tracking
+
+### Toss Submission Requirements (2025-11-14 Update)
+All competition feedback items fully resolved:
+1. ✅ **Leaderboard fixed** - Returns proper result object, no false error alerts
+   - Fixed return value handling (`Promise<void>` to `{ success, reason }`)
+   - Line references: toss-integration.js:206-238, index.html:8979-9011
+   - Now displays Toss-style modal instead of system alert
+2. ✅ **Background audio control** - Game and BGM auto-pause on background
+   - Implemented via Page Visibility API (line 8251-8271)
+   - Pauses game logic, BGM, and resumes on foreground return
+3. ✅ **Bridge view app icon** - `assets/app-icon.png` added to granite.config.ts
+   - 718KB PNG file, renamed from `app-icon.png.png`
+   - Config line: granite.config.ts:8
+4. ✅ **Age rating display** - GRAC rating image on main menu
+   - Image: `assets/age-rating.png` (96KB PNG)
+   - Displayed at 80px width on main menu (line 2219)
+5. ✅ **TDS Modal** - Custom Toss-style modal implemented in vanilla JS
+   - All 17 system alerts replaced with custom modal (line 1276-1413)
+   - Toss brand color (#3182F6), smooth animations, 3 button styles
+   - Function: `showTossModal()` (line 4674-4703)
+   - Compatible with single HTML file architecture
+
+### Development & Testing
+- **Local testing**: Game works standalone in browser (open `index.html` directly)
+- **Toss Sandbox app testing**:
+  - Requires build: `npm run build` (copies to `dist/web/`)
+  - Server: `npm run dev` (serves from project root on port 3000)
+  - Update IP in `granite.config.ts` when network changes
+  - Sandbox app connects to `http://{IP}:3000`
+- **Build workflow**:
+  1. Edit `index.html` and `toss-integration.js` in project root
+  2. Run `npm run build` to copy to `dist/web/`
+  3. Restart server if needed
+  4. Refresh Toss Sandbox app
+- SDK functions gracefully degrade with console warnings when unavailable
+- Test user key automatically generated for local development
+
 ## Production Build
 
 ### Files
@@ -241,6 +320,7 @@ Canvas uses device pixel ratio for sharp rendering on high-DPI displays:
 - **index.min.html** (91KB) - Production version, 44% smaller
 - **minify.js** - Node.js build script for creating minified version
 - **BUILD.md** - Comprehensive production deployment guide
+- **granite.config.ts** - Toss framework configuration
 
 ### SEO & Social Media
 Complete meta tags in `<head>` section (~lines 8-36):

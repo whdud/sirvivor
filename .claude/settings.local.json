@@ -77,7 +77,21 @@
       "Bash(npm run dev:*)",
       "Bash(netstat:*)",
       "Bash(nul)",
-      "Bash(taskkill /PID 7636 /F)"
+      "Bash(taskkill /PID 7636 /F)",
+      "Bash(npm run build:*)",
+      "Bash(if not exist \"dist\" mkdir dist)",
+      "Bash(xcopy:*)",
+      "Bash(style.css)",
+      "Bash(move /Y index_new.html index.html:*)",
+      "Bash(rsync:*)",
+      "WebFetch(domain:tossmini-docs.toss.im)",
+      "Bash(taskkill:*)",
+      "Bash(npx granite:*)",
+      "Bash(timeout:*)",
+      "Bash(if exist dist ren dist dist_old_%date:~10,4%%date:~4,2%%date:~7,2%_%time:~0,2%%time:~3,2%%time:~6,2%)",
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(npx webpack:*)"
     ],
     "deny": [],
     "ask": []

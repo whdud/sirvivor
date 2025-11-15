@@ -1,6 +1,6 @@
 {
   "name": "drone-war",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "DRONE WAR - 레트로 드론 격투 액션 게임 with Toss Apps-in-Toss Integration",
   "main": "server.js",
   "scripts": {
@@ -24,6 +24,10 @@
     "express": "^4.21.2"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "copy-webpack-plugin": "^13.0.1",
+    "html-webpack-plugin": "^5.6.4",
+    "nodemon": "^3.0.1",
+    "webpack": "^5.102.1",
+    "webpack-cli": "^6.0.1"
   }
 }
