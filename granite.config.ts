@@ -5,11 +5,11 @@ export default defineConfig({
   brand: {
     displayName: '드론 워',
     primaryColor: '#FF4444',
-    icon: 'assets/app-icon.png',
+    icon: 'https://i.imgur.com/DfDIySv.png',
     bridgeColorMode: 'inverted',
   },
   web: {
-    host: '14.33.15.42',  // ⭐ 현재 IP 주소
+    host: '218.155.155.217',  // ⭐ 현재 IP 주소
     port: 3000,
     commands: {
       dev: 'node server.js',

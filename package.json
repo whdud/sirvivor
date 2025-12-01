@@ -1,6 +1,6 @@
 {
   "name": "drone-war",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "DRONE WAR - 레트로 드론 격투 액션 게임 with Toss Apps-in-Toss Integration",
   "main": "server.js",
   "scripts": {

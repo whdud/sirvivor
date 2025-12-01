@@ -91,7 +91,10 @@
       "Bash(if exist dist ren dist dist_old_%date:~10,4%%date:~4,2%%date:~7,2%_%time:~0,2%%time:~3,2%%time:~6,2%)",
       "Bash(find:*)",
       "Bash(cat:*)",
-      "Bash(npx webpack:*)"
+      "Bash(npx webpack:*)",
+      "Bash(attrib:*)",
+      "WebFetch(domain:imgur.com)",
+      "mcp__ide__getDiagnostics"
     ],
     "deny": [],
     "ask": []

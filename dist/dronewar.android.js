@@ -14,11 +14,11 @@ var global = typeof globalThis !== 'undefined' ? globalThis : typeof global !== 
     host: ''
   };
   global.__appsInToss = {
-    deploymentId: "019a8171-f435-7dfc-9ed3-47f1b9f1ec69",
+    deploymentId: "019ad6f6-a372-7bf6-93f8-735f15a34de2",
     brandBridgeColorMode: "inverted",
     brandDisplayName: "\uB4DC\uB860 \uC6CC",
     brandPrimaryColor: "#FF4444",
-    brandIcon: "assets/app-icon.png",
+    brandIcon: "https://i.imgur.com/DfDIySv.png",
     webViewType: "game",
     navigationBar: "{\"withBackButton\":true,\"withHomeButton\":false}"
   };
@@ -138,11 +138,11 @@ if (global.__MICRO_FRONTEND__ == null) {
     host: ''
   };
   global.__appsInToss = {
-    deploymentId: "019a8171-f435-7dfc-9ed3-47f1b9f1ec69",
+    deploymentId: "019ad6f6-a372-7bf6-93f8-735f15a34de2",
     brandBridgeColorMode: "inverted",
     brandDisplayName: "\uB4DC\uB860 \uC6CC",
     brandPrimaryColor: "#FF4444",
-    brandIcon: "assets/app-icon.png",
+    brandIcon: "https://i.imgur.com/DfDIySv.png",
     webViewType: "game",
     navigationBar: "{\"withBackButton\":true,\"withHomeButton\":false}"
   };

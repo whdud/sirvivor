@@ -136,7 +136,13 @@ class TossIntegration {
                 },
                 onError: (error) => {
                     console.error('❌ 친구 초대 에러:', error);
-                    alert('친구 초대 중 문제가 발생했어요. 다시 시도해주세요.');
+                    if (window.showTossModal) {
+                        window.showTossModal({
+                            title: '친구 초대 오류',
+                            message: '친구 초대 중 문제가 발생했어요.\n다시 시도해주세요.',
+                            buttons: [{text: '확인', color: 'secondary'}]
+                        });
+                    }
                 }
             });
 
@@ -417,7 +423,13 @@ class TossIntegration {
                 console.error('  2. 토스 앱 버전이 낮음 (SDK 1.0.3 이상 필요)');
                 console.error('  3. iOS 앱 추적 모드 활성화됨 (설정에서 해제 필요)');
                 console.error('  4. WebView 환경이 아님 (토스 앱에서만 지원)');
-                alert('Toss 앱에서만 광고를 볼 수 있습니다.\n\n💡 개발자 확인사항:\n- 샌드박스 환경인지 확인\n- 콘솔 로그 확인');
+                if (window.showTossModal) {
+                    window.showTossModal({
+                        title: '광고를 사용할 수 없습니다',
+                        message: 'Toss 앱에서만 광고를 볼 수 있습니다.\n\n앱 버전이 낮거나 샌드박스 환경일 수 있습니다.',
+                        buttons: [{text: '확인', color: 'secondary'}]
+                    });
+                }
                 return false;
             }
         }
@@ -427,7 +439,13 @@ class TossIntegration {
 
         if (!this.isAdReady) {
             console.warn('❌ 광고가 아직 준비되지 않았습니다');
-            alert('광고를 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
+            if (window.showTossModal) {
+                window.showTossModal({
+                    title: '광고 로딩 중',
+                    message: '광고를 불러오는 중입니다.\n잠시 후 다시 시도해주세요.',
+                    buttons: [{text: '확인', color: 'primary'}]
+                });
+            }
             return false;
         }
 
@@ -483,7 +501,13 @@ class TossIntegration {
                             if (typeof window.resumeAllAudio === 'function') {
                                 window.resumeAllAudio();
                             }
-                            alert('광고를 표시할 수 없습니다. 다시 시도해주세요.');
+                            if (window.showTossModal) {
+                                window.showTossModal({
+                                    title: '광고 표시 실패',
+                                    message: '광고를 표시할 수 없습니다.\n다시 시도해주세요.',
+                                    buttons: [{text: '확인', color: 'secondary'}]
+                                });
+                            }
                             break;
                     }
                 },
@@ -493,7 +517,13 @@ class TossIntegration {
                     if (typeof window.resumeAllAudio === 'function') {
                         window.resumeAllAudio();
                     }
-                    alert('광고를 표시할 수 없습니다. 다시 시도해주세요.');
+                    if (window.showTossModal) {
+                        window.showTossModal({
+                            title: '광고 표시 오류',
+                            message: '광고를 표시할 수 없습니다.\n다시 시도해주세요.',
+                            buttons: [{text: '확인', color: 'secondary'}]
+                        });
+                    }
                 }
             });
 
@@ -631,8 +661,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     if (isAuthenticated) {
         console.log('✅ Toss Apps-in-Toss 연동 완료');
 
-        // 보상형 광고 미리 로드
-        await tossIntegration.loadRewardedAd();
+        // 에너지 충전용 광고 미리 로드
+        await tossIntegration.loadRewardedAd('ait.live.93f320e4e9504159');
 
         // UI에 사용자 정보 표시 (선택사항)
         if (tossIntegration.userInfo) {
@@ -641,7 +671,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     } else {
         console.log('ℹ️ Toss 인증 없음 (일반 모드)');
         // 로컬 테스트를 위해 광고도 로드
-        await tossIntegration.loadRewardedAd();
+        await tossIntegration.loadRewardedAd('ait.live.93f320e4e9504159');
     }
 
     // 게임 에너지 시스템 초기화 (userKey 설정 완료 후)
