@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>DRONE WAR - 드론 워 | 레트로 액션 생존 게임</title>
 
     <!-- SEO Meta Tags -->
@@ -44,8 +46,8 @@
         @font-face {
             font-family: 'DungGeunMo';
             src: url('assets/fonts/DungGeunMo.woff2') format('woff2'),
-                 url('assets/fonts/DungGeunMo.woff') format('woff'),
-                 url('assets/fonts/DungGeunMo.eot') format('embedded-opentype');
+                url('assets/fonts/DungGeunMo.woff') format('woff'),
+                url('assets/fonts/DungGeunMo.eot') format('embedded-opentype');
             font-weight: normal;
             font-style: normal;
             font-display: swap;
@@ -68,7 +70,7 @@
             overflow: hidden;
             touch-action: none;
         }
-        
+
         #gameContainer {
             position: fixed;
             top: 0;
@@ -78,7 +80,7 @@
             background: #0f3460;
             border: none;
         }
-        
+
         canvas {
             display: block;
             background: #0f3460;
@@ -86,7 +88,7 @@
             height: 100%;
             touch-action: none;
         }
-        
+
         #ui {
             position: absolute;
             top: 40px;
@@ -97,7 +99,7 @@
             z-index: 10;
             min-width: 200px;
         }
-        
+
         #timeUI {
             position: absolute;
             top: 165px;
@@ -108,7 +110,7 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
             z-index: 10;
         }
-        
+
         #homeButton {
             position: absolute;
             bottom: 30px;
@@ -146,12 +148,12 @@
             border-radius: 2px;
             right: 14px;
         }
-        
+
         #homeButton:hover {
             background: rgba(78, 204, 163, 0.2);
             transform: scale(1.05);
         }
-        
+
         #homeButton:active {
             transform: scale(0.95);
         }
@@ -202,8 +204,15 @@
         }
 
         @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(255, 215, 0, 1); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(255, 215, 0, 1);
+            }
         }
 
         #ultimateCooldown {
@@ -216,14 +225,14 @@
             color: white;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
-        
+
         .stat-bar {
             margin: 5px 0;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        
+
         .bar-container {
             flex: 1;
             height: 28px;
@@ -233,21 +242,21 @@
             overflow: hidden;
             position: relative;
         }
-        
+
         .bar-fill {
             height: 100%;
             transition: width 0.3s ease;
             border-radius: 8px;
         }
-        
+
         .hp-bar {
             background: linear-gradient(90deg, #e94560, #ff6b6b);
         }
-        
+
         .xp-bar {
             background: linear-gradient(90deg, #4ecca3, #5eead4);
         }
-        
+
         .bar-text {
             position: absolute;
             top: 50%;
@@ -257,12 +266,12 @@
             font-weight: bold;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
         }
-        
+
         .stat-label {
             min-width: 60px;
             font-weight: bold;
         }
-        
+
         #goldUI {
             position: absolute;
             top: 130px;
@@ -273,7 +282,7 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
             z-index: 10;
         }
-        
+
         #gameOver {
             position: absolute;
             top: 50%;
@@ -291,16 +300,16 @@
             width: 90%;
             border: 4px solid #e94560;
             box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.7),
-                        0 0 60px rgba(233, 69, 96, 0.5),
-                        0 0 100px rgba(233, 69, 96, 0.3);
+                0 0 60px rgba(233, 69, 96, 0.5),
+                0 0 100px rgba(233, 69, 96, 0.3);
         }
-        
+
         #gameOver h1 {
             color: #e94560;
             margin-bottom: 20px;
             font-size: 36px;
         }
-        
+
         #gameOver button {
             margin-top: 20px;
             padding: 18px 50px;
@@ -313,12 +322,12 @@
             transition: all 0.3s;
             margin: 10px 5px;
         }
-        
+
         #gameOver button:active {
             background: #ff6b6b;
             transform: scale(0.95);
         }
-        
+
         #levelUp {
             position: absolute;
             top: 50%;
@@ -337,41 +346,43 @@
             overflow-y: auto;
             border: 4px solid #4ecca3;
             box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.7),
-                        0 0 60px rgba(78, 204, 163, 0.5),
-                        0 0 100px rgba(78, 204, 163, 0.3);
+                0 0 60px rgba(78, 204, 163, 0.5),
+                0 0 100px rgba(78, 204, 163, 0.3);
             animation: levelUpGlow 2s ease-in-out infinite alternate;
         }
 
         @keyframes levelUpGlow {
             0% {
                 box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.7),
-                            0 0 60px rgba(78, 204, 163, 0.5),
-                            0 0 100px rgba(78, 204, 163, 0.3);
+                    0 0 60px rgba(78, 204, 163, 0.5),
+                    0 0 100px rgba(78, 204, 163, 0.3);
             }
+
             100% {
                 box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.7),
-                            0 0 80px rgba(78, 204, 163, 0.8),
-                            0 0 140px rgba(78, 204, 163, 0.6);
+                    0 0 80px rgba(78, 204, 163, 0.8),
+                    0 0 140px rgba(78, 204, 163, 0.6);
             }
         }
-        
+
         #levelUp h2 {
             color: #4ecca3;
             margin-bottom: 15px;
             font-size: 28px;
         }
-        
+
         #upgradeOptions {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-        
+
         @keyframes cardFlip {
             0% {
                 transform: perspective(1000px) rotateY(90deg);
                 opacity: 0;
             }
+
             100% {
                 transform: perspective(1000px) rotateY(0deg);
                 opacity: 1;
@@ -382,6 +393,7 @@
             0% {
                 opacity: 0;
             }
+
             100% {
                 opacity: 1;
             }
@@ -392,9 +404,11 @@
                 transform: scale(0.5);
                 opacity: 0;
             }
+
             60% {
                 transform: scale(1.1);
             }
+
             100% {
                 transform: scale(1);
                 opacity: 1;
@@ -404,7 +418,7 @@
         .gacha-result-card {
             animation: cardPopIn 0.5s ease-out, cardFlip 0.8s ease-out 0.3s;
         }
-        
+
         .upgrade {
             background: #16213e;
             padding: 20px 24px;
@@ -422,120 +436,177 @@
         .upgrade.common {
             border-color: #9ca3af;
             box-shadow: 0 0 12px rgba(156, 163, 175, 0.5),
-                        0 0 25px rgba(156, 163, 175, 0.2),
-                        4px 4px 0px rgba(0, 0, 0, 0.5);
+                0 0 25px rgba(156, 163, 175, 0.2),
+                4px 4px 0px rgba(0, 0, 0, 0.5);
             animation: cardFlip 0.3s ease-out;
         }
+
         .upgrade.uncommon {
             border-color: #10b981;
             box-shadow: 0 0 18px rgba(16, 185, 129, 0.7),
-                        0 0 35px rgba(16, 185, 129, 0.3),
-                        4px 4px 0px rgba(0, 0, 0, 0.5);
+                0 0 35px rgba(16, 185, 129, 0.3),
+                4px 4px 0px rgba(0, 0, 0, 0.5);
             animation: cardFlip 0.3s ease-out;
         }
+
         .upgrade.rare {
             border-color: #3b82f6;
             box-shadow: 0 0 22px rgba(59, 130, 246, 0.8),
-                        0 0 45px rgba(59, 130, 246, 0.4),
-                        4px 4px 0px rgba(0, 0, 0, 0.5);
+                0 0 45px rgba(59, 130, 246, 0.4),
+                4px 4px 0px rgba(0, 0, 0, 0.5);
             animation: cardFlip 0.3s ease-out, glowRare 2s ease-in-out infinite;
         }
+
         .upgrade.epic {
             border-color: #a855f7;
             box-shadow: 0 0 28px rgba(168, 85, 247, 0.9),
-                        0 0 55px rgba(168, 85, 247, 0.5),
-                        4px 4px 0px rgba(0, 0, 0, 0.5);
+                0 0 55px rgba(168, 85, 247, 0.5),
+                4px 4px 0px rgba(0, 0, 0, 0.5);
             animation: cardFlip 0.3s ease-out, glowEpic 2s ease-in-out infinite;
         }
+
         .upgrade.legend {
             border-color: #f59e0b;
             box-shadow: 0 0 35px rgba(245, 158, 11, 1.0),
-                        0 0 65px rgba(245, 158, 11, 0.6),
-                        0 0 90px rgba(245, 158, 11, 0.3),
-                        4px 4px 0px rgba(0, 0, 0, 0.5);
+                0 0 65px rgba(245, 158, 11, 0.6),
+                0 0 90px rgba(245, 158, 11, 0.3),
+                4px 4px 0px rgba(0, 0, 0, 0.5);
             animation: cardFlip 0.3s ease-out, glowLegend 2s ease-in-out infinite;
         }
 
         /* Hover 효과 - 후광 강화 */
         .upgrade.common:hover {
             box-shadow: 0 0 20px rgba(156, 163, 175, 0.7),
-                        0 0 40px rgba(156, 163, 175, 0.3),
-                        4px 4px 0px rgba(0, 0, 0, 0.5);
+                0 0 40px rgba(156, 163, 175, 0.3),
+                4px 4px 0px rgba(0, 0, 0, 0.5);
             transform: translateY(-2px);
         }
+
         .upgrade.uncommon:hover {
             box-shadow: 0 0 28px rgba(16, 185, 129, 0.9),
-                        0 0 50px rgba(16, 185, 129, 0.5),
-                        4px 4px 0px rgba(0, 0, 0, 0.5);
+                0 0 50px rgba(16, 185, 129, 0.5),
+                4px 4px 0px rgba(0, 0, 0, 0.5);
             transform: translateY(-2px);
         }
+
         .upgrade.rare:hover {
             box-shadow: 0 0 35px rgba(59, 130, 246, 1.0),
-                        0 0 60px rgba(59, 130, 246, 0.6),
-                        4px 4px 0px rgba(0, 0, 0, 0.5);
+                0 0 60px rgba(59, 130, 246, 0.6),
+                4px 4px 0px rgba(0, 0, 0, 0.5);
             transform: translateY(-2px);
         }
+
         .upgrade.epic:hover {
             box-shadow: 0 0 42px rgba(168, 85, 247, 1.0),
-                        0 0 70px rgba(168, 85, 247, 0.7),
-                        4px 4px 0px rgba(0, 0, 0, 0.5);
+                0 0 70px rgba(168, 85, 247, 0.7),
+                4px 4px 0px rgba(0, 0, 0, 0.5);
             transform: translateY(-2px);
         }
+
         .upgrade.legend:hover {
             box-shadow: 0 0 50px rgba(245, 158, 11, 1.0),
-                        0 0 85px rgba(245, 158, 11, 0.8),
-                        0 0 120px rgba(245, 158, 11, 0.5),
-                        4px 4px 0px rgba(0, 0, 0, 0.5);
+                0 0 85px rgba(245, 158, 11, 0.8),
+                0 0 120px rgba(245, 158, 11, 0.5),
+                4px 4px 0px rgba(0, 0, 0, 0.5);
             transform: translateY(-2px);
         }
 
-        .upgrade.common:nth-child(1) { animation-delay: 0s; }
-        .upgrade.common:nth-child(2) { animation-delay: 0.1s; }
-        .upgrade.common:nth-child(3) { animation-delay: 0.2s; }
+        .upgrade.common:nth-child(1) {
+            animation-delay: 0s;
+        }
 
-        .upgrade.uncommon:nth-child(1) { animation-delay: 0s; }
-        .upgrade.uncommon:nth-child(2) { animation-delay: 0.1s; }
-        .upgrade.uncommon:nth-child(3) { animation-delay: 0.2s; }
+        .upgrade.common:nth-child(2) {
+            animation-delay: 0.1s;
+        }
 
-        .upgrade.rare:nth-child(1) { animation-delay: 0s, 0s; }
-        .upgrade.rare:nth-child(2) { animation-delay: 0.1s, 0s; }
-        .upgrade.rare:nth-child(3) { animation-delay: 0.2s, 0s; }
+        .upgrade.common:nth-child(3) {
+            animation-delay: 0.2s;
+        }
 
-        .upgrade.epic:nth-child(1) { animation-delay: 0s, 0s; }
-        .upgrade.epic:nth-child(2) { animation-delay: 0.1s, 0s; }
-        .upgrade.epic:nth-child(3) { animation-delay: 0.2s, 0s; }
+        .upgrade.uncommon:nth-child(1) {
+            animation-delay: 0s;
+        }
 
-        .upgrade.legend:nth-child(1) { animation-delay: 0s, 0s; }
-        .upgrade.legend:nth-child(2) { animation-delay: 0.1s, 0s; }
-        .upgrade.legend:nth-child(3) { animation-delay: 0.2s, 0s; }
+        .upgrade.uncommon:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .upgrade.uncommon:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .upgrade.rare:nth-child(1) {
+            animation-delay: 0s, 0s;
+        }
+
+        .upgrade.rare:nth-child(2) {
+            animation-delay: 0.1s, 0s;
+        }
+
+        .upgrade.rare:nth-child(3) {
+            animation-delay: 0.2s, 0s;
+        }
+
+        .upgrade.epic:nth-child(1) {
+            animation-delay: 0s, 0s;
+        }
+
+        .upgrade.epic:nth-child(2) {
+            animation-delay: 0.1s, 0s;
+        }
+
+        .upgrade.epic:nth-child(3) {
+            animation-delay: 0.2s, 0s;
+        }
+
+        .upgrade.legend:nth-child(1) {
+            animation-delay: 0s, 0s;
+        }
+
+        .upgrade.legend:nth-child(2) {
+            animation-delay: 0.1s, 0s;
+        }
+
+        .upgrade.legend:nth-child(3) {
+            animation-delay: 0.2s, 0s;
+        }
 
         @keyframes glowRare {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
             }
+
             50% {
                 box-shadow: 0 0 35px rgba(59, 130, 246, 0.9);
             }
         }
 
         @keyframes glowEpic {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow: 0 0 20px rgba(168, 85, 247, 0.7);
             }
+
             50% {
                 box-shadow: 0 0 35px rgba(168, 85, 247, 1);
             }
         }
 
         @keyframes glowLegend {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow: 0 0 20px rgba(245, 158, 11, 0.8);
             }
+
             50% {
                 box-shadow: 0 0 40px rgba(245, 158, 11, 1);
             }
         }
-        
+
         .upgrade-rarity {
             position: absolute;
             top: 5px;
@@ -544,25 +615,39 @@
             font-weight: bold;
             opacity: 0.7;
         }
-        
-        .upgrade.common .upgrade-rarity { color: #9ca3af; }
-        .upgrade.uncommon .upgrade-rarity { color: #10b981; }
-        .upgrade.rare .upgrade-rarity { color: #3b82f6; }
-        .upgrade.epic .upgrade-rarity { color: #a855f7; }
-        .upgrade.legend .upgrade-rarity { color: #f59e0b; }
-        
+
+        .upgrade.common .upgrade-rarity {
+            color: #9ca3af;
+        }
+
+        .upgrade.uncommon .upgrade-rarity {
+            color: #10b981;
+        }
+
+        .upgrade.rare .upgrade-rarity {
+            color: #3b82f6;
+        }
+
+        .upgrade.epic .upgrade-rarity {
+            color: #a855f7;
+        }
+
+        .upgrade.legend .upgrade-rarity {
+            color: #f59e0b;
+        }
+
         .upgrade:active {
             background: #1a1a2e;
             transform: scale(0.95);
         }
-        
+
         .upgrade strong {
             display: block;
             margin-bottom: 8px;
             color: #4ecca3;
             font-size: 18px;
         }
-        
+
         #loadingScreen {
             position: fixed;
             top: 0;
@@ -613,8 +698,8 @@
             font-weight: bold;
             color: #4ecca3;
             text-shadow: 0 0 20px rgba(78, 204, 163, 0.8),
-                         0 0 40px rgba(78, 204, 163, 0.6),
-                         4px 4px 8px rgba(0, 0, 0, 0.8);
+                0 0 40px rgba(78, 204, 163, 0.6),
+                4px 4px 8px rgba(0, 0, 0, 0.8);
             margin-bottom: 30px;
             letter-spacing: 8px;
         }
@@ -700,6 +785,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -711,9 +797,9 @@
             font-size: 120px;
             color: #4ecca3;
             text-shadow: 0 0 20px rgba(78, 204, 163, 0.8),
-                         0 0 40px rgba(78, 204, 163, 0.6),
-                         0 0 60px rgba(78, 204, 163, 0.4),
-                         4px 4px 8px rgba(0, 0, 0, 0.8);
+                0 0 40px rgba(78, 204, 163, 0.6),
+                0 0 60px rgba(78, 204, 163, 0.4),
+                4px 4px 8px rgba(0, 0, 0, 0.8);
             letter-spacing: 8px;
             font-weight: bold;
         }
@@ -722,7 +808,7 @@
             font-size: 16px;
             color: #c4a7d4;
             text-shadow: 0 0 10px rgba(196, 167, 212, 0.6),
-                         1px 1px 4px rgba(0, 0, 0, 0.9);
+                1px 1px 4px rgba(0, 0, 0, 0.9);
             margin-bottom: 40px;
             letter-spacing: 2px;
             font-family: 'DungGeunMo', 'Georgia', serif;
@@ -788,7 +874,7 @@
             transition: all 0.1s;
             image-rendering: pixelated;
             box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.6),
-                        inset 2px 2px 0px rgba(255, 255, 255, 0.1);
+                inset 2px 2px 0px rgba(255, 255, 255, 0.1);
             position: relative;
         }
 
@@ -812,14 +898,14 @@
             background: linear-gradient(135deg, #3a3a50 0%, #252541 100%);
             border-color: #5eead4;
             box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.7),
-                        inset 2px 2px 0px rgba(255, 255, 255, 0.2);
+                inset 2px 2px 0px rgba(255, 255, 255, 0.2);
             transform: translate(-2px, -2px);
         }
 
         .menu-icon-button:active {
             transform: translate(2px, 2px);
             box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5),
-                        inset 1px 1px 0px rgba(255, 255, 255, 0.1);
+                inset 1px 1px 0px rgba(255, 255, 255, 0.1);
         }
 
         @media (max-width: 480px) {
@@ -844,14 +930,17 @@
                 font-size: 48px;
                 letter-spacing: 4px;
             }
+
             .menu-subtitle {
                 font-size: 14px;
             }
+
             .menu-button {
                 padding: 16px 50px;
                 font-size: 22px;
                 min-width: 240px;
             }
+
             .menu-icon-button {
                 width: 72px;
                 height: 72px;
@@ -934,14 +1023,14 @@
             background: #5eead4;
             transform: scale(0.95);
         }
-        
+
         .start-buttons {
             display: flex;
             gap: 15px;
             justify-content: center;
             flex-wrap: wrap;
         }
-        
+
         .icon-button {
             width: 50px;
             height: 50px;
@@ -952,8 +1041,11 @@
             font-size: 24px;
             background: rgba(255, 255, 255, 0.1);
         }
-        
-        #shopScreen, #settingsScreen, #inventoryScreen, #gachaScreen {
+
+        #shopScreen,
+        #settingsScreen,
+        #inventoryScreen,
+        #gachaScreen {
             position: fixed;
             top: 0;
             left: 0;
@@ -970,7 +1062,10 @@
             overflow-y: auto;
         }
 
-        #shopScreen::before, #settingsScreen::before, #inventoryScreen::before, #gachaScreen::before {
+        #shopScreen::before,
+        #settingsScreen::before,
+        #inventoryScreen::before,
+        #gachaScreen::before {
             content: '';
             position: absolute;
             top: 0;
@@ -984,7 +1079,10 @@
             z-index: 0;
         }
 
-        #shopScreen::after, #settingsScreen::after, #inventoryScreen::after, #gachaScreen::after {
+        #shopScreen::after,
+        #settingsScreen::after,
+        #inventoryScreen::after,
+        #gachaScreen::after {
             content: '';
             position: absolute;
             top: 0;
@@ -995,23 +1093,29 @@
             z-index: 1;
         }
 
-        #shopScreen > *, #settingsScreen > *, #inventoryScreen > *, #gachaScreen > * {
+        #shopScreen>*,
+        #settingsScreen>*,
+        #inventoryScreen>*,
+        #gachaScreen>* {
             position: relative;
             z-index: 2;
         }
 
-        #shopScreen h1, #settingsScreen h1, #inventoryScreen h1, #gachaScreen h1 {
+        #shopScreen h1,
+        #settingsScreen h1,
+        #inventoryScreen h1,
+        #gachaScreen h1 {
             color: #4ecca3;
             text-shadow: 0 0 20px rgba(78, 204, 163, 0.8),
-                         0 0 40px rgba(78, 204, 163, 0.6),
-                         4px 4px 8px rgba(0, 0, 0, 0.8);
+                0 0 40px rgba(78, 204, 163, 0.6),
+                4px 4px 8px rgba(0, 0, 0, 0.8);
             margin-bottom: 30px;
             font-size: 48px;
             letter-spacing: 4px;
             font-weight: bold;
             text-align: center;
         }
-        
+
         .gold-display {
             color: #ffd700;
             font-size: 24px;
@@ -1020,7 +1124,7 @@
             position: relative;
             z-index: 10;
         }
-        
+
         .character-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -1029,28 +1133,33 @@
             position: relative;
             z-index: 10;
         }
-        
+
         @media (max-width: 480px) {
             .character-grid {
                 gap: 10px;
             }
+
             .character-card {
                 padding: 12px;
             }
+
             .character-icon {
                 font-size: 36px;
             }
+
             .character-name {
                 font-size: 14px;
             }
+
             .character-stats {
                 font-size: 11px;
             }
+
             .character-price {
                 font-size: 14px;
             }
         }
-        
+
         .character-card {
             background: linear-gradient(135deg, rgba(59, 7, 100, 0.6), rgba(88, 28, 135, 0.4));
             padding: 12px;
@@ -1079,24 +1188,24 @@
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
             background: linear-gradient(135deg, rgba(100, 50, 150, 0.7), rgba(120, 60, 180, 0.5));
         }
-        
+
         .character-icon {
             font-size: 40px;
             margin-bottom: 8px;
         }
-        
+
         .character-name {
             font-weight: bold;
             margin-bottom: 5px;
             font-size: 14px;
         }
-        
+
         .character-stats {
             font-size: 10px;
             color: #aaa;
             margin: 3px 0;
         }
-        
+
         .character-info-btn {
             position: absolute;
             top: 8px;
@@ -1155,8 +1264,13 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes slideIn {
@@ -1164,6 +1278,7 @@
                 transform: translateY(-30px);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
@@ -1296,6 +1411,7 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -1310,7 +1426,7 @@
             width: 85%;
             overflow: hidden;
             box-shadow: 0 0 30px rgba(78, 204, 163, 0.5),
-                        6px 6px 0px rgba(0, 0, 0, 0.6);
+                6px 6px 0px rgba(0, 0, 0, 0.6);
             animation: tossModalSlideUp 0.3s ease;
         }
 
@@ -1319,6 +1435,7 @@
                 transform: translateY(30px) scale(0.95);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0) scale(1);
                 opacity: 1;
@@ -1338,7 +1455,7 @@
             margin: 0;
             line-height: 1.4;
             text-shadow: 0 0 10px rgba(78, 204, 163, 0.6),
-                         2px 2px 0px rgba(0, 0, 0, 0.8);
+                2px 2px 0px rgba(0, 0, 0, 0.8);
         }
 
         .toss-modal-body {
@@ -1385,7 +1502,7 @@
         .toss-modal-button.primary:hover {
             background: #5eead4;
             box-shadow: 0 0 20px rgba(78, 204, 163, 0.6),
-                        4px 4px 0px rgba(0, 0, 0, 0.5);
+                4px 4px 0px rgba(0, 0, 0, 0.5);
             transform: translate(-2px, -2px);
         }
 
@@ -1402,7 +1519,7 @@
         .toss-modal-button.secondary:hover {
             background: rgba(78, 204, 163, 0.2);
             box-shadow: 0 0 15px rgba(78, 204, 163, 0.4),
-                        4px 4px 0px rgba(0, 0, 0, 0.5);
+                4px 4px 0px rgba(0, 0, 0, 0.5);
             transform: translate(-2px, -2px);
         }
 
@@ -1420,7 +1537,7 @@
         .toss-modal-button.danger:hover {
             background: rgba(255, 107, 107, 0.2);
             box-shadow: 0 0 15px rgba(255, 107, 107, 0.4),
-                        4px 4px 0px rgba(0, 0, 0, 0.5);
+                4px 4px 0px rgba(0, 0, 0, 0.5);
             transform: translate(-2px, -2px);
         }
 
@@ -1461,18 +1578,22 @@
             border-color: #9ca3af;
             box-shadow: 0 0 12px rgba(156, 163, 175, 0.5), 0 0 25px rgba(156, 163, 175, 0.2);
         }
+
         .item-card.uncommon {
             border-color: #10b981;
             box-shadow: 0 0 18px rgba(16, 185, 129, 0.7), 0 0 35px rgba(16, 185, 129, 0.3);
         }
+
         .item-card.rare {
             border-color: #3b82f6;
             box-shadow: 0 0 22px rgba(59, 130, 246, 0.8), 0 0 45px rgba(59, 130, 246, 0.4);
         }
+
         .item-card.epic {
             border-color: #a855f7;
             box-shadow: 0 0 28px rgba(168, 85, 247, 0.9), 0 0 55px rgba(168, 85, 247, 0.5);
         }
+
         .item-card.legend {
             border-color: #f59e0b;
             box-shadow: 0 0 35px rgba(245, 158, 11, 1.0), 0 0 70px rgba(245, 158, 11, 0.6);
@@ -1541,11 +1662,25 @@
             }
         }
 
-        .item-rarity.common { color: #9ca3af; }
-        .item-rarity.uncommon { color: #10b981; }
-        .item-rarity.rare { color: #3b82f6; }
-        .item-rarity.epic { color: #a855f7; }
-        .item-rarity.legend { color: #f59e0b; }
+        .item-rarity.common {
+            color: #9ca3af;
+        }
+
+        .item-rarity.uncommon {
+            color: #10b981;
+        }
+
+        .item-rarity.rare {
+            color: #3b82f6;
+        }
+
+        .item-rarity.epic {
+            color: #a855f7;
+        }
+
+        .item-rarity.legend {
+            color: #f59e0b;
+        }
 
         .item-effect {
             font-size: 11px;
@@ -1578,18 +1713,22 @@
             border-color: #9ca3af;
             box-shadow: 0 0 12px rgba(156, 163, 175, 0.5), 0 0 25px rgba(156, 163, 175, 0.2);
         }
+
         .equipped-slot.filled.uncommon {
             border-color: #10b981;
             box-shadow: 0 0 18px rgba(16, 185, 129, 0.7), 0 0 35px rgba(16, 185, 129, 0.3);
         }
+
         .equipped-slot.filled.rare {
             border-color: #3b82f6;
             box-shadow: 0 0 22px rgba(59, 130, 246, 0.8), 0 0 45px rgba(59, 130, 246, 0.4);
         }
+
         .equipped-slot.filled.epic {
             border-color: #a855f7;
             box-shadow: 0 0 28px rgba(168, 85, 247, 0.9), 0 0 55px rgba(168, 85, 247, 0.5);
         }
+
         .equipped-slot.filled.legend {
             border-color: #f59e0b;
             box-shadow: 0 0 35px rgba(245, 158, 11, 1.0), 0 0 70px rgba(245, 158, 11, 0.6);
@@ -1668,7 +1807,7 @@
             transform: translateY(0);
             box-shadow: 0 2px 10px rgba(88, 28, 135, 0.6);
         }
-        
+
         /* 볼륨 슬라이더 스타일 */
         input[type="range"] {
             -webkit-appearance: none;
@@ -1678,7 +1817,7 @@
             border-radius: 5px;
             outline: none;
         }
-        
+
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -1689,12 +1828,12 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        
+
         input[type="range"]::-webkit-slider-thumb:hover {
             background: #5eead4;
             transform: scale(1.1);
         }
-        
+
         input[type="range"]::-moz-range-thumb {
             width: 20px;
             height: 20px;
@@ -1704,12 +1843,12 @@
             border: none;
             transition: all 0.2s;
         }
-        
+
         input[type="range"]::-moz-range-thumb:hover {
             background: #5eead4;
             transform: scale(1.1);
         }
-        
+
         #modeSelectScreen {
             position: fixed;
             top: 0;
@@ -1751,7 +1890,7 @@
             z-index: 1;
         }
 
-        #modeSelectScreen > * {
+        #modeSelectScreen>* {
             position: relative;
             z-index: 2;
         }
@@ -1759,8 +1898,8 @@
         #modeSelectScreen h1 {
             color: #4ecca3;
             text-shadow: 0 0 20px rgba(78, 204, 163, 0.8),
-                         0 0 40px rgba(78, 204, 163, 0.6),
-                         4px 4px 8px rgba(0, 0, 0, 0.8);
+                0 0 40px rgba(78, 204, 163, 0.6),
+                4px 4px 8px rgba(0, 0, 0, 0.8);
             margin-bottom: 30px;
             font-size: 48px;
             letter-spacing: 4px;
@@ -1859,7 +1998,7 @@
             z-index: 1;
         }
 
-        #stageSelectScreen > * {
+        #stageSelectScreen>* {
             position: relative;
             z-index: 2;
         }
@@ -1867,8 +2006,8 @@
         #stageSelectScreen h1 {
             color: #4ecca3;
             text-shadow: 0 0 20px rgba(78, 204, 163, 0.8),
-                         0 0 40px rgba(78, 204, 163, 0.6),
-                         4px 4px 8px rgba(0, 0, 0, 0.8);
+                0 0 40px rgba(78, 204, 163, 0.6),
+                4px 4px 8px rgba(0, 0, 0, 0.8);
             margin-bottom: 30px;
             font-size: 48px;
             letter-spacing: 4px;
@@ -1894,7 +2033,7 @@
             font-size: 72px;
             color: #4ecca3;
             text-shadow: 0 0 15px rgba(78, 204, 163, 0.7),
-                         3px 3px 6px rgba(0, 0, 0, 0.9);
+                3px 3px 6px rgba(0, 0, 0, 0.9);
             user-select: none;
             line-height: 1;
         }
@@ -1902,7 +2041,7 @@
         .carousel-arrow:hover {
             color: #5fffd4;
             text-shadow: 0 0 25px rgba(78, 204, 163, 1),
-                         3px 3px 6px rgba(0, 0, 0, 0.9);
+                3px 3px 6px rgba(0, 0, 0, 0.9);
             transform: scale(1.2);
         }
 
@@ -2005,34 +2144,63 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.95);
-            padding: 30px;
+            padding: 25px;
             border-radius: 15px;
-            text-align: center;
             color: white;
             display: none;
             z-index: 30;
-            min-width: 300px;
+            min-width: 350px;
+            max-width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
             border: 2px solid #4ecca3;
+            text-align: left;
         }
-        
+
         #confirmModal h3 {
             color: #4ecca3;
-            margin-bottom: 20px;
-            font-size: 20px;
+            margin-bottom: 15px;
+            font-size: 22px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(78, 204, 163, 0.6);
         }
-        
-        #confirmModal p {
-            margin-bottom: 25px;
-            color: #aaa;
-            font-size: 14px;
+
+        .pause-stats-section {
+            margin: 15px 0;
+            padding: 12px;
+            background: rgba(78, 204, 163, 0.1);
+            border-left: 3px solid #4ecca3;
+            border-radius: 5px;
         }
-        
+
+        .pause-stats-title {
+            color: #4ecca3;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pause-stat-item {
+            color: #ddd;
+            font-size: 13px;
+            margin: 4px 0;
+            padding-left: 8px;
+        }
+
+        .pause-stat-value {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
         .modal-buttons {
             display: flex;
             gap: 15px;
             justify-content: center;
         }
-        
+
         .modal-btn {
             padding: 12px 30px;
             font-size: 16px;
@@ -2042,22 +2210,22 @@
             transition: all 0.3s;
             font-weight: bold;
         }
-        
+
         .modal-btn-yes {
             background: #e94560;
             color: white;
         }
-        
+
         .modal-btn-yes:active {
             background: #ff6b6b;
             transform: scale(0.95);
         }
-        
+
         .modal-btn-no {
             background: #4ecca3;
             color: #1a1a2e;
         }
-        
+
         .modal-btn-no:active {
             background: #5eead4;
             transform: scale(0.95);
@@ -2122,10 +2290,11 @@
         }
     </style>
 </head>
+
 <body>
     <div id="gameContainer">
         <canvas id="gameCanvas"></canvas>
-        
+
         <div id="ui">
             <div class="stat-bar">
                 <span class="stat-label">HP</span>
@@ -2142,16 +2311,17 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="timeUI" onclick="handleBossCheatTap()" style="cursor: pointer; user-select: none;">
             시간: <span id="time">0</span>s
         </div>
-        
+
         <div id="goldUI">
             스크랩: <span id="goldAmount">0</span>
         </div>
 
-        <div id="fpsCounter" style="position: absolute; top: 10px; right: 10px; color: #4ecca3; font-size: 14px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); z-index: 10; display: none;">
+        <div id="fpsCounter"
+            style="position: absolute; top: 10px; right: 10px; color: #4ecca3; font-size: 14px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); z-index: 10; display: none;">
             FPS: <span id="fpsValue">60</span>
         </div>
 
@@ -2163,30 +2333,33 @@
         </div>
 
         <div id="confirmModal">
-            <h3>메인 메뉴로 돌아가기</h3>
-            <p>현재 게임을 종료하시겠습니까?<br>진행 상황은 저장되지 않습니다.</p>
+            <h3>게임 일시정지</h3>
+            <div id="pauseStatsContainer"></div>
             <div class="modal-buttons">
-                <button class="modal-btn modal-btn-yes" onclick="confirmGoHome()">예</button>
-                <button class="modal-btn modal-btn-no" onclick="closeConfirmModal()">아니오</button>
+                <button class="modal-btn modal-btn-no" onclick="closeConfirmModal()">계속하기</button>
+                <button class="modal-btn modal-btn-yes" onclick="confirmGoHome()">메인 메뉴로</button>
             </div>
         </div>
 
         <!-- 에너지 부족 모달 -->
-        <div id="energyDepletedModal" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.95); padding: 30px; border-radius: 15px; text-align: center; color: white; display: none; z-index: 35; min-width: 300px; border: 2px solid #ff6b6b;">
+        <div id="energyDepletedModal"
+            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.95); padding: 30px; border-radius: 15px; text-align: center; color: white; display: none; z-index: 35; min-width: 300px; border: 2px solid #ff6b6b;">
             <!-- X 닫기 버튼 -->
-            <button onclick="closeEnergyModal()" style="position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: #aaa; font-size: 24px; cursor: pointer; width: 30px; height: 30px; line-height: 24px; padding: 0; transition: color 0.2s;"
-                    onmouseover="this.style.color='#fff'"
-                    onmouseout="this.style.color='#aaa'">×</button>
+            <button onclick="closeEnergyModal()"
+                style="position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: #aaa; font-size: 24px; cursor: pointer; width: 30px; height: 30px; line-height: 24px; padding: 0; transition: color 0.2s;"
+                onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#aaa'">×</button>
 
             <h3 style="color: #ff6b6b; margin-bottom: 20px; font-size: 20px;">에너지 부족</h3>
             <p style="margin-bottom: 25px; color: #aaa; font-size: 14px;">에너지가 부족합니다!<br>친구 초대하거나 광고를 보고 에너지를 충전하세요!</p>
             <div class="modal-buttons">
                 <button class="modal-btn modal-btn-yes" onclick="inviteFriendsFromModal()">친구 초대</button>
-                <button class="modal-btn modal-btn-no" onclick="watchAdForEnergy()" style="background: #ffa502;">광고 보고 충전</button>
+                <button class="modal-btn modal-btn-no" onclick="watchAdForEnergy()" style="background: #ffa502;">광고 보고
+                    충전</button>
             </div>
         </div>
 
-        <div id="unlockModal" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.95); padding: 30px; border-radius: 15px; text-align: center; color: white; display: none; z-index: 30; min-width: 300px; border: 2px solid #4ecca3;">
+        <div id="unlockModal"
+            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.95); padding: 30px; border-radius: 15px; text-align: center; color: white; display: none; z-index: 30; min-width: 300px; border: 2px solid #4ecca3;">
             <h3 style="color: #4ecca3; margin-bottom: 20px; font-size: 20px;">캐릭터 해금</h3>
             <p id="unlockModalText" style="margin-bottom: 25px; color: #aaa; font-size: 14px;"></p>
             <div class="modal-buttons">
@@ -2195,7 +2368,8 @@
             </div>
         </div>
 
-        <div id="upgradeModal" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.95); padding: 30px; border-radius: 15px; text-align: center; color: white; display: none; z-index: 40; min-width: 300px; border: 2px solid #4ecca3;">
+        <div id="upgradeModal"
+            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.95); padding: 30px; border-radius: 15px; text-align: center; color: white; display: none; z-index: 40; min-width: 300px; border: 2px solid #4ecca3;">
             <h3 style="color: #4ecca3; margin-bottom: 20px; font-size: 20px;">캐릭터 강화</h3>
             <p id="upgradeModalText" style="margin-bottom: 25px; color: #aaa; font-size: 14px;"></p>
             <div class="modal-buttons">
@@ -2205,11 +2379,12 @@
         </div>
 
         <!-- 디버그 패널 (개발자용) -->
-        <div id="debugPanel" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.98); padding: 25px; border-radius: 15px; color: white; display: none; z-index: 99999; min-width: 320px; max-width: 90vw; max-height: 90vh; overflow-y: auto; border: 3px solid #3182F6; font-family: 'Courier New', monospace;">
+        <div id="debugPanel"
+            style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.98); padding: 25px; border-radius: 15px; color: white; display: none; z-index: 99999; min-width: 320px; max-width: 90vw; max-height: 90vh; overflow-y: auto; border: 3px solid #3182F6; font-family: 'Courier New', monospace;">
             <!-- X 닫기 버튼 -->
-            <button onclick="closeDebugPanel()" style="position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: #aaa; font-size: 24px; cursor: pointer; width: 30px; height: 30px; line-height: 24px; padding: 0; transition: color 0.2s;"
-                    onmouseover="this.style.color='#fff'"
-                    onmouseout="this.style.color='#aaa'">×</button>
+            <button onclick="closeDebugPanel()"
+                style="position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: #aaa; font-size: 24px; cursor: pointer; width: 30px; height: 30px; line-height: 24px; padding: 0; transition: color 0.2s;"
+                onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#aaa'">×</button>
 
             <h3 style="color: #3182F6; margin-bottom: 20px; font-size: 18px; text-align: center;">🔧 디버그 정보</h3>
 
@@ -2230,7 +2405,8 @@
                 </div>
             </div>
 
-            <button onclick="refreshDebugInfo()" style="width: 100%; padding: 12px; background: #3182F6; color: white; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; margin-top: 15px; font-weight: bold;">
+            <button onclick="refreshDebugInfo()"
+                style="width: 100%; padding: 12px; background: #3182F6; color: white; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; margin-top: 15px; font-weight: bold;">
                 🔄 새로고침
             </button>
         </div>
@@ -2238,7 +2414,8 @@
         <div id="loadingScreen">
             <div class="loading-content">
                 <h1 class="loading-title">DRONE WAR</h1>
-                <p class="loading-subtitle" style="margin-top: 10px; font-size: 24px; color: #ff3333; font-weight: bold;">드론 워</p>
+                <p class="loading-subtitle"
+                    style="margin-top: 10px; font-size: 24px; color: #ff3333; font-weight: bold;">드론 워</p>
                 <p class="loading-text">로딩중...</p>
                 <div class="loading-bar-container">
                     <div class="loading-bar" id="loadingBar"></div>
@@ -2248,14 +2425,17 @@
         </div>
 
         <!-- 에너지 표시 (모든 화면 좌측 상단 고정, 인게임 제외) -->
-        <div id="heartDisplay" style="position: fixed; top: 50px; left: 20px; color: white; font-size: 18px; z-index: 1000; display: none; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);">
+        <div id="heartDisplay"
+            style="position: fixed; top: 50px; left: 20px; color: white; font-size: 18px; z-index: 1000; display: none; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);">
             <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
                 <span style="font-size: 14px; color: #4ecca3; font-weight: bold;">에너지:</span>
                 <div id="heartIcons" style="display: flex; gap: 3px;"></div>
             </div>
             <div id="heartTimer" style="font-size: 12px; color: #fff;"></div>
-            <div id="supplyTicketDisplay" style="font-size: 14px; color: #ffd700; font-weight: bold; margin-top: 5px;">보급권: 0장</div>
-            <div id="goldDisplayMenu" style="font-size: 14px; color: #ffd700; font-weight: bold; margin-top: 5px; display: flex; align-items: center; gap: 5px;">
+            <div id="supplyTicketDisplay" style="font-size: 14px; color: #ffd700; font-weight: bold; margin-top: 5px;">
+                보급권: 0장</div>
+            <div id="goldDisplayMenu"
+                style="font-size: 14px; color: #ffd700; font-weight: bold; margin-top: 5px; display: flex; align-items: center; gap: 5px;">
                 <img src="assets/Gear.png" style="width: 16px; height: 16px; image-rendering: pixelated;" />
                 <span id="currentGoldMenu">0</span>
             </div>
@@ -2268,18 +2448,22 @@
             </div>
             <div class="menu-content">
                 <h1 class="menu-title" id="gameTitle" onclick="handleTitleTap()">DRONE WAR</h1>
-                <p class="menu-subtitle" style="font-size: 28px; color: #ff3333; font-weight: bold; margin-top: 10px;">드론 워</p>
+                <p class="menu-subtitle" style="font-size: 28px; color: #ff3333; font-weight: bold; margin-top: 10px;">
+                    드론 워</p>
                 <div class="menu-buttons">
                     <button class="menu-button" id="startGameButton" onclick="tryStartGame()">게임 시작</button>
                     <button class="menu-button" onclick="openInventoryFromMenu()">정비소</button>
                     <button class="menu-button" onclick="openShopFromMenu()">드론 변경</button>
                 </div>
-                <div style="display: flex; gap: 15px; justify-content: center; margin-top: 15px; width: 240px; margin-left: auto; margin-right: auto;">
+                <div
+                    style="display: flex; gap: 15px; justify-content: center; margin-top: 15px; width: 240px; margin-left: auto; margin-right: auto;">
                     <button class="menu-icon-button" onclick="openTossLeaderboard()" style="flex: 1; width: auto;">
-                        <img src="assets/trophy.png" style="width: 48px; height: 48px; image-rendering: pixelated;" alt="리더보드">
+                        <img src="assets/trophy.png" style="width: 48px; height: 48px; image-rendering: pixelated;"
+                            alt="리더보드">
                     </button>
                     <button class="menu-icon-button" onclick="openSettingsFromMenu()" style="flex: 1; width: auto;">
-                        <img src="assets/Gear.png" style="width: 48px; height: 48px; image-rendering: pixelated;" alt="설정">
+                        <img src="assets/Gear.png" style="width: 48px; height: 48px; image-rendering: pixelated;"
+                            alt="설정">
                     </button>
                 </div>
             </div>
@@ -2290,12 +2474,14 @@
                 <h1>모드 선택</h1>
                 <div class="mode-buttons">
                     <div class="mode-button" onclick="selectMode('story')">
-                        <img src="assets/Book.png" style="width: 64px; height: 64px; margin-bottom: 10px; image-rendering: pixelated;" />
+                        <img src="assets/Book.png"
+                            style="width: 64px; height: 64px; margin-bottom: 10px; image-rendering: pixelated;" />
                         <div class="mode-name">스토리</div>
                         <div class="mode-desc">스테이지를 클리어하며<br>보스를 처치하세요</div>
                     </div>
                     <div class="mode-button" onclick="selectMode('endless')">
-                        <img src="assets/infinite-icon.png" style="width: 64px; height: 64px; margin-bottom: 10px; image-rendering: pixelated;" />
+                        <img src="assets/infinite-icon.png"
+                            style="width: 64px; height: 64px; margin-bottom: 10px; image-rendering: pixelated;" />
                         <div class="mode-name">무한</div>
                         <div class="mode-desc">끝없이 밀려오는 적들을<br>얼마나 버틸 수 있을까?</div>
                     </div>
@@ -2323,7 +2509,7 @@
             <p>모바일: 화면을 터치하여 이동</p>
             <p>자동으로 적 드론을 공격합니다</p>
             <p>레벨업하면서 더 강해지세요!</p>
-            
+
             <div class="best-records">
                 <h3>개인 최고기록</h3>
                 <div class="record-item">
@@ -2335,14 +2521,14 @@
                     <span class="record-value"><span id="bestKillsDisplay">0</span>대</span>
                 </div>
             </div>
-            
+
             <div class="start-buttons">
                 <button onclick="startGame()">게임 시작</button>
                 <button class="icon-button" onclick="openShop()">드론 변경</button>
                 <button class="icon-button" onclick="openSettingsFromMenu()">설정</button>
             </div>
         </div>
-        
+
         <div id="shopScreen">
             <div style="text-align: center; max-width: 800px; width: 100%;">
                 <h1>드론 변경</h1>
@@ -2396,9 +2582,8 @@
                             마스터 볼륨: <span id="masterVolumeValue">100</span>%
                         </label>
                         <input type="range" id="masterVolumeSlider" min="0" max="100" value="100"
-                               style="width: 100%; cursor: pointer;"
-                               oninput="handleVolumeChange('master', this.value)"
-                               onchange="handleVolumeChange('master', this.value)">
+                            style="width: 100%; cursor: pointer;" oninput="handleVolumeChange('master', this.value)"
+                            onchange="handleVolumeChange('master', this.value)">
                     </div>
 
                     <div style="margin-bottom: 25px;">
@@ -2406,9 +2591,8 @@
                             배경음악: <span id="musicVolumeValue">100</span>%
                         </label>
                         <input type="range" id="musicVolumeSlider" min="0" max="100" value="100"
-                               style="width: 100%; cursor: pointer;"
-                               oninput="handleVolumeChange('music', this.value)"
-                               onchange="handleVolumeChange('music', this.value)">
+                            style="width: 100%; cursor: pointer;" oninput="handleVolumeChange('music', this.value)"
+                            onchange="handleVolumeChange('music', this.value)">
                     </div>
 
                     <div style="margin-bottom: 25px;">
@@ -2416,9 +2600,8 @@
                             효과음: <span id="sfxVolumeValue">100</span>%
                         </label>
                         <input type="range" id="sfxVolumeSlider" min="0" max="100" value="100"
-                               style="width: 100%; cursor: pointer;"
-                               oninput="handleVolumeChange('sfx', this.value)"
-                               onchange="handleVolumeChange('sfx', this.value)">
+                            style="width: 100%; cursor: pointer;" oninput="handleVolumeChange('sfx', this.value)"
+                            onchange="handleVolumeChange('sfx', this.value)">
                     </div>
                 </div>
 
@@ -2432,22 +2615,30 @@
                 <!-- 장착 슬롯 -->
                 <div style="margin: 12px 0;">
                     <h3 style="color: #4ecca3; margin-bottom: 12px; font-size: 18px;">장착 중인 아이템</h3>
-                    <div id="equippedSlots" style="display: flex; gap: 12px; justify-content: center; flex-wrap: nowrap; margin-bottom: 15px;"></div>
+                    <div id="equippedSlots"
+                        style="display: flex; gap: 12px; justify-content: center; flex-wrap: nowrap; margin-bottom: 15px;">
+                    </div>
                 </div>
 
                 <!-- 인벤토리 -->
                 <div style="margin-bottom: 15px;">
-                    <h3 style="color: #4ecca3; margin-bottom: 12px; font-size: 18px;">보유 아이템 (<span id="inventoryCount">0</span>/50)</h3>
-                    <div id="inventoryGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; max-height: 280px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 10px;"></div>
+                    <h3 style="color: #4ecca3; margin-bottom: 12px; font-size: 18px;">보유 아이템 (<span
+                            id="inventoryCount">0</span>/50)</h3>
+                    <div id="inventoryGrid"
+                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; max-height: 280px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 10px;">
+                    </div>
                 </div>
 
                 <!-- 보급 버튼 -->
                 <div style="text-align: center; margin-bottom: 15px;">
-                    <button id="gachaButtonInventory" onclick="performGachaInInventory()" style="padding: 16px 40px; font-size: 18px; background: linear-gradient(135deg, #4ecca3, #2ecc71); color: #1a1a2e; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; transition: all 0.3s; box-shadow: 0 5px 15px rgba(78, 204, 163, 0.4);">
+                    <button id="gachaButtonInventory" onclick="performGachaInInventory()"
+                        style="padding: 16px 40px; font-size: 18px; background: linear-gradient(135deg, #4ecca3, #2ecc71); color: #1a1a2e; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; transition: all 0.3s; box-shadow: 0 5px 15px rgba(78, 204, 163, 0.4);">
                         보급받기
                     </button>
                     <!-- 보급 결과 -->
-                    <div id="gachaResultInventory" style="display: none; margin-top: 20px; padding: 20px; background: rgba(0,0,0,0.5); border-radius: 10px;"></div>
+                    <div id="gachaResultInventory"
+                        style="display: none; margin-top: 20px; padding: 20px; background: rgba(0,0,0,0.5); border-radius: 10px;">
+                    </div>
                 </div>
 
                 <button class="close-button" onclick="closeInventory()">닫기</button>
@@ -2455,8 +2646,10 @@
         </div>
 
         <!-- 뽑기 결과 팝업 -->
-        <div id="gachaResultModal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.9); z-index: 50; justify-content: center; align-items: center;">
-            <div id="gachaResultCard" style="position: relative; max-width: 400px; width: 90%; padding: 40px; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 20px; text-align: center;">
+        <div id="gachaResultModal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.9); z-index: 50; justify-content: center; align-items: center;">
+            <div id="gachaResultCard"
+                style="position: relative; max-width: 400px; width: 90%; padding: 40px; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 20px; text-align: center;">
                 <!-- 내용은 JavaScript로 동적 생성 -->
             </div>
         </div>
@@ -2470,7 +2663,8 @@
             <button onclick="restartGame()">다시 시작</button>
             <button onclick="goToMainMenu()" style="background: #4ecca3;">메인 메뉴</button>
             <!-- 보상형 광고 부활 버튼 -->
-            <button id="reviveButton" onclick="watchAdToRevive()" style="background: #ff6b6b; color: white; margin: 10px auto; width: fit-content; display: none;">
+            <button id="reviveButton" onclick="watchAdToRevive()"
+                style="background: #ff6b6b; color: white; margin: 10px auto; width: fit-content; display: none;">
                 광고보고 부활
             </button>
         </div>
@@ -2711,24 +2905,24 @@
             const containerWidth = window.innerWidth;
             const containerHeight = window.innerHeight;
             const dpr = window.devicePixelRatio || 1;
-            
+
             canvas.width = containerWidth * dpr;
             canvas.height = containerHeight * dpr;
             canvas.style.width = containerWidth + 'px';
             canvas.style.height = containerHeight + 'px';
-            
+
             ctx.scale(dpr, dpr);
         }
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
-        
+
         let gameStarted = false;
         let gameRunning = false;
         let gameLoopId = 0;  // 게임 루프 중복 실행 방지용 ID
         let settingsOpenedFrom = 'menu';  // 설정을 어디서 열었는지 추적 ('menu' 또는 'game')
         let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        let sizeScale = isMobile ? 1.2 : 1.5;  // 적 크기 (모바일 1.2배, PC 1.5배)
-        let playerSizeScale = isMobile ? 1.5 : 2.25;  // 플레이어 크기 (모바일 1.5배, PC 2.25배)
+        let sizeScale = isMobile ? 1.56 : 1.95;  // 적 크기 30% 증가 (모바일 1.56배, PC 1.95배)
+        let playerSizeScale = isMobile ? 2.25 : 3.375;  // 플레이어 크기 1.5배 증가 (모바일 2.25배, PC 3.375배)
 
         // 화면 흔들림 변수
         let shakeIntensity = 0;  // 현재 흔들림 강도
@@ -2738,10 +2932,11 @@
         const player = {
             x: 0,
             y: 0,
-            size: 12 * playerSizeScale,  // 40% 축소 (20 → 12)
+            size: 8,  // 히트박스는 작게 고정 (시각적 크기와 분리)
+            visualSize: 8 * playerSizeScale,  // 시각적 표시 크기 (실제 보이는 크기)
             speed: 4.5,
-            hp: 300,  // 40% 감소 (500 → 300)
-            maxHp: 300,  // 40% 감소 (500 → 300)
+            hp: 200,  // 60% 감소 (500 → 200)
+            maxHp: 200,  // 60% 감소 (500 → 200)
             xp: 0,
             level: 1,
             xpNeeded: 10
@@ -2864,20 +3059,20 @@
         const MAX_ENEMY_PROJECTILES = 100;
         const MAX_XP_ORBS = 300;  // 3배 증가 (100 → 300) - 아이템이 더 오래 유지됨
         const MAX_GOLD_ORBS = 150;  // 3배 증가 (50 → 150) - 아이템이 더 오래 유지됨
-        
+
         let kills = 0;
         let gameTime = 0;
         let lastTime = Date.now();
         let shootTimer = 0;
         const shootCooldown = 350;
-        
+
         let totalGold = 0;
         let currentGold = 0;
-        
+
         // 개인 최고기록
         let bestTime = 0;
         let bestKills = 0;
-        
+
         // 오디오 설정
         let masterVolume = 1.0;
         let musicVolume = 0.3;  // 배경음악 30%
@@ -2903,7 +3098,7 @@
             const volume = masterVolume * sfxVolume * 0.5;  // 효과음 증폭
             gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
 
-            switch(type) {
+            switch (type) {
                 case 'hit':
                     oscillator.type = 'square';
                     oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
@@ -3197,7 +3392,7 @@
                 unlocked: true,
                 price: 0,
                 upgradeLevel: 0,
-                stats: { hp: 500, speed: 4.5, damage: 30 },
+                stats: { hp: 200, speed: 4.5, damage: 30 },
                 ultimate: '플라즈마 폭풍: 4초간 모든 적 스턴',
                 description: '【기원】\n세계 연합군이 최초로 양산한 1세대 전투 드론입니다. 수많은 전장에서 검증된 균형잡힌 설계로 "전장의 만능 해결사"라 불립니다.\n\n【전술 특성】\n안정적인 기동성과 화력의 조화. 어떤 상황에서도 믿을 수 있는 범용성이 강점입니다.\n\n【필살기: 플라즈마 폭풍】\n고전압 플라즈마 에너지를 방출하여 4초간 주변 모든 적의 전자 시스템을 무력화시킵니다.'
             },
@@ -3208,7 +3403,7 @@
                 unlocked: false,
                 price: GAME_CONSTANTS.CHAR_PRICE_FALCON,
                 upgradeLevel: 0,
-                stats: { hp: 700, speed: 4.5, damage: 40 },
+                stats: { hp: 250, speed: 4.5, damage: 40 },
                 ultimate: '철벽 보호막: 10초간 무적 상태',
                 description: '【기원】\n독일 특수부대 GSG-9와 공동 개발한 중거리 타격 전문 드론. "철의 독수리"라는 코드네임으로 유럽 전선을 지켜냈습니다.\n\n【전술 특성】\n강화된 장갑과 화력으로 중거리에서 압도적인 화력 투사가 가능합니다. 방어와 공격의 균형이 뛰어납니다.\n\n【필살기: 철벽 보호막】\n10초간 완전한 무적 상태가 됩니다. 어떤 공격도 통하지 않는 절대 방어 시스템을 전개하여 최전방에서 버텨냅니다.'
             },
@@ -3219,7 +3414,7 @@
                 unlocked: false,
                 price: GAME_CONSTANTS.CHAR_PRICE_CRANE,
                 upgradeLevel: 0,
-                stats: { hp: 400, speed: 4.5, damage: 50 },
+                stats: { hp: 300, speed: 4.5, damage: 50 },
                 ultimate: '홀로그램 클론: 7초간 분신 생성',
                 description: '【기원】\n미국 국방부 첨단연구계획국(DARPA)에서 극비리에 개발한 차세대 전자전 드론. 홀로그램 기술과 EMP 무기를 탑재하여 "전장의 환영"이라 불립니다.\n\n【전술 특성】\n최첨단 기술의 집약체. 낮은 내구도를 압도적 화력과 전술적 기만으로 보완합니다. 고숙련 파일럿에게 추천됩니다.\n\n【필살기: 홀로그램 클론】\n홀로그램 분신을 7초간 생성하여 일시적으로 두 배의 화력을 발휘합니다. 분신도 동일한 공격 능력을 가지고 있어 화력이 2배로 증가합니다.'
             },
@@ -3230,7 +3425,7 @@
                 unlocked: false,
                 price: GAME_CONSTANTS.CHAR_PRICE_RHINO,
                 upgradeLevel: 0,
-                stats: { hp: 450, speed: 4.5, damage: 35 },
+                stats: { hp: 350, speed: 4.5, damage: 35 },
                 ultimate: '방사형 폭발: 360° 직선 공격 3회 (즉사)',
                 description: '【기원】\n러시아 군사기술연구소에서 개발한 중화력 폭격 드론. 시베리아 작전에서 단 1기로 적 부대 전체를 섬멸하며 "붉은 심판자"라는 전설을 만들었습니다.\n\n【전술 특성】\n폭발 무기 전문가들이 설계한 파괴의 예술품. 한 번의 공격으로 전장의 판도를 뒤집는 압도적 파괴력이 특징입니다.\n\n【필살기: 방사형 폭발】\n360도 전방향으로 3차례의 직선 폭격을 발사합니다. 범위 내 모든 적은 회피 불가능한 즉사 판정을 받게 됩니다.'
             },
@@ -3241,7 +3436,7 @@
                 unlocked: false,
                 price: GAME_CONSTANTS.CHAR_PRICE_SPECTER,
                 upgradeLevel: 0,
-                stats: { hp: 1000, speed: 4.5, damage: 25 },
+                stats: { hp: 400, speed: 4.5, damage: 25 },
                 ultimate: '중력 붕괴: 전방에 중력장 발사 후 폭발',
                 description: '【기원】\n프랑스 우주항공연구소(CNES)가 우주 전쟁을 대비해 개발한 실험형 중력 제어 드론. 블랙홀 이론을 무기화한 인류 최초의 중력병기로 "어비스"라 명명되었습니다.\n\n【전술 특성】\n압도적인 방어력으로 최전방을 담당합니다. 적의 공격을 받아내며 아군을 지키는 불굴의 요새입니다.\n\n【필살기: 중력 붕괴】\n인공 중력장을 전방으로 발사하여 적들을 한 곳으로 끌어당긴 후, 중력을 반전시켜 강력한 폭발로 섬멸합니다. 과학이 만든 블랙홀입니다.'
             },
@@ -3252,7 +3447,7 @@
                 unlocked: false,
                 price: GAME_CONSTANTS.CHAR_PRICE_PHANTOM,
                 upgradeLevel: 0,
-                stats: { hp: 350, speed: 4.5, damage: 45 },
+                stats: { hp: 450, speed: 4.5, damage: 45 },
                 ultimate: '쌍검 레이저: 3초간 회전 레이저',
                 description: '【기원】\n일본 방위성 특수기술연구본부가 닌자의 전술을 AI에 학습시켜 탄생시킨 암살 전문 드론. 400년 전통의 인술(忍術)과 최첨단 기술의 융합체로 "무음의 사신"이라 두려움의 대상입니다.\n\n【전술 특성】\n최소한의 장갑으로 극한의 기동성을 확보. 빠른 공격과 회피로 적을 농락하는 고난이도 기체입니다.\n\n【필살기: 쌍검 레이저】\n드론 주변에 쌍검 형태의 고출력 레이저가 3초간 회전하며 접근하는 모든 적을 단숨에 베어버립니다. 피할 수 없는 일격필살의 검무입니다.'
             }
@@ -3329,7 +3524,7 @@
                 rarityName: rarityData.name,
                 rarityColor: rarityData.color,
                 multiplier: rarityData.multiplier,
-                baseEffect: {...template.baseEffect},
+                baseEffect: { ...template.baseEffect },
                 desc: template.desc,
                 equipped: false
             };
@@ -3498,7 +3693,7 @@
         let projectileSpeed = 5;
         let projectileCount = 1;
         let projectilePiercing = 0;
-        
+
         let hasMissile = false;
         let missileCount = 0;
         let missileDamage = 25;
@@ -3506,7 +3701,7 @@
         let missilePiercing = 0;  // 미사일 관통 횟수
         let missileTimer = 0;
         const missileCooldown = 1500;
-        
+
         // EMP 파장 공격 (기존 근접무기)
         let hasEMP = false;
         let empDamage = 30;
@@ -3565,7 +3760,7 @@
         let touchActive = false;
         let lastTouchX = 0;
         let lastTouchY = 0;
-        
+
         function handleTouchStart(e) {
             if (!gameRunning) return;
             e.preventDefault();
@@ -3580,25 +3775,25 @@
             lastTouchY = touch.clientY;
             touchActive = true;
         }
-        
+
         function handleTouchMove(e) {
             if (!gameRunning || !touchActive) return;
             e.preventDefault();
             const touch = e.touches[0];
-            
+
             const deltaX = touch.clientX - lastTouchX;
             const deltaY = touch.clientY - lastTouchY;
-            
+
             player.x += deltaX;
             player.y += deltaY;
-            
-            player.x = Math.max(player.size, Math.min(window.innerWidth - player.size, player.x));
-            player.y = Math.max(player.size, Math.min(window.innerHeight - player.size, player.y));
-            
+
+            player.x = Math.max(player.visualSize, Math.min(window.innerWidth - player.visualSize, player.x));
+            player.y = Math.max(player.visualSize, Math.min(window.innerHeight - player.visualSize, player.y));
+
             lastTouchX = touch.clientX;
             lastTouchY = touch.clientY;
         }
-        
+
         function handleTouchEnd(e) {
             e.preventDefault();
             touchActive = false;
@@ -3685,7 +3880,7 @@
         canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
         canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
         canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
-        
+
         window.addEventListener('keydown', (e) => {
             keys[e.key.toLowerCase()] = true;
 
@@ -3728,16 +3923,16 @@
                 console.log('치트 활성화: 모든 캐릭터/스테이지 해금, 골드 +10000');
                 showTossModal({
                     title: '치트 활성화!',
-                    message: '모든 캐릭터와 스테이지가 해금되었습니다.\n골드 +10,000',
-                    buttons: [{text: '확인', color: 'primary'}]
+                    message: '모든 캐릭터와 스테이지가 해금되었습니다.\n스크랩 +10,000',
+                    buttons: [{ text: '확인', color: 'primary' }]
                 });
             }
         });
-        
+
         window.addEventListener('keyup', (e) => {
             keys[e.key.toLowerCase()] = false;
         });
-        
+
         function initMeleeWeapons() {
             meleeWeapons.length = 0;
             for (let i = 0; i < meleeCount; i++) {
@@ -3747,7 +3942,7 @@
                 });
             }
         }
-        
+
         // 에너지 UI 표시 여부 제어 (인게임 제외)
         function updateHeartDisplayVisibility() {
             const heartDisplay = document.getElementById('heartDisplay');
@@ -3857,7 +4052,7 @@
                 showTossModal({
                     title: 'Toss 연동 필요',
                     message: 'Toss 앱에서 실행 시\n친구 초대 기능을 사용할 수 있습니다.',
-                    buttons: [{text: '확인', color: 'secondary'}]
+                    buttons: [{ text: '확인', color: 'secondary' }]
                 });
                 return;
             }
@@ -3869,7 +4064,7 @@
                 showTossModal({
                     title: '친구 초대를 사용할 수 없습니다',
                     message: 'Toss 앱 버전이 낮거나\nSDK가 로드되지 않았습니다.\n\n환경: ' + envInfo.env + '\n버전: ' + envInfo.tossVersion,
-                    buttons: [{text: '확인', color: 'secondary'}]
+                    buttons: [{ text: '확인', color: 'secondary' }]
                 });
                 return;
             }
@@ -3881,7 +4076,7 @@
                     showTossModal({
                         title: '친구 초대 성공!',
                         message: `에너지 ${rewardAmount}개를 받았습니다! 🎉`,
-                        buttons: [{text: '확인', color: 'primary'}]
+                        buttons: [{ text: '확인', color: 'primary' }]
                     });
                 }
             });
@@ -3897,7 +4092,7 @@
                 showTossModal({
                     title: 'Toss 연동 필요',
                     message: 'Toss 앱에서 실행 시\n친구 초대 기능을 사용할 수 있습니다.',
-                    buttons: [{text: '확인', color: 'secondary'}]
+                    buttons: [{ text: '확인', color: 'secondary' }]
                 });
                 return;
             }
@@ -3909,7 +4104,7 @@
                 showTossModal({
                     title: '친구 초대를 사용할 수 없습니다',
                     message: 'Toss 앱 버전이 낮거나\nSDK가 로드되지 않았습니다.\n\n환경: ' + envInfo.env + '\n버전: ' + envInfo.tossVersion,
-                    buttons: [{text: '확인', color: 'secondary'}]
+                    buttons: [{ text: '확인', color: 'secondary' }]
                 });
                 return;
             }
@@ -3921,7 +4116,7 @@
                     showTossModal({
                         title: '친구 초대 성공!',
                         message: `에너지 ${rewardAmount}개를 받았습니다! 🎉`,
-                        buttons: [{text: '확인', color: 'primary'}]
+                        buttons: [{ text: '확인', color: 'primary' }]
                     });
                 }
             });
@@ -3939,7 +4134,7 @@
                 showTossModal({
                     title: 'Toss 연동 필요',
                     message: 'Toss 앱에서 실행 시\n광고 시청 기능을 사용할 수 있습니다.',
-                    buttons: [{text: '확인', color: 'secondary'}]
+                    buttons: [{ text: '확인', color: 'secondary' }]
                 });
                 return;
             }
@@ -3951,7 +4146,7 @@
                 showTossModal({
                     title: '광고를 사용할 수 없습니다',
                     message: 'Toss 앱 버전이 낮거나\nSDK가 로드되지 않았습니다.\n\n환경: ' + envInfo.env + '\n버전: ' + envInfo.tossVersion,
-                    buttons: [{text: '확인', color: 'secondary'}]
+                    buttons: [{ text: '확인', color: 'secondary' }]
                 });
                 return;
             }
@@ -3972,7 +4167,7 @@
                     showTossModal({
                         title: '광고 시청 완료!',
                         message: `에너지 ${rewardAmount}개를 받았습니다! ⚡`,
-                        buttons: [{text: '확인', color: 'primary'}]
+                        buttons: [{ text: '확인', color: 'primary' }]
                     });
 
                     console.log('🎁 광고 시청으로 에너지 충전 완료');
@@ -3984,7 +4179,7 @@
                 showTossModal({
                     title: '광고 로딩 실패',
                     message: '광고를 불러오는데 실패했습니다.\n잠시 후 다시 시도해주세요.',
-                    buttons: [{text: '확인', color: 'danger'}]
+                    buttons: [{ text: '확인', color: 'danger' }]
                 });
             }
         }
@@ -4162,8 +4357,9 @@
 
             // 부활용 광고 미리 로드
             if (window.tossIntegration && window.tossIntegration.isAdAvailable()) {
-                window.tossIntegration.loadRewardedAd('ait.live.a1e634d55d5046db');
-                console.log('📥 부활용 광고 미리 로드 시작');
+                window.tossIntegration.loadRewardedAd('ait.live.a1e634d55d5046db');  // 부활용
+                window.tossIntegration.loadRewardedAd('ait.live.2b98ee996c124825');  // 게임 종료용
+                console.log('📥 광고 미리 로드 시작 (부활 + 게임 종료)');
             }
 
             // AudioContext 재개 (모바일 브라우저 호환성)
@@ -4321,6 +4517,13 @@
                 // 무한 모드는 스테이지 1 BGM 사용
                 playBgm(stage1Bgm);
             }
+
+            // 초기 적 스폰 (게임 시작 즉시 적 등장)
+            const initialEnemyCount = isMobile ? 3 : 5;  // 모바일 3마리, PC 5마리
+            for (let i = 0; i < initialEnemyCount; i++) {
+                spawnEnemy();
+            }
+            console.log(`✅ 초기 적 ${initialEnemyCount}마리 스폰 완료`);
 
             // 새로운 게임 루프 시작 (이전 루프는 자동으로 중단됨)
             gameLoopId++;
@@ -4629,7 +4832,7 @@
 
             console.log('🎮 치트 활성화: 모든 캐릭터/스테이지 해금, 골드 +100,000, 보급권 +50');
         }
-        
+
         // 모바일/토스 인앱 브라우저 호환을 위한 전역 함수
         function handleVolumeChange(type, value) {
             console.log('=== Volume Change Debug ===');
@@ -4706,6 +4909,65 @@
         function showConfirmModal() {
             if (!gameRunning) return;
             gameRunning = false;
+
+            // 현재 스탯 정보 수집 및 표시
+            const statsContainer = document.getElementById('pauseStatsContainer');
+            const currentTime = Math.floor(gameTime / 1000);
+
+            let statsHTML = '';
+
+            // 기본 정보
+            statsHTML += `
+                <div class="pause-stats-section">
+                    <div class="pause-stats-title">기본 정보</div>
+                    <div class="pause-stat-item">레벨: <span class="pause-stat-value">${player.level}</span></div>
+                    <div class="pause-stat-item">HP: <span class="pause-stat-value">${player.hp}/${player.maxHp}</span></div>
+                    <div class="pause-stat-item">시간: <span class="pause-stat-value">${currentTime}초</span></div>
+                    <div class="pause-stat-item">격추: <span class="pause-stat-value">${kills}대</span></div>
+                </div>
+            `;
+
+            // 기본 공격
+            statsHTML += `
+                <div class="pause-stats-section">
+                    <div class="pause-stats-title">기본 공격</div>
+                    <div class="pause-stat-item">데미지: <span class="pause-stat-value">${weaponDamage}</span></div>
+                    <div class="pause-stat-item">연사 속도: <span class="pause-stat-value">${(weaponSpeed / 1000).toFixed(2)}초</span></div>
+                    <div class="pause-stat-item">투사체: <span class="pause-stat-value">${projectileCount}개</span> (속도: ${projectileSpeed})</div>
+                    <div class="pause-stat-item">관통력: <span class="pause-stat-value">${projectilePiercing}</span></div>
+                </div>
+            `;
+
+            // 특수 무기 (활성화된 것만 표시)
+            const specialWeapons = [];
+            if (hasMissile) {
+                specialWeapons.push(`미사일: <span class="pause-stat-value">${missileCount}개</span> (데미지: ${missileDamage})`);
+            }
+            if (hasEMP) {
+                specialWeapons.push(`EMP: <span class="pause-stat-value">${empDamage}데미지</span> (${(empCooldown / 1000).toFixed(1)}초 / 범위 ${empRadius})`);
+            }
+            if (hasSatellite) {
+                specialWeapons.push(`위성: <span class="pause-stat-value">${satelliteDamage}데미지</span> (${(satelliteCooldown / 1000).toFixed(1)}초)`);
+            }
+
+            if (specialWeapons.length > 0) {
+                statsHTML += `
+                    <div class="pause-stats-section">
+                        <div class="pause-stats-title">특수 무기</div>
+                        ${specialWeapons.map(w => `<div class="pause-stat-item">• ${w}</div>`).join('')}
+                    </div>
+                `;
+            }
+
+            // 보조 능력
+            statsHTML += `
+                <div class="pause-stats-section">
+                    <div class="pause-stats-title">보조</div>
+                    <div class="pause-stat-item">XP 수집 범위: <span class="pause-stat-value">${magnetRange}</span></div>
+                </div>
+            `;
+
+            statsContainer.innerHTML = statsHTML;
             document.getElementById('confirmModal').style.display = 'block';
             // 확인 모달 시 에너지 UI 숨김 (게임 중이므로)
             updateHeartDisplayVisibility();
@@ -4718,13 +4980,13 @@
             // 재개 시 에너지 UI 계속 숨김 (게임 중)
             updateHeartDisplayVisibility();
         }
-        
+
         function confirmGoHome() {
             document.getElementById('confirmModal').style.display = 'none';
             document.getElementById('homeButton').style.display = 'none';
             goToMainMenu();
         }
-        
+
         // 강화 비용 계산 함수
         function getUpgradeCost(level) {
             return Math.floor(GAME_CONSTANTS.UPGRADE_BASE_COST * Math.pow(GAME_CONSTANTS.UPGRADE_COST_MULTIPLIER, level));
@@ -4750,7 +5012,7 @@
                 showTossModal({
                     title: '최대 강화 레벨',
                     message: `이미 최대 강화 레벨입니다!\n(+${GAME_CONSTANTS.MAX_UPGRADE_LEVEL})`,
-                    buttons: [{text: '확인', color: 'secondary'}]
+                    buttons: [{ text: '확인', color: 'secondary' }]
                 });
                 return;
             }
@@ -4765,7 +5027,7 @@
             const cost = getUpgradeCost(char.upgradeLevel);
             const nextLevel = char.upgradeLevel + 1;
             document.getElementById('upgradeModalText').textContent =
-                `${char.name}을(를) +${nextLevel}로 강화하시겠습니까?\n비용: ${cost.toLocaleString()}G`;
+                `${char.name}을(를) +${nextLevel}로 강화하시겠습니까?\n비용: ${cost.toLocaleString()} 스크랩`;
             document.getElementById('upgradeModal').style.display = 'block';
         }
 
@@ -4827,7 +5089,7 @@
 
             // 버튼 생성
             buttonsEl.innerHTML = '';
-            const buttons = options.buttons || [{text: '확인', color: 'primary'}];
+            const buttons = options.buttons || [{ text: '확인', color: 'primary' }];
 
             buttons.forEach(btn => {
                 const button = document.createElement('button');
@@ -4880,7 +5142,7 @@
                 showTossModal({
                     title: '스크랩 부족',
                     message: '스크랩이 부족합니다!\n게임을 플레이해서 스크랩을 모아보세요.',
-                    buttons: [{text: '확인', color: 'danger'}]
+                    buttons: [{ text: '확인', color: 'danger' }]
                 });
             }
             closeUpgradeModal();
@@ -4967,7 +5229,7 @@
                 // info 버튼 이벤트 리스너
                 const infoBtn = card.querySelector('.character-info-btn');
                 if (infoBtn) {
-                    infoBtn.addEventListener('click', function(e) {
+                    infoBtn.addEventListener('click', function (e) {
                         e.preventDefault();
                         e.stopPropagation();
                         showCharacterLore(char);
@@ -5000,7 +5262,7 @@
                 if (char.unlocked && char.upgradeLevel < 9) {
                     const upgradeBtn = card.querySelector('.character-upgrade-btn');
                     if (upgradeBtn) {
-                        upgradeBtn.addEventListener('click', function(e) {
+                        upgradeBtn.addEventListener('click', function (e) {
                             e.preventDefault();
                             e.stopPropagation();
                             const charId = this.getAttribute('data-char-id');
@@ -5023,7 +5285,7 @@
         function showUnlockModal(char) {
             pendingUnlockCharacter = char;
             document.getElementById('unlockModalText').textContent =
-                `${char.name}을(를) ${char.price.toLocaleString()}G에 해금하시겠습니까?`;
+                `${char.name}을(를) ${char.price.toLocaleString()} 스크랩에 해금하시겠습니까?`;
             document.getElementById('unlockModal').style.display = 'block';
         }
 
@@ -5048,9 +5310,9 @@
                 saveGameProgress();
             } else {
                 showTossModal({
-                    title: '골드 부족',
-                    message: '골드가 부족합니다!\n게임을 플레이해서 골드를 모아보세요.',
-                    buttons: [{text: '확인', color: 'danger'}]
+                    title: '스크랩 부족',
+                    message: '스크랩이 부족합니다!\n게임을 플레이해서 스크랩을 모아보세요.',
+                    buttons: [{ text: '확인', color: 'danger' }]
                 });
             }
             closeUnlockModal();
@@ -5303,7 +5565,7 @@
                 console.log('Boss explosion sound exception:', err);
             }
         }
-        
+
         function updateGoldUI() {
             document.getElementById('goldAmount').textContent = currentGold;
             const goldMenuEl = document.getElementById('currentGoldMenu');
@@ -5315,7 +5577,7 @@
                 shopGoldEl.textContent = totalGold;
             }
         }
-        
+
         function restartGame() {
             document.getElementById('gameOver').style.display = 'none';
             document.getElementById('homeButton').style.display = 'flex';
@@ -5341,7 +5603,7 @@
             player.xp = 0;
             player.level = 1;
             player.xpNeeded = 10;
-            
+
             enemies.length = 0;
             projectiles.length = 0;
             missiles.length = 0;
@@ -5350,7 +5612,7 @@
             xpOrbs.length = 0;
             goldOrbs.length = 0;
             meleeWeapons.length = 0;
-            
+
             kills = 0;
             gameTime = 0;
             shootTimer = 0;
@@ -5362,7 +5624,7 @@
             projectileSpeed = 5;
             projectileCount = 1;
             projectilePiercing = 0;
-            
+
             hasMissile = false;
             missileCount = 0;
             missileDamage = 25;
@@ -5392,9 +5654,9 @@
             meleeDamage = 0;
             meleeOrbitRadius = 0;
             meleeRotation = 0;
-            
+
             magnetRange = 100;
-            
+
             isPlayerHit = false;
             hitFlashTime = 0;
             bossSpawned = false;
@@ -5415,19 +5677,19 @@
             gameRunning = true;
             lastTime = Date.now();
         }
-        
+
         // 스테이지 1 시간대별 적 타입 비율 계산
         function getEnemyTypeForStage1() {
             const timeMinutes = gameTime / 60000; // 분 단위로 변환
 
             if (timeMinutes < 1) {
-                // 0~1분: 기본만 100%
-                return { melee: 1.0, purple: 0.0, ranged: 0.0 };
+                // 0~1분: 기본 85%, 원거리 15%
+                return { melee: 0.85, purple: 0.0, ranged: 0.15 };
             } else if (timeMinutes < 2) {
-                // 1~2분: 기본 70%, 2x체력 30%
-                return { melee: 0.7, purple: 0.3, ranged: 0.0 };
+                // 1~2분: 기본 60%, 보라 25%, 원거리 15%
+                return { melee: 0.6, purple: 0.25, ranged: 0.15 };
             } else {
-                // 2~3분 (보스 전): 기본 50%, 2x체력 30%, 4x체력 20%
+                // 2~3분 (보스 전): 기본 50%, 보라 30%, 원거리 20%
                 return { melee: 0.5, purple: 0.3, ranged: 0.2 };
             }
         }
@@ -5436,7 +5698,7 @@
             const side = Math.floor(Math.random() * 4);
             let x, y;
 
-            switch(side) {
+            switch (side) {
                 case 0: x = Math.random() * window.innerWidth; y = -20; break;
                 case 1: x = window.innerWidth + 20; y = Math.random() * window.innerHeight; break;
                 case 2: x = Math.random() * window.innerWidth; y = window.innerHeight + 20; break;
@@ -5665,6 +5927,11 @@
             `;
 
             document.body.appendChild(clearDiv);
+
+            // 1초 후 광고 표시
+            setTimeout(() => {
+                showStageClearAd();
+            }, 1000);
         }
 
         function nextStage() {
@@ -5685,10 +5952,10 @@
 
         function shootProjectiles() {
             if (enemies.length === 0) return;
-            
+
             const nearest = findNearestEnemy();
             if (!nearest) return;
-            
+
             const targetAngle = Math.atan2(nearest.y - player.y, nearest.x - player.x);
             const projectileData = [];
 
@@ -5764,7 +6031,7 @@
                 });
             }
         }
-        
+
         function shootMissiles() {
             if (enemies.length === 0 || missileCount === 0) return;
 
@@ -5803,7 +6070,7 @@
                 }
             }
         }
-        
+
         // EMP 파장 공격 - 플레이어 주변에 파장 생성
         function empBlast() {
             if (!hasEMP) return;
@@ -5838,8 +6105,16 @@
                 if (nearest.hp <= 0) {
                     // 보스 처치 체크
                     if (nearest.isBoss) {
-                        dropXP(nearest.x, nearest.y, 50);
-                        dropGold(nearest.x, nearest.y, 100);
+                        if (gameMode === 'story') {
+                            // 스토리: 스크랩만 즉시 지급 (경험치 불필요)
+                            currentGold += 1000;
+                            totalGold += 1000;
+                            updateGoldUI();
+                        } else {
+                            // 무한: 경험치 + 스크랩 드랍
+                            dropXP(nearest.x, nearest.y, 200);
+                            dropGold(nearest.x, nearest.y, 500);
+                        }
                         const index = enemies.indexOf(nearest);
                         if (index > -1) {
                             kills++;
@@ -5863,7 +6138,7 @@
                 }
             }
         }
-        
+
         function findNearestEnemy() {
             let nearest = null;
             let minDist = Infinity;
@@ -5892,7 +6167,7 @@
 
             return nearest;
         }
-        
+
         function dropXP(x, y, amount) {
             if (xpOrbs.length >= MAX_XP_ORBS) {
                 // 오래된 XP 제거
@@ -5910,7 +6185,7 @@
                 floatTime: 0
             });
         }
-        
+
         function dropGold(x, y, amount) {
             if (goldOrbs.length >= MAX_GOLD_ORBS) {
                 // 오래된 골드 제거
@@ -5928,11 +6203,11 @@
                 floatTime: 0
             });
         }
-        
+
         function levelUp() {
             player.level++;
             player.xp = 0;
-            player.xpNeeded = Math.floor(player.xpNeeded * 1.5);  // 레벨업 속도 조정 (1.5배, 기존 1.2배에서 증가)
+            player.xpNeeded = Math.floor(player.xpNeeded * 2.0);  // 레벨업 속도 조정 (2.0배로 증가, 더 느리게)
 
             // SFX and haptic feedback for level up
             playSFX('levelup');
@@ -5943,12 +6218,12 @@
             gameRunning = false;
             showUpgradeOptions();
         }
-        
+
         function showUpgradeOptions() {
             const levelUpDiv = document.getElementById('levelUp');
             const optionsDiv = document.getElementById('upgradeOptions');
             optionsDiv.innerHTML = '';
-            
+
             const rarityRoll = () => {
                 const roll = Math.random();
                 if (roll < 0.5) return 'common';
@@ -5957,7 +6232,7 @@
                 if (roll < 0.97) return 'epic';
                 return 'legend';
             };
-            
+
             const rarityNames = {
                 common: 'Common',
                 uncommon: 'Uncommon',
@@ -5965,7 +6240,7 @@
                 epic: 'Epic',
                 legend: 'Legend'
             };
-            
+
             const rarityMultiplier = {
                 common: 1,
                 uncommon: 1.5,
@@ -5973,7 +6248,7 @@
                 epic: 3,
                 legend: 5
             };
-            
+
             const upgrades = [
                 {
                     name: '화력 강화',
@@ -6063,7 +6338,7 @@
                     apply: (rarity) => { magnetRange += 50 * rarityMultiplier[rarity]; }
                 }
             ];
-            
+
             const available = upgrades.filter(u => !u.condition || u.condition());
             const selected = [];
 
@@ -6074,14 +6349,14 @@
                 const index = Math.floor(Math.random() * available.length);
                 const upgrade = available[index];
                 const rarity = rarityRoll();
-                
+
                 selected.push({
                     upgrade: upgrade,
                     finalRarity: rarity
                 });
                 available.splice(index, 1);
             }
-            
+
             selected.forEach((item, idx) => {
                 const multiplier = rarityMultiplier[item.finalRarity];
                 const value = item.upgrade.baseValue * multiplier;
@@ -6096,7 +6371,7 @@
                     <strong>${item.upgrade.name}</strong>
                     <div class="upgrade-desc">${desc}</div>
                 `;
-                
+
                 let clicked = false;
                 div.onclick = () => {
                     if (clicked) return;
@@ -6114,7 +6389,7 @@
             levelUpDiv.style.display = 'block';
             updateHeartDisplayVisibility();  // 에너지 UI 숨김
         }
-        
+
         function update(deltaTime) {
             // 화면 흔들림 업데이트 (게임 일시정지 중에도 작동)
             if (shakeIntensity > 0) {
@@ -6446,7 +6721,7 @@
                     shakeOffsetY = 0;
                 }
             }
-            
+
             if (!touchActive) {
                 const oldX = player.x;
                 const oldY = player.y;
@@ -6464,19 +6739,19 @@
                 player.x = Math.max(player.size, Math.min(window.innerWidth - player.size, player.x));
                 player.y = Math.max(player.size, Math.min(window.innerHeight - player.size, player.y));
             }
-            
+
             shootTimer += deltaTime;
             if (shootTimer >= weaponSpeed) {
                 shootProjectiles();
                 shootTimer = 0;
             }
-            
+
             missileTimer += deltaTime;
             if (missileTimer >= missileCooldown && hasMissile) {
                 shootMissiles();
                 missileTimer = 0;
             }
-            
+
             // EMP 파장 공격
             empTimer += deltaTime;
             if (empTimer >= empCooldown && hasEMP) {
@@ -6508,8 +6783,16 @@
                         if (enemy.hp <= 0) {
                             // 보스 처치 체크
                             if (enemy.isBoss) {
-                                dropXP(enemy.x, enemy.y, 200);  // 4배 증가 (50 → 200)
-                                dropGold(enemy.x, enemy.y, 500);  // 5배 증가 (100 → 500)
+                                if (gameMode === 'story') {
+                                    // 스토리: 스크랩만 즉시 지급 (경험치 불필요)
+                                    currentGold += 1000;
+                                    totalGold += 1000;
+                                    updateGoldUI();
+                                } else {
+                                    // 무한: 경험치 + 스크랩 드랍
+                                    dropXP(enemy.x, enemy.y, 200);
+                                    dropGold(enemy.x, enemy.y, 500);
+                                }
                                 kills++;
                                 // 보스 사망 애니메이션 시작
                                 startBossDeathAnimation(enemy);
@@ -6630,7 +6913,7 @@
                     spawnEnemy();
                 }
             }
-            
+
             enemies.forEach((enemy, eIndex) => {
                 // 스턴 처리
                 if (enemy.stunned) {
@@ -6760,18 +7043,18 @@
                 } else if (enemy.type === 'ranged') {
                     const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
 
-                    if (dist > 250) {
+                    if (dist > 550) {  // 550픽셀보다 멀면 접근
                         const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
                         enemy.x += Math.cos(angle) * enemy.speed;
                         enemy.y += Math.sin(angle) * enemy.speed;
-                    } else if (dist < 200) {
+                    } else if (dist < 450) {  // 450픽셀보다 가까우면 후퇴
                         const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
                         enemy.x -= Math.cos(angle) * enemy.speed * 0.5;
                         enemy.y -= Math.sin(angle) * enemy.speed * 0.5;
                     }
 
                     enemy.shootTimer += deltaTime;
-                    if (enemy.shootTimer >= enemy.shootCooldown && dist < 400) {
+                    if (enemy.shootTimer >= enemy.shootCooldown && dist < 1000) {  // 1000픽셀 이내에서 공격 (이전 값으로 복원)
                         if (enemyProjectiles.length < MAX_ENEMY_PROJECTILES) {
                             const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
                             enemyProjectiles.push({
@@ -6790,7 +7073,7 @@
                     enemy.x += Math.cos(angle) * enemy.speed;
                     enemy.y += Math.sin(angle) * enemy.speed;
                 }
-                
+
                 const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
                 if (dist < player.size + enemy.size) {
                     // 무적 상태가 아닐 때만 데미지
@@ -6825,16 +7108,16 @@
                     }
                 }
             });
-            
+
             projectiles.forEach((proj, pIndex) => {
                 proj.x += proj.vx;
                 proj.y += proj.vy;
-                
+
                 if (proj.x < -50 || proj.x > window.innerWidth + 50 || proj.y < -50 || proj.y > window.innerHeight + 50) {
                     projectiles.splice(pIndex, 1);
                     return;
                 }
-                
+
                 enemies.forEach((enemy, eIndex) => {
                     const dist = Math.hypot(proj.x - enemy.x, proj.y - enemy.y);
                     if (dist < proj.size + enemy.size) {
@@ -6846,16 +7129,24 @@
                         }
                         enemy.hp -= damage;
                         proj.hitCount++;
-                        
+
                         if (proj.hitCount > proj.piercing) {
                             projectiles.splice(pIndex, 1);
                         }
-                        
+
                         if (enemy.hp <= 0) {
                             // 보스 처치 체크
                             if (enemy.isBoss) {
-                                dropXP(enemy.x, enemy.y, 200);  // 4배 증가 (50 → 200)
-                                dropGold(enemy.x, enemy.y, 500);  // 5배 증가 (100 → 500)
+                                if (gameMode === 'story') {
+                                    // 스토리: 스크랩만 즉시 지급 (경험치 불필요)
+                                    currentGold += 1000;
+                                    totalGold += 1000;
+                                    updateGoldUI();
+                                } else {
+                                    // 무한: 경험치 + 스크랩 드랍
+                                    dropXP(enemy.x, enemy.y, 200);
+                                    dropGold(enemy.x, enemy.y, 500);
+                                }
                                 kills++;
                                 // 보스 사망 애니메이션 시작
                                 startBossDeathAnimation(enemy);
@@ -6878,7 +7169,7 @@
                     }
                 });
             });
-            
+
             missiles.forEach((missile, mIndex) => {
                 const target = findNearestEnemy();
                 if (target) {
@@ -6887,23 +7178,23 @@
                     const turnSpeed = 0.05;
                     const currentAngle = Math.atan2(missile.vy, missile.vx);
                     let angleDiff = angle - currentAngle;
-                    
+
                     while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
                     while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
-                    
+
                     const newAngle = currentAngle + Math.sign(angleDiff) * Math.min(Math.abs(angleDiff), turnSpeed);
                     missile.vx = Math.cos(newAngle) * missileSpeed;
                     missile.vy = Math.sin(newAngle) * missileSpeed;
                 }
-                
+
                 missile.x += missile.vx;
                 missile.y += missile.vy;
-                
+
                 if (missile.x < -50 || missile.x > window.innerWidth + 50 || missile.y < -50 || missile.y > window.innerHeight + 50) {
                     missiles.splice(mIndex, 1);
                     return;
                 }
-                
+
                 enemies.forEach((enemy, eIndex) => {
                     // 이미 맞은 적은 스킵
                     if (missile.hitEnemies && missile.hitEnemies.includes(enemy)) {
@@ -6929,8 +7220,16 @@
                         if (enemy.hp <= 0) {
                             // 보스 처치 체크
                             if (enemy.isBoss) {
-                                dropXP(enemy.x, enemy.y, 200);  // 4배 증가 (50 → 200)
-                                dropGold(enemy.x, enemy.y, 500);  // 5배 증가 (100 → 500)
+                                if (gameMode === 'story') {
+                                    // 스토리: 스크랩만 즉시 지급 (경험치 불필요)
+                                    currentGold += 1000;
+                                    totalGold += 1000;
+                                    updateGoldUI();
+                                } else {
+                                    // 무한: 경험치 + 스크랩 드랍
+                                    dropXP(enemy.x, enemy.y, 200);
+                                    dropGold(enemy.x, enemy.y, 500);
+                                }
                                 kills++;
                                 // 보스 사망 애니메이션 시작
                                 startBossDeathAnimation(enemy);
@@ -6953,16 +7252,16 @@
                     }
                 });
             });
-            
+
             enemyProjectiles.forEach((proj, pIndex) => {
                 proj.x += proj.vx;
                 proj.y += proj.vy;
-                
+
                 if (proj.x < -50 || proj.x > window.innerWidth + 50 || proj.y < -50 || proj.y > window.innerHeight + 50) {
                     enemyProjectiles.splice(pIndex, 1);
                     return;
                 }
-                
+
                 const dist = Math.hypot(proj.x - player.x, proj.y - player.y);
                 if (dist < proj.size + player.size) {
                     // 무적 상태가 아닐 때만 데미지
@@ -7006,7 +7305,7 @@
                     lightnings.splice(lIndex, 1);
                 }
             });
-            
+
             xpOrbs.forEach((orb, index) => {
                 // 둥둥 떠다니는 애니메이션
                 if (!orb.magnetized) {
@@ -7053,7 +7352,7 @@
                     }
                 }
             });
-            
+
             goldOrbs.forEach((orb, index) => {
                 // 둥둥 떠다니는 애니메이션
                 if (!orb.magnetized) {
@@ -7225,14 +7524,14 @@
                     spriteHeight = currentDroneSprite.height;
                 }
 
-                const scale = (player.size * 2) / spriteWidth; // 스프라이트를 플레이어 크기에 맞게 조정
+                const scale = (player.visualSize * 2 * 1.5) / spriteWidth; // 시각적 크기 사용
                 const drawWidth = spriteWidth * scale;
                 const drawHeight = spriteHeight * scale;
 
                 ctx.save();
 
                 // 플레이어 후광 효과 (배경에서 눈에 띄게)
-                const glowRadius = player.size * 1.5;
+                const glowRadius = player.visualSize * 1.5 * 1.5; // 시각적 크기에 맞춰 후광 조정
                 const gradient = ctx.createRadialGradient(
                     player.x + shakeOffsetX, player.y + shakeOffsetY, 0,
                     player.x + shakeOffsetX, player.y + shakeOffsetY, glowRadius
@@ -7279,20 +7578,20 @@
                 // 스프라이트 로드 전에는 원으로 표시 (폴백)
                 ctx.fillStyle = '#4ecca3';
                 ctx.beginPath();
-                ctx.arc(player.x + shakeOffsetX, player.y + shakeOffsetY, player.size, 0, Math.PI * 2);
+                ctx.arc(player.x + shakeOffsetX, player.y + shakeOffsetY, player.visualSize * 1.5, 0, Math.PI * 2); // 시각적 크기 사용
                 ctx.fill();
 
                 if (isPlayerHit && Math.floor(hitFlashTime / 50) % 2 === 0) {
                     ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
                     ctx.beginPath();
-                    ctx.arc(player.x + shakeOffsetX, player.y + shakeOffsetY, player.size + 3, 0, Math.PI * 2);
+                    ctx.arc(player.x + shakeOffsetX, player.y + shakeOffsetY, player.visualSize * 1.5 + 3, 0, Math.PI * 2);
                     ctx.fill();
                 }
             }
 
             // Falcon 무적 보호막 렌더링
             if (invincible) {
-                const shieldRadius = player.size * 1.5;
+                const shieldRadius = player.visualSize * 1.5 * 1.5; // 시각적 크기에 맞춰 보호막 조정
                 const shieldAlpha = 0.3 + Math.sin(Date.now() / 200) * 0.15; // 펄스 효과
 
                 // 외부 보호막
@@ -7326,7 +7625,7 @@
                         spriteHeight = currentDroneSprite.height;
                     }
 
-                    const scale = (player.size * 2) / spriteWidth;
+                    const scale = (player.visualSize * 2) / spriteWidth;
                     const drawWidth = spriteWidth * scale;
                     const drawHeight = spriteHeight * scale;
 
@@ -7618,11 +7917,11 @@
                     const barHeight = 8;
                     const barRadius = 3;
                     ctx.fillStyle = '#000000';
-                    fillRoundedRect(enemy.x - barWidth/2, enemy.y - enemy.size - 20, barWidth, barHeight, barRadius);
+                    fillRoundedRect(enemy.x - barWidth / 2, enemy.y - enemy.size - 20, barWidth, barHeight, barRadius);
                     ctx.fillStyle = '#ff0000';
-                    fillRoundedRect(enemy.x - barWidth/2 + 2, enemy.y - enemy.size - 18, barWidth - 4, barHeight - 4, barRadius - 1);
+                    fillRoundedRect(enemy.x - barWidth / 2 + 2, enemy.y - enemy.size - 18, barWidth - 4, barHeight - 4, barRadius - 1);
                     ctx.fillStyle = '#ffff00';
-                    fillRoundedRect(enemy.x - barWidth/2 + 2, enemy.y - enemy.size - 18, (enemy.hp / enemy.maxHp) * (barWidth - 4), barHeight - 4, barRadius - 1);
+                    fillRoundedRect(enemy.x - barWidth / 2 + 2, enemy.y - enemy.size - 18, (enemy.hp / enemy.maxHp) * (barWidth - 4), barHeight - 4, barRadius - 1);
 
                     // 보스 이름 표시 (난이도 레벨 포함)
                     ctx.fillStyle = '#ffff00';
@@ -7656,7 +7955,7 @@
                     } else {
                         // 폴백: 사각형 유지
                         ctx.fillStyle = '#a855f7';
-                        ctx.fillRect(enemy.x + shakeX - enemy.size/2, enemy.y + shakeY - enemy.size/2, enemy.size, enemy.size);
+                        ctx.fillRect(enemy.x + shakeX - enemy.size / 2, enemy.y + shakeY - enemy.size / 2, enemy.size, enemy.size);
                     }
 
                     const barWidth = enemy.size * 2;
@@ -7742,7 +8041,7 @@
                     fillRoundedRect(enemy.x - enemy.size, enemy.y - enemy.size - 8, (enemy.hp / enemy.maxHp) * barWidth, barHeight, barRadius);
                 }
             });
-            
+
             ctx.fillStyle = '#ffd700';
             projectiles.forEach(proj => {
                 if (bulletSpriteLoaded) {
@@ -7769,7 +8068,7 @@
                     ctx.fill();
                 }
             });
-            
+
             missiles.forEach(missile => {
                 if (guidedMissileSpriteLoaded) {
                     const drawSize = missile.size * 8;
@@ -7803,7 +8102,7 @@
                     ctx.stroke();
                 }
             });
-            
+
             enemyProjectiles.forEach(proj => {
                 if (enemyBallSpriteLoaded) {
                     const drawSize = proj.size * 4;
@@ -7823,7 +8122,7 @@
                     ctx.fill();
                 }
             });
-            
+
             xpOrbs.forEach(orb => {
                 // 둥둥 떠다니는 위치 계산
                 const renderY = orb.y + (orb.floatOffset || 0);
@@ -7860,7 +8159,7 @@
                     ctx.fill();
                 }
             });
-            
+
             goldOrbs.forEach(orb => {
                 // 둥둥 떠다니는 위치 계산
                 const renderY = orb.y + (orb.floatOffset || 0);
@@ -7897,7 +8196,7 @@
                     ctx.fill();
                 }
             });
-            
+
             lightnings.forEach(lightning => {
                 const opacity = lightning.life / 500;
                 ctx.strokeStyle = `rgba(100, 150, 255, ${opacity})`;  // 파란색
@@ -7991,7 +8290,7 @@
             const xpPercent = (player.xp / player.xpNeeded) * 100;
             document.getElementById('xpBar').style.width = xpPercent + '%';
         }
-        
+
         let canRevive = true;  // 게임당 1회만 부활 가능
 
         function gameOver() {
@@ -8017,10 +8316,16 @@
                 reviveBtn.style.display = 'none';
             }
 
-            document.getElementById('gameOver').style.display = 'block';
-
-            // 에너지 UI 표시 (게임 오버)
-            updateHeartDisplayVisibility();
+            // 게임 종료 시 1초 후 광고 표시 (게임 오버 화면 표시 전)
+            setTimeout(() => {
+                showGameOverAd().finally(() => {
+                    // 광고 종료 후 게임 오버 화면 표시
+                    document.getElementById('gameOver').style.display = 'block';
+                    // 게임 오버 화면과 함께 상단 UI 숨기기
+                    const heartDisplay = document.getElementById('heartDisplay');
+                    if (heartDisplay) heartDisplay.style.display = 'none';
+                });
+            }, 1000); // 1초 지연
 
             // 게임 진행 상황 저장 (totalGold는 게임 중에 이미 업데이트됨)
             saveGameProgress();
@@ -8063,13 +8368,54 @@
             return false;
         }
 
+        // 스테이지 클리어 시 광고 표시
+        async function showStageClearAd() {
+            if (!window.tossIntegration || !window.tossIntegration.isAdAvailable()) {
+                console.log('⚠️ 광고 SDK 없음 - 스테이지 클리어 광고 스킵');
+                return Promise.resolve();
+            }
+
+            try {
+                const stageClearAdId = 'ait.live.2b98ee996c124825';
+                console.log('📺 스테이지 클리어 광고 표시 시도');
+
+                await window.tossIntegration.showRewardedAd(stageClearAdId, () => {
+                    console.log('📺 스테이지 클리어 광고 시청 완료');
+                });
+            } catch (error) {
+                console.error('❌ 스테이지 클리어 광고 표시 실패:', error);
+            }
+        }
+
+        // 게임 종료 시 광고 표시
+        async function showGameOverAd() {
+            if (!window.tossIntegration || !window.tossIntegration.isAdAvailable()) {
+                console.log('⚠️ 광고 SDK 없음 - 게임 오버 광고 스킬');
+                updateHeartDisplayVisibility();
+                return Promise.resolve();
+            }
+
+            try {
+                const gameOverAdId = 'ait.live.2b98ee996c124825';
+                console.log('📺 게임 종료 궅고 표시 시도');
+
+                await window.tossIntegration.showRewardedAd(gameOverAdId, () => {
+                    console.log('📺 게임 종료 궅고 시청 완료');
+                });
+
+                updateHeartDisplayVisibility();
+            } catch (error) {
+                console.error('❌ 게임 종료 궅고 표시 실패:', error);
+                updateHeartDisplayVisibility();
+            }
+        }
         // 광고 보고 부활하기
         async function watchAdToRevive() {
             if (!window.tossIntegration) {
                 showTossModal({
                     title: 'Toss 연동 필요',
                     message: 'Toss 앱에서 실행 시\n광고 시청 부활 기능을 사용할 수 있습니다.',
-                    buttons: [{text: '확인', color: 'secondary'}]
+                    buttons: [{ text: '확인', color: 'secondary' }]
                 });
                 return;
             }
@@ -8081,7 +8427,7 @@
                 showTossModal({
                     title: '광고를 사용할 수 없습니다',
                     message: 'Toss 앱 버전이 낮거나\nSDK가 로드되지 않았습니다.\n\n환경: ' + envInfo.env + '\n버전: ' + envInfo.tossVersion,
-                    buttons: [{text: '확인', color: 'secondary'}]
+                    buttons: [{ text: '확인', color: 'secondary' }]
                 });
                 return;
             }
@@ -8090,7 +8436,7 @@
                 showTossModal({
                     title: '부활 불가',
                     message: '이미 부활을 사용했습니다.\n한 게임당 1회만 사용 가능합니다.',
-                    buttons: [{text: '확인', color: 'secondary'}]
+                    buttons: [{ text: '확인', color: 'secondary' }]
                 });
                 return;
             }
@@ -8126,7 +8472,7 @@
                 console.error('광고 표시 실패');
             }
         }
-        
+
         function goToMainMenu() {
             document.getElementById('gameOver').style.display = 'none';
             document.getElementById('mainMenu').style.display = 'flex';
@@ -8319,7 +8665,7 @@
         });
 
         // Toss Integration에서 유저 키 받은 후 에너지 시스템 초기화 (전역 함수)
-        window.initializeHeartSystem = async function() {
+        window.initializeHeartSystem = async function () {
             try {
                 // toss-integration.js에서 이미 getUserKeyForGame() 호출함
                 // 약간의 딜레이를 주어 tossIntegration 초기화 완료 대기
@@ -8560,7 +8906,7 @@
                     showTossModal({
                         title: '3일 연속 접속 보상!',
                         message: '🎉 보급권 1장을 받았습니다!\n계속 접속해서 더 많은 보상을 받으세요!',
-                        buttons: [{text: '확인', color: 'primary'}]
+                        buttons: [{ text: '확인', color: 'primary' }]
                     });
                     newStreak = 0;  // 리셋
                 }
@@ -8700,7 +9046,7 @@
                 showTossModal({
                     title: '보급권 부족',
                     message: '보급권이 부족합니다!\n3일 연속 접속 시 보급권을 받을 수 있습니다.',
-                    buttons: [{text: '확인', color: 'danger'}]
+                    buttons: [{ text: '확인', color: 'danger' }]
                 });
                 return;
             }
@@ -8709,7 +9055,7 @@
                 showTossModal({
                     title: '인벤토리 가득참',
                     message: '인벤토리가 가득 찼습니다!\n아이템을 판매하고 다시 시도해주세요.',
-                    buttons: [{text: '확인', color: 'danger'}]
+                    buttons: [{ text: '확인', color: 'danger' }]
                 });
                 return;
             }
@@ -8719,22 +9065,24 @@
                 title: '보급 확인',
                 message: `보급권 1장을 소모하여 보급을 받으시겠습니까?\n\n보유: ${gachaTickets}장`,
                 buttons: [
-                    {text: '취소', color: 'secondary'},
-                    {text: '확인', color: 'primary', onClick: () => {
-                        gachaTickets--;
+                    { text: '취소', color: 'secondary' },
+                    {
+                        text: '확인', color: 'primary', onClick: () => {
+                            gachaTickets--;
 
-                        // 랜덤 아이템 선택
-                        const randomItem = ITEMS_DATABASE[Math.floor(Math.random() * ITEMS_DATABASE.length)];
-                        const rarity = rollRarity();
-                        const newItem = createItemInstance(randomItem.id, rarity);
+                            // 랜덤 아이템 선택
+                            const randomItem = ITEMS_DATABASE[Math.floor(Math.random() * ITEMS_DATABASE.length)];
+                            const rarity = rollRarity();
+                            const newItem = createItemInstance(randomItem.id, rarity);
 
-                        inventory.push(newItem);
-                        saveItemData();
-                        updateMenuTicketDisplay();
+                            inventory.push(newItem);
+                            saveItemData();
+                            updateMenuTicketDisplay();
 
-                        // 애니메이션 표시 (정비소 화면 내)
-                        showGachaAnimationInInventory(newItem);
-                    }}
+                            // 애니메이션 표시 (정비소 화면 내)
+                            showGachaAnimationInInventory(newItem);
+                        }
+                    }
                 ]
             });
         }
@@ -8916,7 +9264,7 @@
                 showTossModal({
                     title: '장착 불가',
                     message: '이미 장착된 아이템입니다!',
-                    buttons: [{text: '확인', color: 'secondary'}]
+                    buttons: [{ text: '확인', color: 'secondary' }]
                 });
                 return;
             }
@@ -8927,7 +9275,7 @@
                 showTossModal({
                     title: '슬롯 가득참',
                     message: '장착 슬롯이 가득 찼습니다!\n기존 아이템을 해제하고 다시 시도해주세요.',
-                    buttons: [{text: '확인', color: 'danger'}]
+                    buttons: [{ text: '확인', color: 'danger' }]
                 });
                 return;
             }
@@ -8959,7 +9307,7 @@
                 showTossModal({
                     title: '아이템 없음',
                     message: '아이템을 찾을 수 없습니다.\n이미 판매되었거나 장착 중일 수 있습니다.',
-                    buttons: [{text: '확인', color: 'secondary'}]
+                    buttons: [{ text: '확인', color: 'secondary' }]
                 });
                 return;
             }
@@ -9196,7 +9544,7 @@
                 showTossModal({
                     title: '알림',
                     message: 'Toss 앱에서 실행 시\n리더보드를 볼 수 있습니다.',
-                    buttons: [{text: '확인', color: 'primary'}]
+                    buttons: [{ text: '확인', color: 'primary' }]
                 });
                 return;
             }
@@ -9208,7 +9556,7 @@
                 showTossModal({
                     title: '리더보드를 열 수 없습니다',
                     message: 'Toss 앱 버전이 낮거나\nSDK가 로드되지 않았습니다.\n\n환경: ' + envInfo.env + '\n버전: ' + envInfo.tossVersion,
-                    buttons: [{text: '확인', color: 'primary'}]
+                    buttons: [{ text: '확인', color: 'primary' }]
                 });
                 return;
             }
@@ -9222,19 +9570,19 @@
                     showTossModal({
                         title: '리더보드를 열 수 없습니다',
                         message: 'Toss 앱 버전이 낮습니다.\nv5.221.0 이상이 필요합니다.',
-                        buttons: [{text: '확인', color: 'primary'}]
+                        buttons: [{ text: '확인', color: 'primary' }]
                     });
                 } else if (result.reason === 'no_sdk') {
                     showTossModal({
                         title: '알림',
                         message: 'Toss 앱에서 실행 시\n리더보드를 볼 수 있습니다.',
-                        buttons: [{text: '확인', color: 'primary'}]
+                        buttons: [{ text: '확인', color: 'primary' }]
                     });
                 } else {
                     showTossModal({
                         title: '리더보드를 열 수 없습니다',
                         message: '가능한 원인:\n1. 게임 카테고리 미설정\n2. 네트워크 연결 오류\n3. 시스템 오류',
-                        buttons: [{text: '확인', color: 'primary'}]
+                        buttons: [{ text: '확인', color: 'primary' }]
                     });
                 }
             }
@@ -9328,4 +9676,5 @@
         }
     </script>
 </body>
+
 </html>

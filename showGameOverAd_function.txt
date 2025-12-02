@@ -1,0 +1,22 @@
+        // 게임 종료 시 광고 표시
+        async function showGameOverAd() {
+            if (!window.tossIntegration || !window.tossIntegration.isAdAvailable()) {
+                console.log('⚠️ 광고 SDK 없음 - 게임 오버 광고 스킵');
+                updateHeartDisplayVisibility();
+                return Promise.resolve();
+            }
+
+            try {
+                const gameOverAdId = 'ait.live.2b98ee996c124825';
+                console.log('📺 게임 종료 광고 표시 시도');
+                
+                await window.tossIntegration.showRewardedAd(gameOverAdId, () => {
+                    console.log('📺 게임 종료 광고 시청 완료');
+                });
+                
+                updateHeartDisplayVisibility();
+            } catch (error) {
+                console.error('❌ 게임 종료 광고 표시 실패:', error);
+                updateHeartDisplayVisibility();
+            }
+        }
