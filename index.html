@@ -3639,7 +3639,7 @@
                 name: '파괴된 도시',
                 description: '적들의 첫 번째 공격이 시작되는 곳\n3분 안에 보스를 처치하세요',
                 unlocked: true,
-                spawnRate: 0.004,  // 초반 스폰율 조정 (적당한 난이도)
+                spawnRate: 0.015,  // 초반 스폰율 대폭 증가 (0.004 → 0.015)
                 enemyTypes: {
                     // 시간대별로 동적 변경 (getEnemyTypeForStage 함수 참조)
                     melee: 1.0,
@@ -3653,11 +3653,11 @@
                 name: '사막 점거지',
                 description: '더 강력한 적들이 출현하는 전장\n향상된 드론들을 상대하세요',
                 unlocked: false,
-                spawnRate: 0.0045,  // Stage 2 스폰율 감소 (0.006 → 0.0045)
+                spawnRate: 0.018,  // Stage 2 스폰율 증가
                 enemyTypes: {
-                    melee: 0.7,
-                    purple: 0.3,
-                    ranged: 0.0
+                    melee: 0.60,
+                    purple: 0.20,
+                    ranged: 0.20
                 },
                 bossTime: 180000
             },
@@ -3666,11 +3666,11 @@
                 name: '최종장',
                 description: '모든 종류의 적이 동시에 공격해옵니다\n최후의 보스를 격파하세요',
                 unlocked: false,
-                spawnRate: 0.005,  // Stage 3 스폰율 감소 (0.007 → 0.005)
+                spawnRate: 0.020,  // Stage 3 스폰율 증가
                 enemyTypes: {
-                    melee: 0.5,
-                    purple: 0.3,
-                    ranged: 0.2
+                    melee: 0.50,
+                    purple: 0.25,
+                    ranged: 0.25
                 },
                 bossTime: 180000
             }
@@ -3680,7 +3680,7 @@
         const endlessMode = {
             name: '무한 생존',
             description: '끝없이 몰려오는 적들',
-            spawnRate: 0.004,  // 무한모드 출현율 증가 (0.003 → 0.004)
+            spawnRate: 0.015,  // 무한모드 출현율 증가
             enemyTypes: {
                 melee: 0.5,
                 purple: 0.3,
@@ -5683,14 +5683,14 @@
             const timeMinutes = gameTime / 60000; // 분 단위로 변환
 
             if (timeMinutes < 1) {
-                // 0~1분: 기본 85%, 원거리 15%
-                return { melee: 0.85, purple: 0.0, ranged: 0.15 };
+                // 0~1분: 기본 80%, 원거리 20%
+                return { melee: 0.80, purple: 0.0, ranged: 0.20 };
             } else if (timeMinutes < 2) {
-                // 1~2분: 기본 60%, 보라 25%, 원거리 15%
-                return { melee: 0.6, purple: 0.25, ranged: 0.15 };
+                // 1~2분: 기본 55%, 보라 20%, 원거리 25%
+                return { melee: 0.55, purple: 0.20, ranged: 0.25 };
             } else {
-                // 2~3분 (보스 전): 기본 50%, 보라 30%, 원거리 20%
-                return { melee: 0.5, purple: 0.3, ranged: 0.2 };
+                // 2~3분 (보스 전): 기본 45%, 보라 25%, 원거리 30%
+                return { melee: 0.45, purple: 0.25, ranged: 0.30 };
             }
         }
 
@@ -5739,7 +5739,9 @@
             let hpMultiplier = 1 + (gameTime / 240000);
 
             // 스테이지별 체력 배수 추가
-            if (gameMode === 'story' && selectedStage === 2) {
+            if (gameMode === 'story' && selectedStage === 1) {
+                hpMultiplier *= 0.6;  // 스테이지 1: 0.6배 (체력 40% 감소)
+            } else if (gameMode === 'story' && selectedStage === 2) {
                 hpMultiplier *= 1.5;  // 스테이지 2: 1.5배
             } else if (gameMode === 'story' && selectedStage === 3) {
                 hpMultiplier *= 2;    // 스테이지 3: 2배
@@ -5789,6 +5791,46 @@
             }
         }
 
+        // 보스전 중 원거리 적만 스폰하는 함수
+        function spawnRangedEnemy() {
+            const side = Math.floor(Math.random() * 4);
+            let x, y;
+
+            switch (side) {
+                case 0: x = Math.random() * window.innerWidth; y = -20; break;
+                case 1: x = window.innerWidth + 20; y = Math.random() * window.innerHeight; break;
+                case 2: x = Math.random() * window.innerWidth; y = window.innerHeight + 20; break;
+                case 3: x = -20; y = Math.random() * window.innerHeight; break;
+            }
+
+            let speedMultiplier = (1 + (gameTime / 300000)) * (isMobile ? 1.5 : 0.7);
+            if (itemBonuses.enemySlowdown > 0) {
+                speedMultiplier *= (1 - itemBonuses.enemySlowdown);
+            }
+
+            let hpMultiplier = 1 + (gameTime / 240000);
+            if (gameMode === 'story' && selectedStage === 1) {
+                hpMultiplier *= 0.6;
+            } else if (gameMode === 'story' && selectedStage === 2) {
+                hpMultiplier *= 1.5;
+            } else if (gameMode === 'story' && selectedStage === 3) {
+                hpMultiplier *= 2;
+            }
+
+            // 원거리 적만 생성
+            enemies.push({
+                x: x,
+                y: y,
+                size: 8 * sizeScale,
+                speed: (0.8 + Math.random() * 0.32) * speedMultiplier,
+                hp: 240 * hpMultiplier,
+                maxHp: 240 * hpMultiplier,
+                type: 'ranged',
+                shootTimer: 0,
+                shootCooldown: 3000
+            });
+        }
+
         function spawnBoss(stageId = 1, difficultyMultiplier = 1) {
             if (bossSpawned || boss) return;
 
@@ -5799,36 +5841,36 @@
             // 스테이지별 보스 설정
             let bossConfig = {};
             if (stageId === 1) {
-                // Stage 1 보스: 기본 패턴 (8방향 방사형)
+                // Stage 1 보스: 강화 패턴 (12방향 방사형)
                 bossConfig = {
-                    hp: Math.floor(40000 * difficultyMultiplier),
-                    maxHp: Math.floor(40000 * difficultyMultiplier),
-                    speed: 1.2,
-                    shootCooldown: Math.max(500, Math.floor(1500 / difficultyMultiplier)),
-                    horizontalSpeed: 3,
+                    hp: Math.floor(15000 * difficultyMultiplier),
+                    maxHp: Math.floor(15000 * difficultyMultiplier),
+                    speed: 1.5,
+                    shootCooldown: Math.max(400, Math.floor(1000 / difficultyMultiplier)),
+                    horizontalSpeed: 4,
                     pattern: 'radial',
                     stageId: 1
                 };
             } else if (stageId === 2) {
-                // Stage 2 보스: 빠른 공격 + 나선형 패턴
+                // Stage 2 보스: 초고속 나선형 패턴
                 bossConfig = {
-                    hp: Math.floor(56000 * difficultyMultiplier),
-                    maxHp: Math.floor(56000 * difficultyMultiplier),
-                    speed: 1.5,
-                    shootCooldown: Math.max(400, Math.floor(1000 / difficultyMultiplier)),
-                    horizontalSpeed: 4,
+                    hp: Math.floor(22000 * difficultyMultiplier),
+                    maxHp: Math.floor(22000 * difficultyMultiplier),
+                    speed: 2.0,
+                    shootCooldown: Math.max(300, Math.floor(700 / difficultyMultiplier)),
+                    horizontalSpeed: 5,
                     pattern: 'spiral',
                     spiralAngle: 0,
                     stageId: 2
                 };
             } else if (stageId === 3) {
-                // Stage 3 보스: 높은 체력 + 복합 패턴 (방사형 + 플레이어 타겟)
+                // Stage 3 보스: 악랄한 복합 패턴 (방사형 + 5발 산탄)
                 bossConfig = {
-                    hp: Math.floor(80000 * difficultyMultiplier),
-                    maxHp: Math.floor(80000 * difficultyMultiplier),
-                    speed: 1.8,
-                    shootCooldown: Math.max(300, Math.floor(800 / difficultyMultiplier)),
-                    horizontalSpeed: 5,
+                    hp: Math.floor(30000 * difficultyMultiplier),
+                    maxHp: Math.floor(30000 * difficultyMultiplier),
+                    speed: 2.2,
+                    shootCooldown: Math.max(250, Math.floor(600 / difficultyMultiplier)),
+                    horizontalSpeed: 6,
                     pattern: 'mixed',
                     patternCounter: 0,
                     stageId: 3
@@ -6207,7 +6249,7 @@
         function levelUp() {
             player.level++;
             player.xp = 0;
-            player.xpNeeded = Math.floor(player.xpNeeded * 2.0);  // 레벨업 속도 조정 (2.0배로 증가, 더 느리게)
+            player.xpNeeded = Math.floor(player.xpNeeded * 1.5);  // 레벨업 속도 조정 (1.5배로 증가)
 
             // SFX and haptic feedback for level up
             playSFX('levelup');
@@ -6883,9 +6925,17 @@
                     spawnBoss(selectedStage);
                 }
 
-                // 스테이지별 적 출현율 (시간에 따른 증가량 10배 상향)
-                if (Math.random() < stage.spawnRate + (gameTime / 1000000)) {
-                    spawnEnemy();
+                // 스테이지별 적 출현율 (보스전 중에는 원거리만 가끔 스폰)
+                if (bossSpawned) {
+                    // 보스전 중: 원거리 적만 낮은 확률로 스폰
+                    if (Math.random() < 0.003) {  // 매우 낮은 확률
+                        spawnRangedEnemy();
+                    }
+                } else {
+                    // 일반: 모든 적 스폰
+                    if (Math.random() < stage.spawnRate + (gameTime / 3000000)) {
+                        spawnEnemy();
+                    }
                 }
             } else {
                 // 무한 모드 - 5분마다 보스 출현 (순차적으로 1→2→3 반복, 사이클마다 강화)
@@ -6906,9 +6956,9 @@
                     lastBossSpawnTime = currentBossInterval;
                 }
 
-                // 적 출현 (난이도 시간에 따라 가파르게 증가)
+                // 적 출현 (난이도 시간에 따라 완만하게 증가)
                 const timeInMinutes = gameTime / 60000;  // 분 단위로 변환
-                const difficultyMultiplier = 1 + Math.pow(timeInMinutes / 2, 1.5);  // 지수적 증가 (2분마다 가속)
+                const difficultyMultiplier = 1 + Math.pow(timeInMinutes / 3, 0.9);  // 완만한 증가 (3분마다)
                 if (Math.random() < endlessMode.spawnRate * difficultyMultiplier) {
                     spawnEnemy();
                 }
@@ -6971,69 +7021,162 @@
                         }
                     }
 
-                    // 보스 공격 패턴 (스테이지별)
+                    // 보스 공격 패턴 (스테이지별 - 초복잡 패턴)
                     enemy.shootTimer += deltaTime;
                     if (enemy.shootTimer >= enemy.shootCooldown) {
                         if (enemy.pattern === 'radial') {
-                            // Stage 1: 8방향 방사형 탄막
-                            for (let i = 0; i < 8; i++) {
-                                if (enemyProjectiles.length >= MAX_ENEMY_PROJECTILES) break;
-                                const angle = (Math.PI * 2 / 8) * i;
-                                enemyProjectiles.push({
-                                    x: enemy.x,
-                                    y: enemy.y,
-                                    vx: Math.cos(angle) * 4,
-                                    vy: Math.sin(angle) * 4,
-                                    size: 5 * sizeScale,  // 38% 축소 (8 → 5)
-                                    damage: 15
-                                });
-                            }
-                        } else if (enemy.pattern === 'spiral') {
-                            // Stage 2: 나선형 패턴 (12방향, 회전)
+                            // Stage 1: 복합 방사형 패턴 (12방향 + 플레이어 타겟 + 8방향 링)
+                            enemy.patternCounter = (enemy.patternCounter || 0) + 1;
+
+                            // 12방향 방사형 (항상)
                             for (let i = 0; i < 12; i++) {
                                 if (enemyProjectiles.length >= MAX_ENEMY_PROJECTILES) break;
-                                const angle = (Math.PI * 2 / 12) * i + enemy.spiralAngle;
+                                const angle = (Math.PI * 2 / 12) * i + (enemy.patternCounter * 0.1);
                                 enemyProjectiles.push({
                                     x: enemy.x,
                                     y: enemy.y,
-                                    vx: Math.cos(angle) * 5,
-                                    vy: Math.sin(angle) * 5,
-                                    size: 5 * sizeScale,  // 38% 축소 (8 → 5)
+                                    vx: Math.cos(angle) * 5.5,
+                                    vy: Math.sin(angle) * 5.5,
+                                    size: 6 * sizeScale,
                                     damage: 20
                                 });
                             }
-                            enemy.spiralAngle += 0.2; // 나선 회전
-                        } else if (enemy.pattern === 'mixed') {
-                            // Stage 3: 혼합 패턴 (방사형 + 플레이어 타겟)
-                            enemy.patternCounter++;
 
-                            if (enemy.patternCounter % 2 === 0) {
-                                // 16방향 방사형
-                                for (let i = 0; i < 16; i++) {
-                                    if (enemyProjectiles.length >= MAX_ENEMY_PROJECTILES) break;
-                                    const angle = (Math.PI * 2 / 16) * i;
-                                    enemyProjectiles.push({
-                                        x: enemy.x,
-                                        y: enemy.y,
-                                        vx: Math.cos(angle) * 6,
-                                        vy: Math.sin(angle) * 6,
-                                        size: 5 * sizeScale,  // 38% 축소 (8 → 5)
-                                        damage: 25
-                                    });
-                                }
-                            } else {
-                                // 플레이어 방향으로 3발 산탄
+                            // 3회마다 플레이어 타겟 3발
+                            if (enemy.patternCounter % 3 === 0) {
                                 const angleToPlayer = Math.atan2(player.y - enemy.y, player.x - enemy.x);
                                 for (let i = -1; i <= 1; i++) {
                                     if (enemyProjectiles.length >= MAX_ENEMY_PROJECTILES) break;
-                                    const spreadAngle = angleToPlayer + (i * 0.3);
+                                    const spreadAngle = angleToPlayer + (i * 0.25);
                                     enemyProjectiles.push({
                                         x: enemy.x,
                                         y: enemy.y,
                                         vx: Math.cos(spreadAngle) * 7,
                                         vy: Math.sin(spreadAngle) * 7,
-                                        size: 6 * sizeScale,  // 40% 축소 (10 → 6)
+                                        size: 7 * sizeScale,
                                         damage: 25
+                                    });
+                                }
+                            }
+                        } else if (enemy.pattern === 'spiral') {
+                            // Stage 2: 이중 나선 + 원형 링 패턴
+                            enemy.patternCounter = (enemy.patternCounter || 0) + 1;
+
+                            // 이중 나선형 (시계방향 + 반시계방향)
+                            for (let i = 0; i < 16; i++) {
+                                if (enemyProjectiles.length >= MAX_ENEMY_PROJECTILES) break;
+                                // 시계방향 나선
+                                const angle1 = (Math.PI * 2 / 16) * i + enemy.spiralAngle;
+                                enemyProjectiles.push({
+                                    x: enemy.x,
+                                    y: enemy.y,
+                                    vx: Math.cos(angle1) * 6,
+                                    vy: Math.sin(angle1) * 6,
+                                    size: 6 * sizeScale,
+                                    damage: 25
+                                });
+
+                                // 반시계방향 나선
+                                const angle2 = (Math.PI * 2 / 16) * i - enemy.spiralAngle;
+                                enemyProjectiles.push({
+                                    x: enemy.x,
+                                    y: enemy.y,
+                                    vx: Math.cos(angle2) * 6.5,
+                                    vy: Math.sin(angle2) * 6.5,
+                                    size: 6 * sizeScale,
+                                    damage: 25
+                                });
+                            }
+                            enemy.spiralAngle += 0.5; // 매우 빠른 회전
+
+                            // 5회마다 8방향 고속 링
+                            if (enemy.patternCounter % 5 === 0) {
+                                for (let i = 0; i < 8; i++) {
+                                    if (enemyProjectiles.length >= MAX_ENEMY_PROJECTILES) break;
+                                    const angle = (Math.PI * 2 / 8) * i;
+                                    enemyProjectiles.push({
+                                        x: enemy.x,
+                                        y: enemy.y,
+                                        vx: Math.cos(angle) * 8,
+                                        vy: Math.sin(angle) * 8,
+                                        size: 7 * sizeScale,
+                                        damage: 30
+                                    });
+                                }
+                            }
+                        } else if (enemy.pattern === 'mixed') {
+                            // Stage 3: 초악랄 3중 복합 패턴 (방사 + 원형 + 유도 산탄)
+                            enemy.patternCounter++;
+                            const pattern = enemy.patternCounter % 3;
+
+                            if (pattern === 0) {
+                                // 패턴 1: 24방향 조밀한 방사형
+                                for (let i = 0; i < 24; i++) {
+                                    if (enemyProjectiles.length >= MAX_ENEMY_PROJECTILES) break;
+                                    const angle = (Math.PI * 2 / 24) * i;
+                                    enemyProjectiles.push({
+                                        x: enemy.x,
+                                        y: enemy.y,
+                                        vx: Math.cos(angle) * 7,
+                                        vy: Math.sin(angle) * 7,
+                                        size: 6 * sizeScale,
+                                        damage: 30
+                                    });
+                                }
+                            } else if (pattern === 1) {
+                                // 패턴 2: 12방향 원형 + 12방향 역원형 (십자가 패턴)
+                                for (let i = 0; i < 12; i++) {
+                                    if (enemyProjectiles.length >= MAX_ENEMY_PROJECTILES) break;
+                                    const angle1 = (Math.PI * 2 / 12) * i;
+                                    const angle2 = angle1 + Math.PI / 12; // 15도 회전
+
+                                    enemyProjectiles.push({
+                                        x: enemy.x,
+                                        y: enemy.y,
+                                        vx: Math.cos(angle1) * 6,
+                                        vy: Math.sin(angle1) * 6,
+                                        size: 6 * sizeScale,
+                                        damage: 30
+                                    });
+
+                                    enemyProjectiles.push({
+                                        x: enemy.x,
+                                        y: enemy.y,
+                                        vx: Math.cos(angle2) * 7.5,
+                                        vy: Math.sin(angle2) * 7.5,
+                                        size: 6 * sizeScale,
+                                        damage: 30
+                                    });
+                                }
+                            } else {
+                                // 패턴 3: 플레이어 방향 7발 조밀 산탄 + 8방향 링
+                                const angleToPlayer = Math.atan2(player.y - enemy.y, player.x - enemy.x);
+
+                                // 7발 산탄
+                                for (let i = -3; i <= 3; i++) {
+                                    if (enemyProjectiles.length >= MAX_ENEMY_PROJECTILES) break;
+                                    const spreadAngle = angleToPlayer + (i * 0.15);
+                                    enemyProjectiles.push({
+                                        x: enemy.x,
+                                        y: enemy.y,
+                                        vx: Math.cos(spreadAngle) * 9,
+                                        vy: Math.sin(spreadAngle) * 9,
+                                        size: 7 * sizeScale,
+                                        damage: 35
+                                    });
+                                }
+
+                                // 8방향 링
+                                for (let i = 0; i < 8; i++) {
+                                    if (enemyProjectiles.length >= MAX_ENEMY_PROJECTILES) break;
+                                    const angle = (Math.PI * 2 / 8) * i;
+                                    enemyProjectiles.push({
+                                        x: enemy.x,
+                                        y: enemy.y,
+                                        vx: Math.cos(angle) * 5.5,
+                                        vy: Math.sin(angle) * 5.5,
+                                        size: 6 * sizeScale,
+                                        damage: 30
                                     });
                                 }
                             }
@@ -7043,18 +7186,18 @@
                 } else if (enemy.type === 'ranged') {
                     const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
 
-                    if (dist > 550) {  // 550픽셀보다 멀면 접근
+                    if (dist > 280) {  // 280픽셀보다 멀면 접근
                         const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
                         enemy.x += Math.cos(angle) * enemy.speed;
                         enemy.y += Math.sin(angle) * enemy.speed;
-                    } else if (dist < 450) {  // 450픽셀보다 가까우면 후퇴
+                    } else if (dist < 200) {  // 200픽셀보다 가까우면 후퇴
                         const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
                         enemy.x -= Math.cos(angle) * enemy.speed * 0.5;
                         enemy.y -= Math.sin(angle) * enemy.speed * 0.5;
                     }
 
                     enemy.shootTimer += deltaTime;
-                    if (enemy.shootTimer >= enemy.shootCooldown && dist < 1000) {  // 1000픽셀 이내에서 공격 (이전 값으로 복원)
+                    if (enemy.shootTimer >= enemy.shootCooldown && dist < 320) {  // 320픽셀 이내에서 공격 (근거리로 제한)
                         if (enemyProjectiles.length < MAX_ENEMY_PROJECTILES) {
                             const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
                             enemyProjectiles.push({

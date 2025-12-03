@@ -94,7 +94,9 @@
       "Bash(npx webpack:*)",
       "Bash(attrib:*)",
       "WebFetch(domain:imgur.com)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(test:*)",
+      "Bash(git restore:*)"
     ],
     "deny": [],
     "ask": []
