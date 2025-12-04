@@ -2524,7 +2524,7 @@
 
             <div class="start-buttons">
                 <button onclick="startGame()">게임 시작</button>
-                <button class="icon-button" onclick="openShop()">드론 변경</button>
+                <button class="icon-button" onclick="openShopFromMenu()">드론 변경</button>
                 <button class="icon-button" onclick="openSettingsFromMenu()">설정</button>
             </div>
         </div>
@@ -2920,6 +2920,7 @@
         let gameRunning = false;
         let gameLoopId = 0;  // 게임 루프 중복 실행 방지용 ID
         let settingsOpenedFrom = 'menu';  // 설정을 어디서 열었는지 추적 ('menu' 또는 'game')
+        let shopOpenedFrom = 'menu';  // 상점을 어디서 열었는지 추적 ('menu' 또는 'game')
         let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         let sizeScale = isMobile ? 1.56 : 1.95;  // 적 크기 30% 증가 (모바일 1.56배, PC 1.95배)
         let playerSizeScale = isMobile ? 2.25 : 3.375;  // 플레이어 크기 1.5배 증가 (모바일 2.25배, PC 3.375배)
@@ -4537,6 +4538,7 @@
         }
 
         function openShopFromMenu() {
+            shopOpenedFrom = 'menu';  // 메뉴에서 열었음을 기록
             document.getElementById('mainMenu').style.display = 'none';
             document.getElementById('shopScreen').style.display = 'flex';
             document.getElementById('shopGold').textContent = totalGold;
@@ -4545,6 +4547,7 @@
         }
 
         function openShop() {
+            shopOpenedFrom = 'game';  // 게임에서 열었음을 기록
             // 게임 중이라면 일시정지
             if (gameRunning) {
                 gameRunning = false;
@@ -4557,13 +4560,17 @@
         function closeShop() {
             document.getElementById('shopScreen').style.display = 'none';
             updateGoldUI();  // 골드 UI 업데이트
-            if (!gameStarted || !gameRunning) {
-                // 게임이 시작되지 않았거나 게임 오버 상태면 메인 메뉴로
+
+            if (shopOpenedFrom === 'menu') {
+                // 메인 메뉴에서 열었으면 메인 메뉴로 돌아감
                 document.getElementById('mainMenu').style.display = 'flex';
-            } else {
-                // 게임 중이었다면 게임 재개
+            } else if (shopOpenedFrom === 'game' && gameStarted) {
+                // 게임 중에서 열었고 게임이 진행 중이었다면 게임 재개
                 gameRunning = true;
                 lastTime = Date.now();
+            } else {
+                // 그 외의 경우 (예: 게임 오버 후) 메인 메뉴로
+                document.getElementById('mainMenu').style.display = 'flex';
             }
         }
 
@@ -8592,6 +8599,7 @@
                 player.hp = player.maxHp * 0.5;  // HP 50% 회복
                 canRevive = false;  // 부활 사용 완료
                 gameRunning = true;
+                lastTime = Date.now();  // 광고 시청 시간으로 인한 렉 방지
 
                 // 게임 오버 화면 닫기
                 document.getElementById('gameOver').style.display = 'none';
